@@ -22,6 +22,7 @@ Interactive static site for teaching Git branching strategy decisions and DevOps
   - Advanced Git workflows
   - Git provider guides
   - Decision guide matrix
+  - Client workshop flow and consensus recorder
 
 ## Tech Stack
 
@@ -62,6 +63,7 @@ npx serve -l 4173 .
 ## Project Structure
 
 - `app.js` - Core branching visualizer, scenario simulator, and FlexDeploy flowchart logic
+- `decision-guide.js` - Decision guide workshop consensus recorder logic
 - `styles.css` - Global styling and diagram styling
 - `concepts.js` - Git concepts page logic
 - `providers.js` - Provider explorer logic

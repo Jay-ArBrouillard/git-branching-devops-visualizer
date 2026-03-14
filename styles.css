@@ -1208,6 +1208,135 @@ tbody tr:nth-child(even) {
   background: rgba(255, 255, 255, 0.56);
 }
 
+.consensus-panel {
+  display: grid;
+  gap: 0.72rem;
+}
+
+.consensus-layout {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 0.72rem;
+  align-items: start;
+}
+
+.consensus-form {
+  display: grid;
+  gap: 0.72rem;
+}
+
+.consensus-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.62rem;
+}
+
+.form-field {
+  display: grid;
+  gap: 0.22rem;
+}
+
+.form-field span {
+  color: #355776;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid rgba(32, 71, 110, 0.24);
+  background: rgba(255, 255, 255, 0.88);
+  color: #1e456d;
+  font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+  font-size: 0.9rem;
+  padding: 0.46rem 0.55rem;
+}
+
+.form-field textarea {
+  min-height: 88px;
+  resize: vertical;
+}
+
+.form-field-full {
+  grid-column: 1 / -1;
+}
+
+.checkbox-block {
+  display: grid;
+  gap: 0.42rem;
+  padding: 0.65rem;
+  border-radius: 12px;
+  border: 1px solid rgba(23, 62, 98, 0.14);
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.checkbox-block h3 {
+  font-size: 0.96rem;
+  color: #22486e;
+}
+
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.48rem 0.62rem;
+}
+
+.checkbox-grid label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.42rem;
+  color: #345776;
+  font-size: 0.86rem;
+}
+
+.checkbox-grid input {
+  flex-shrink: 0;
+  width: 1rem;
+  height: 1rem;
+  margin-top: 0.12rem;
+  accent-color: #2464a0;
+}
+
+.consensus-output-card {
+  display: grid;
+  gap: 0.54rem;
+  padding: 0.86rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(23, 62, 98, 0.14);
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.92), rgba(239, 245, 250, 0.72));
+}
+
+.consensus-output {
+  margin: 0;
+  padding: 0.68rem 0.74rem;
+  border-radius: 10px;
+  border: 1px solid rgba(29, 71, 111, 0.18);
+  background: rgba(241, 247, 252, 0.84);
+  color: #274868;
+  font-family: "IBM Plex Mono", "Consolas", monospace;
+  font-size: 0.81rem;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  min-height: 228px;
+}
+
+.consensus-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.48rem;
+}
+
+.consensus-status {
+  min-height: 1.15rem;
+  color: #375c7c;
+  font-size: 0.82rem;
+}
+
 .concepts-path,
 .concepts-grid-wrap,
 .command-explorer,
@@ -2380,6 +2509,7 @@ tbody tr:nth-child(even) {
 
   .studio-top,
   .studio-grid,
+  .consensus-layout,
   .orchestration-top,
   .integration-grid,
   .scenario-rollback-options,
@@ -2436,6 +2566,8 @@ tbody tr:nth-child(even) {
 
   .fundamentals-grid,
   .pros-cons-card,
+  .consensus-grid,
+  .checkbox-grid,
   .concepts-grid,
   .path-grid,
   .command-cards,

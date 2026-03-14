@@ -123,6 +123,122 @@
           </article>
         </div>
       </section>
+
+      <section class="panel concepts-path">
+        <h2>Client Workshop Flow</h2>
+        <p class="section-copy">Use this sequence to drive a strategy decision with FlexDeploy customers in a single session.</p>
+        <div class="path-grid">
+          <article class="path-step">
+            <div class="path-index">01</div>
+            <h3>Baseline Terms</h3>
+            <p>Align on branch, PR, approval, artifact, webhook, promotion, and rollback vocabulary.</p>
+          </article>
+          <article class="path-step">
+            <div class="path-index">02</div>
+            <h3>Select Candidate</h3>
+            <p>Use the matrix to narrow to one primary strategy and one fallback strategy.</p>
+          </article>
+          <article class="path-step">
+            <div class="path-index">03</div>
+            <h3>Validate Scenarios</h3>
+            <p>Walk standard, emergency, and rollback patterns in the visualizer and confirm ownership at each gate.</p>
+          </article>
+          <article class="path-step">
+            <div class="path-index">04</div>
+            <h3>Lock Controls</h3>
+            <p>Set branch protection, PR approval policy, FlexDeploy webhook trigger, and production gate model.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel consensus-panel">
+        <h2>Consensus Recorder</h2>
+        <p class="section-copy">Capture the workshop outcome and copy a decision summary into your project tracker, wiki, or change record.</p>
+        <div class="consensus-layout">
+          <form id="consensusForm" class="consensus-form" autocomplete="off">
+            <div class="consensus-grid">
+              <label class="form-field">
+                <span>Client / Program</span>
+                <input id="consensusClient" name="client" type="text" placeholder="Example: ERP Modernization" />
+              </label>
+              <label class="form-field">
+                <span>Decision Date</span>
+                <input id="consensusDate" name="date" type="text" />
+              </label>
+              <label class="form-field">
+                <span>Primary Strategy</span>
+                <select id="consensusStrategy" name="strategy">
+                  <option value="Trunk-Based Development">Trunk-Based Development</option>
+                  <option value="GitHub Flow">GitHub Flow</option>
+                  <option value="Git Flow">Git Flow</option>
+                </select>
+              </label>
+              <label class="form-field">
+                <span>Git Provider</span>
+                <select id="consensusProvider" name="provider">
+                  <option value="GitHub">GitHub</option>
+                  <option value="GitLab">GitLab</option>
+                  <option value="Bitbucket">Bitbucket</option>
+                  <option value="Azure Repos">Azure Repos</option>
+                  <option value="Gitea / Forgejo">Gitea / Forgejo</option>
+                </select>
+              </label>
+              <label class="form-field">
+                <span>Promotion Model</span>
+                <select id="consensusPromotionModel" name="promotionModel">
+                  <option value="Build once and promote same artifact with FlexDeploy">Build once and promote same artifact</option>
+                  <option value="Build from source at each stage (exception model)">Build from source at each stage (exception)</option>
+                </select>
+              </label>
+              <label class="form-field">
+                <span>Rollback Default</span>
+                <select id="consensusRollbackModel" name="rollbackModel">
+                  <option value="FlexDeploy version restore for deployment rollback and PR-based Git history rollback">FlexDeploy restore + PR rollback</option>
+                  <option value="FlexDeploy version restore as primary rollback path">FlexDeploy restore only</option>
+                  <option value="PR-based Git history rollback only">PR rollback only</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="checkbox-block">
+              <h3>Branch Protection Rules</h3>
+              <div class="checkbox-grid">
+                <label><input type="checkbox" name="protection" value="Protected trunk/main (no direct human pushes)" checked />Protected trunk/main (no direct human pushes)</label>
+                <label><input type="checkbox" name="protection" value="Required PR approvals" checked />Required PR approvals</label>
+                <label><input type="checkbox" name="protection" value="Required status checks before merge" checked />Required status checks before merge</label>
+                <label><input type="checkbox" name="protection" value="Automation service account allowed for controlled operations" />Automation service account for controlled operations</label>
+              </div>
+            </div>
+
+            <div class="checkbox-block">
+              <h3>FlexDeploy Gates</h3>
+              <div class="checkbox-grid">
+                <label><input type="checkbox" name="gate" value="Webhook trigger from approved merge event" checked />Webhook trigger from approved merge event</label>
+                <label><input type="checkbox" name="gate" value="QA validation gate before production" checked />QA validation gate before production</label>
+                <label><input type="checkbox" name="gate" value="Production approval gate or change ticket gate" checked />Production approval gate or change ticket gate</label>
+                <label><input type="checkbox" name="gate" value="Version tracking for deterministic rollback" checked />Version tracking for deterministic rollback</label>
+              </div>
+            </div>
+
+            <label class="form-field form-field-full">
+              <span>Open Risks / Exceptions</span>
+              <textarea id="consensusRisks" name="risks" rows="3" placeholder="Document unresolved risk, policy exception, or migration gap."></textarea>
+            </label>
+          </form>
+
+          <article class="consensus-output-card">
+            <h3>Decision Snapshot</h3>
+            <p class="section-copy">Generated from your selections.</p>
+            <pre id="consensusOutput" class="consensus-output"></pre>
+            <div class="consensus-actions">
+              <button id="copyConsensusBtn" type="button" class="tab-btn">Copy Summary</button>
+              <button id="resetConsensusBtn" type="button" class="tab-btn">Reset</button>
+            </div>
+            <p id="consensusStatus" class="consensus-status" aria-live="polite"></p>
+          </article>
+        </div>
+      </section>
     </main>
+    <script src="decision-guide.js"></script>
   </body>
 </html>
