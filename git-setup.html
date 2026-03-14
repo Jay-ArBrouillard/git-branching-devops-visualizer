@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Git Setup Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-shape shape-one"></div>
+    <div class="bg-shape shape-two"></div>
+    <div class="bg-shape shape-three"></div>
+
+    <main class="layout">
+      <section class="panel hero">
+        <nav class="top-nav" aria-label="Site pages">
+          <a class="nav-link" href="concepts.html">Git Concepts</a>
+          <a class="nav-link nav-link-active" href="git-setup.html">Git Setup</a>
+          <a class="nav-link" href="index.html">Branching Visualizer</a>
+          <a class="nav-link" href="decision-guide.html">Decision Guide</a>
+          <a class="nav-link" href="advanced-concepts.html">Advanced Git</a>
+          <a class="nav-link" href="developer-tools.html">Developer Tools</a>
+          <details class="nav-dropdown">
+            <summary class="nav-link nav-dropdown-summary">Git Providers</summary>
+            <div class="nav-dropdown-menu">
+              <a class="nav-dropdown-link" href="providers.html">Overview</a>
+              <a class="nav-dropdown-link" href="providers/github.html">GitHub</a>
+              <a class="nav-dropdown-link" href="providers/gitlab.html">GitLab</a>
+              <a class="nav-dropdown-link" href="providers/bitbucket.html">Bitbucket</a>
+              <a class="nav-dropdown-link" href="providers/azure-repos.html">Azure Repos</a>
+              <a class="nav-dropdown-link" href="providers/gitea-forgejo.html">Gitea/Forgejo</a>
+            </div>
+          </details>
+        </nav>
+        <p class="eyebrow">Prerequisite Setup</p>
+        <h1>Git Setup And First-Time Configuration</h1>
+        <p class="hero-copy">
+          Use this page before running Git CLI commands in the learning paths. It covers install,
+          verification, identity config, and authentication setup.
+        </p>
+        <div class="hero-guide">
+          <p><strong>Recommended flow:</strong> install Git, verify with <code>git --version</code>, configure identity, then set up SSH or HTTPS auth.</p>
+        </div>
+      </section>
+
+      <section class="panel fundamentals">
+        <h2>Install Git Client</h2>
+        <div class="fundamentals-grid">
+          <article class="fundamentals-card">
+            <h3>Windows</h3>
+            <p>Download and run the official Git for Windows installer.</p>
+            <p><a href="https://git-scm.com/download/win" target="_blank" rel="noreferrer">Git for Windows installer</a></p>
+            <div class="step-command">Optional automation: winget install --id Git.Git -e</div>
+          </article>
+          <article class="fundamentals-card">
+            <h3>macOS</h3>
+            <p>Download and run the macOS installer package.</p>
+            <p><a href="https://git-scm.com/download/mac" target="_blank" rel="noreferrer">Git for macOS installer</a></p>
+            <div class="step-command">Optional automation: brew install git</div>
+          </article>
+          <article class="fundamentals-card">
+            <h3>Ubuntu / Debian</h3>
+            <p>Use apt package manager from terminal.</p>
+            <div class="step-command">sudo apt update && sudo apt install git -y</div>
+          </article>
+          <article class="fundamentals-card">
+            <h3>RHEL / Fedora</h3>
+            <p>Use dnf or yum based on distro version.</p>
+            <div class="step-command">sudo dnf install git -y</div>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel journey">
+        <h2>Verify Installation And Identity</h2>
+        <ol class="scenario-steps">
+          <li class="scenario-step">
+            <div class="step-head">
+              <span class="step-lane journey-lane">1</span>
+              <span class="step-action">Confirm Git is installed and available in terminal.</span>
+            </div>
+            <div class="step-command">git --version</div>
+          </li>
+          <li class="scenario-step">
+            <div class="step-head">
+              <span class="step-lane journey-lane">2</span>
+              <span class="step-action">Set your commit author name once at global scope.</span>
+            </div>
+            <div class="step-command">git config --global user.name "Your Name"</div>
+          </li>
+          <li class="scenario-step">
+            <div class="step-head">
+              <span class="step-lane journey-lane">3</span>
+              <span class="step-action">Set your commit author email to match your Git host account.</span>
+            </div>
+            <div class="step-command">git config --global user.email "you@company.com"</div>
+          </li>
+          <li class="scenario-step">
+            <div class="step-head">
+              <span class="step-lane journey-lane">4</span>
+              <span class="step-action">Verify global config before cloning or pushing repositories.</span>
+            </div>
+            <div class="step-command">git config --global --list</div>
+          </li>
+        </ol>
+      </section>
+
+      <section class="panel provider-docs">
+        <h2>Authentication Setup</h2>
+        <p class="section-copy">
+          Pick <strong>SSH</strong> if your team wants key-based auth with no repeated credential prompts. Pick
+          <strong>HTTPS + PAT</strong> if your organization standardizes token-based access through credential manager.
+        </p>
+        <div class="provider-doc-grid">
+          <article class="provider-doc-card">
+            <h3>SSH</h3>
+            <ul class="provider-doc-list">
+              <li>
+                Step 1: Generate an SSH key pair.
+                <div class="step-command">ssh-keygen -t ed25519 -C "you@company.com"</div>
+              </li>
+              <li>
+                Step 2: Start ssh-agent and add your private key.
+                <div class="step-command">eval "$(ssh-agent -s)" && ssh-add ~/.ssh/id_ed25519</div>
+              </li>
+              <li>
+                PowerShell alternative:
+                <div class="step-command">Get-Service ssh-agent | Set-Service -StartupType Automatic; Start-Service ssh-agent; ssh-add $env:USERPROFILE\.ssh\id_ed25519</div>
+              </li>
+              <li>
+                Step 3: Copy your public key and add it to your Git provider account.
+                <div class="step-command">cat ~/.ssh/id_ed25519.pub</div>
+              </li>
+              <li>
+                PowerShell alternative:
+                <div class="step-command">Get-Content $env:USERPROFILE\.ssh\id_ed25519.pub</div>
+              </li>
+              <li>
+                Step 4: Test SSH authentication.
+                <div class="step-command">ssh -T git@github.com</div>
+              </li>
+              <li>
+                Step 5: Ensure your repository remote uses SSH URL format.
+                <div class="step-command">git remote set-url origin git@github.com:ORG/REPO.git</div>
+                <div class="step-command">git remote -v</div>
+              </li>
+            </ul>
+          </article>
+          <article class="provider-doc-card">
+            <h3>HTTPS + Personal Access Token</h3>
+            <ul class="provider-doc-list">
+              <li>
+                Step 1: Use an HTTPS remote URL.
+                <div class="step-command">git remote -v</div>
+              </li>
+              <li>
+                Step 2: Enable Git Credential Manager (recommended helper).
+                <div class="step-command">git config --global credential.helper manager</div>
+              </li>
+              <li>
+                If your Git version expects older naming, use:
+                <div class="step-command">git config --global credential.helper manager-core</div>
+              </li>
+              <li>
+                Step 3: Create a PAT in your Git provider with least-privilege scopes (repo read/write as needed).
+              </li>
+              <li>
+                Step 4: Run a Git network command and sign in when prompted.
+                <div class="step-command">git fetch origin</div>
+              </li>
+              <li>
+                Use your Git username, then paste PAT when prompted for password. Credential Manager stores it securely.
+              </li>
+              <li>
+                Step 5: Verify configured helper.
+                <div class="step-command">git config --global credential.helper</div>
+              </li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel provider-docs">
+        <h2>Reference Docs</h2>
+        <div class="provider-doc-grid">
+          <article class="provider-doc-card">
+            <h3>Official Git Docs</h3>
+            <ul class="provider-doc-list">
+              <li><a href="https://git-scm.com/downloads" target="_blank" rel="noreferrer">Git downloads</a></li>
+              <li><a href="https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup" target="_blank" rel="noreferrer">First-time Git setup guide</a></li>
+              <li><a href="https://git-scm.com/docs/git-config" target="_blank" rel="noreferrer">git config reference</a></li>
+              <li><a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh" target="_blank" rel="noreferrer">GitHub SSH setup guide</a></li>
+              <li><a href="https://docs.gitlab.com/user/ssh/" target="_blank" rel="noreferrer">GitLab SSH setup guide</a></li>
+              <li><a href="https://github.com/git-ecosystem/git-credential-manager" target="_blank" rel="noreferrer">Git Credential Manager</a></li>
+              <li><a href="https://docs.github.com/en/get-started/git-basics/caching-your-github-credentials-in-git" target="_blank" rel="noreferrer">GitHub credential caching guide</a></li>
+            </ul>
+          </article>
+          <article class="provider-doc-card">
+            <h3>Continue Learning</h3>
+            <ul class="provider-doc-list">
+              <li><a href="concepts.html">Back to Git Concepts command learning path</a></li>
+              <li><a href="developer-tools.html">Compare developer tools (GUI and IDE options)</a></li>
+              <li><a href="index.html">Open branching visualizer and scenario simulator</a></li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script src="floating-simulator.js"></script>
+    <script src="floating-conflict-simulator.js"></script>
+    <script src="simulator.js"></script>
+    <script src="conflict-simulator.js"></script>
+  </body>
+</html>
