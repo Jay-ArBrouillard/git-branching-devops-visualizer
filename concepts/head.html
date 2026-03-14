@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Git Concepts: HEAD</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body class="provider-detail-page">
+    <div class="bg-shape shape-one"></div>
+    <div class="bg-shape shape-two"></div>
+    <div class="bg-shape shape-three"></div>
+
+    <main class="layout">
+      <section class="panel hero">
+        <nav class="top-nav" aria-label="Site pages">
+          <details class="nav-dropdown">
+            <summary class="nav-link nav-dropdown-summary nav-link-active">Git Concepts</summary>
+            <div class="nav-dropdown-menu">
+              <a class="nav-dropdown-link" href="../concepts.html">Overview</a>
+              <a class="nav-dropdown-link" href="git-commits.html">1) Git + Commits</a>
+              <a class="nav-dropdown-link" href="dag-history.html">2) DAG + History Graph</a>
+              <a class="nav-dropdown-link" href="branches.html">3) Branches</a>
+              <a class="nav-dropdown-link nav-dropdown-link-active" href="head.html">4) HEAD</a>
+              <a class="nav-dropdown-link" href="three-areas.html">5) Working Tree + Staging</a>
+              <a class="nav-dropdown-link" href="merge-rebase.html">6) Merge + Rebase</a>
+              <a class="nav-dropdown-link" href="undo-recovery.html">7) Undo + Recovery</a>
+              <a class="nav-dropdown-link" href="collaboration-devops.html">8) Collaboration + DevOps</a>
+            </div>
+          </details>
+          <a class="nav-link" href="../git-setup.html">Git Setup</a>
+          <a class="nav-link" href="../index.html">Branching Visualizer</a>
+          <a class="nav-link" href="../decision-guide.html">Decision Guide</a>
+          <a class="nav-link" href="../advanced-concepts.html">Advanced Git</a>
+          <a class="nav-link" href="../developer-tools.html">Developer Tools</a>
+          <details class="nav-dropdown">
+            <summary class="nav-link nav-dropdown-summary">Git Providers</summary>
+            <div class="nav-dropdown-menu">
+              <a class="nav-dropdown-link" href="../providers.html">Overview</a>
+              <a class="nav-dropdown-link" href="../providers/github.html">GitHub</a>
+              <a class="nav-dropdown-link" href="../providers/gitlab.html">GitLab</a>
+              <a class="nav-dropdown-link" href="../providers/bitbucket.html">Bitbucket</a>
+              <a class="nav-dropdown-link" href="../providers/azure-repos.html">Azure Repos</a>
+              <a class="nav-dropdown-link" href="../providers/gitea-forgejo.html">Gitea/Forgejo</a>
+            </div>
+          </details>
+        </nav>
+        <p class="eyebrow">Core Git 4/8</p>
+        <h1>HEAD</h1>
+        <p class="detail-hero-copy">
+          HEAD tells Git what is currently checked out. Most of the time HEAD points to a branch name; sometimes it points directly to a commit.
+        </p>
+        <div class="detail-hero-pills">
+          <span class="detail-pill">Focus: current checkout</span>
+          <span class="detail-pill">Focus: switching context</span>
+          <span class="detail-pill">Outcome: safe inspection</span>
+        </div>
+        <a class="detail-back-link" href="../concepts.html">Back to Git Concepts overview</a>
+      </section>
+
+      <section class="panel">
+        <h2>HEAD Sequence</h2>
+        <div class="diagram-sequence">
+          <span class="diagram-sequence-pill">HEAD usually points to a branch</span>
+          <span class="diagram-sequence-pill">switching branches moves HEAD</span>
+          <span class="diagram-sequence-pill">HEAD controls your working context</span>
+          <span class="diagram-sequence-pill">detached HEAD points directly to a commit</span>
+        </div>
+      </section>
+
+      <section class="panel diagram-story">
+        <article class="diagram-story-card">
+          <div class="diagram-story-head">
+            <h2 class="diagram-story-title">Switching Branches Updates Your Working Context</h2>
+            <span class="diagram-story-tag">Checkout</span>
+          </div>
+          <div class="diagram-canvas">
+            <svg viewBox="0 0 980 250" role="img" aria-label="Switching from one branch to another by moving HEAD">
+              <defs>
+                <marker id="head-arrow-1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#6588b6"></path>
+                </marker>
+              </defs>
+
+              <path class="git-line-main-soft" d="M110 180 L890 180"></path>
+              <path class="git-line-feature" d="M350 180 L470 90 L680 90"></path>
+              <circle class="git-node" cx="200" cy="180" r="13"></circle>
+              <circle class="git-node" cx="280" cy="180" r="13"></circle>
+              <circle class="git-node" cx="350" cy="180" r="13"></circle>
+              <circle class="git-node-feature" cx="470" cy="90" r="13"></circle>
+              <circle class="git-node-feature" cx="560" cy="90" r="13"></circle>
+              <circle class="git-node-feature" cx="680" cy="90" r="13"></circle>
+
+              <rect class="git-pill" x="822" y="196" width="76" height="26" rx="13" ry="13"></rect>
+              <text class="git-pill-text" x="860" y="209">main</text>
+              <rect class="git-pill-feature" x="631" y="106" width="110" height="26" rx="13" ry="13"></rect>
+              <text class="git-pill-text" x="686" y="119">feature/ui</text>
+
+              <rect class="git-pill-soft" x="824" y="146" width="76" height="26" rx="13" ry="13"></rect>
+              <text class="git-pill-text-dark" x="862" y="159">HEAD</text>
+              <path class="git-arrow-soft" d="M862 145 L860 194"></path>
+              <path class="git-arrow-soft" d="M824 159 L742 119" marker-end="url(#head-arrow-1)"></path>
+              <text class="git-note" x="688" y="155">git switch feature/ui</text>
+            </svg>
+          </div>
+          <div class="diagram-command-row">
+            <div class="step-command diagram-command">git switch main</div>
+            <div class="step-command diagram-command">git switch feature/ui</div>
+          </div>
+        </article>
+
+        <article class="diagram-story-card">
+          <div class="diagram-story-head">
+            <h2 class="diagram-story-title">Detached HEAD Mode</h2>
+            <span class="diagram-story-tag">Temporary Inspection</span>
+          </div>
+          <div class="diagram-canvas">
+            <svg viewBox="0 0 980 225" role="img" aria-label="HEAD detached from branch names while inspecting historical commit">
+              <path class="git-line-main" d="M100 150 L900 150"></path>
+              <circle class="git-node" cx="170" cy="150" r="13"></circle>
+              <circle class="git-node" cx="270" cy="150" r="13"></circle>
+              <circle class="git-node" cx="380" cy="150" r="13"></circle>
+              <circle class="git-node" cx="500" cy="150" r="13"></circle>
+              <circle class="git-node" cx="630" cy="150" r="13"></circle>
+              <circle class="git-node" cx="760" cy="150" r="13"></circle>
+
+              <rect class="git-pill" x="718" y="168" width="84" height="26" rx="13" ry="13"></rect>
+              <text class="git-pill-text" x="760" y="181">main</text>
+
+              <rect class="git-pill-soft" x="340" y="90" width="92" height="26" rx="13" ry="13"></rect>
+              <text class="git-pill-text-dark" x="386" y="103">HEAD</text>
+              <path class="git-arrow-soft" d="M386 116 L382 137"></path>
+              <text class="git-note" x="444" y="104">detached (not on branch label)</text>
+            </svg>
+          </div>
+          <div class="diagram-command-row">
+            <div class="step-command diagram-command">git switch --detach &lt;sha&gt;</div>
+            <div class="step-command diagram-command">git switch -c inspect/old-release</div>
+          </div>
+        </article>
+      </section>
+
+      <section class="panel concept-page-nav" aria-label="Concept page navigation">
+        <a class="concept-page-nav-link concept-page-nav-prev" href="branches.html">
+          <span class="concept-page-nav-kicker">Previous</span>
+          <span class="concept-page-nav-title">Branches</span>
+        </a>
+        <a class="concept-page-nav-link concept-page-nav-overview" href="../concepts.html">
+          <span class="concept-page-nav-kicker">All Concepts</span>
+          <span class="concept-page-nav-title">Back To Overview</span>
+        </a>
+        <a class="concept-page-nav-link concept-page-nav-next" href="three-areas.html">
+          <span class="concept-page-nav-kicker">Next</span>
+          <span class="concept-page-nav-title">Working Tree + Staging</span>
+        </a>
+      </section>
+    </main>
+
+    <script src="../floating-simulator.js"></script>
+    <script src="../floating-conflict-simulator.js"></script>
+    <script src="../simulator.js"></script>
+    <script src="../conflict-simulator.js"></script>
+  </body>
+</html>

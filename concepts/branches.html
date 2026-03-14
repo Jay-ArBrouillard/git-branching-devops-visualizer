@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Git Concepts: Branches</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body class="provider-detail-page">
+    <div class="bg-shape shape-one"></div>
+    <div class="bg-shape shape-two"></div>
+    <div class="bg-shape shape-three"></div>
+
+    <main class="layout">
+      <section class="panel hero">
+        <nav class="top-nav" aria-label="Site pages">
+          <details class="nav-dropdown">
+            <summary class="nav-link nav-dropdown-summary nav-link-active">Git Concepts</summary>
+            <div class="nav-dropdown-menu">
+              <a class="nav-dropdown-link" href="../concepts.html">Overview</a>
+              <a class="nav-dropdown-link" href="git-commits.html">1) Git + Commits</a>
+              <a class="nav-dropdown-link" href="dag-history.html">2) DAG + History Graph</a>
+              <a class="nav-dropdown-link nav-dropdown-link-active" href="branches.html">3) Branches</a>
+              <a class="nav-dropdown-link" href="head.html">4) HEAD</a>
+              <a class="nav-dropdown-link" href="three-areas.html">5) Working Tree + Staging</a>
+              <a class="nav-dropdown-link" href="merge-rebase.html">6) Merge + Rebase</a>
+              <a class="nav-dropdown-link" href="undo-recovery.html">7) Undo + Recovery</a>
+              <a class="nav-dropdown-link" href="collaboration-devops.html">8) Collaboration + DevOps</a>
+            </div>
+          </details>
+          <a class="nav-link" href="../git-setup.html">Git Setup</a>
+          <a class="nav-link" href="../index.html">Branching Visualizer</a>
+          <a class="nav-link" href="../decision-guide.html">Decision Guide</a>
+          <a class="nav-link" href="../advanced-concepts.html">Advanced Git</a>
+          <a class="nav-link" href="../developer-tools.html">Developer Tools</a>
+          <details class="nav-dropdown">
+            <summary class="nav-link nav-dropdown-summary">Git Providers</summary>
+            <div class="nav-dropdown-menu">
+              <a class="nav-dropdown-link" href="../providers.html">Overview</a>
+              <a class="nav-dropdown-link" href="../providers/github.html">GitHub</a>
+              <a class="nav-dropdown-link" href="../providers/gitlab.html">GitLab</a>
+              <a class="nav-dropdown-link" href="../providers/bitbucket.html">Bitbucket</a>
+              <a class="nav-dropdown-link" href="../providers/azure-repos.html">Azure Repos</a>
+              <a class="nav-dropdown-link" href="../providers/gitea-forgejo.html">Gitea/Forgejo</a>
+            </div>
+          </details>
+        </nav>
+        <p class="eyebrow">Core Git 3/8</p>
+        <h1>Branches</h1>
+        <p class="detail-hero-copy">
+          A branch is a movable label attached to a commit. Creating a branch adds another label to the history, and each new commit moves that branch forward. Branches let teams isolate unfinished work and create separate lines of development without copying the repository.
+        </p>
+        <a class="detail-back-link" href="../concepts.html">Back to Git Concepts overview</a>
+      </section>
+
+      <section class="panel diagram-story">
+        <article class="diagram-story-card">
+          <div class="diagram-story-head">
+            <h2 class="diagram-story-title">A Branch Is A Pointer (Label) To One Commit</h2>
+            <span class="diagram-story-tag">Named Reference</span>
+          </div>
+          <p class="diagram-story-note">
+            Technically, a branch is just a named reference that stores which commit it currently points to.
+          </p>
+          <div class="diagram-canvas">
+            <svg viewBox="0 0 980 250" role="img" aria-label="Branch name feature-login pointing to commit hash a1b2c3d">
+              <rect x="126" y="28" width="728" height="188" rx="10" ry="10" fill="#f4f8fc" stroke="#587ca1" stroke-width="3.2"></rect>
+              <text x="490" y="106" text-anchor="middle" fill="#23395d" font-family="'Chakra Petch', sans-serif" font-size="52" font-weight="700">
+                feature-login
+              </text>
+              <rect x="360" y="124" width="260" height="56" rx="8" ry="8" fill="#ffffff" stroke="#9ab2ca" stroke-width="2.2" stroke-dasharray="10 7"></rect>
+              <text x="490" y="161" text-anchor="middle" fill="#587ca1" font-family="'Chakra Petch', sans-serif" font-size="28" font-weight="600">
+                a1b2c3d
+              </text>
+            </svg>
+          </div>
+          <div class="diagram-command-row">
+            <div class="step-command diagram-command">git branch feature-login</div>
+          </div>
+        </article>
+
+        <article class="diagram-story-card">
+          <div class="diagram-story-head">
+            <h2 class="diagram-story-title">Branch Labels Sit On Top Of Commit History</h2>
+            <span class="diagram-story-tag">History Graph</span>
+          </div>
+          <p class="diagram-story-note">
+            The branch label does not replace the history graph. It simply names one commit inside that graph. The commits themselves do not know branches exist, because branches do not contain commits; they only point to them.
+          </p>
+          <div class="diagram-history-controls" role="group" aria-label="Branch history states">
+            <button type="button" class="diagram-history-btn is-active" data-branch-history-target="0" aria-pressed="true">Current graph</button>
+            <button type="button" class="diagram-history-btn" data-branch-history-target="1" aria-pressed="false">After new commit</button>
+          </div>
+          <div class="diagram-canvas">
+            <svg viewBox="0 0 980 430" role="img" aria-label="Feature-login and main branch labels attached to commits in history with backward parent arrows and a star on the first commit">
+              <defs>
+                <marker id="branches-history-arrow" viewBox="0 0 10 10" refX="8.2" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto">
+                  <path d="M0 0 L10 5 L0 10 z" fill="#587ca1"></path>
+                </marker>
+              </defs>
+              <g data-branch-history-state="0">
+                <g fill="none" stroke="#587ca1" stroke-width="3.2" marker-end="url(#branches-history-arrow)">
+                  <path d="M282 220 L174 220"></path>
+                  <path d="M526 161 L389 209"></path>
+                  <path d="M796 220 L394 220"></path>
+                  <path d="M588 294 L391 244"></path>
+                </g>
+
+                <polygon points="169,137 173,147 184,147 175,154 179,165 169,159 159,165 163,154 154,147 165,147" fill="#f08a24" stroke="#587ca1" stroke-width="2"></polygon>
+
+                <g fill="#ffffff" stroke="#587ca1" stroke-width="3.4">
+                  <circle cx="120" cy="220" r="54"></circle>
+                  <circle cx="340" cy="220" r="54"></circle>
+                  <circle cx="560" cy="149" r="54"></circle>
+                  <circle cx="850" cy="220" r="54"></circle>
+                  <circle cx="620" cy="320" r="54"></circle>
+                </g>
+
+                <g fill="#355a86" font-family="'Chakra Petch', sans-serif" font-size="18" font-weight="700" text-anchor="middle">
+                  <text x="120" y="226">a1b2c3d</text>
+                  <text x="340" y="226">b2c3d4e</text>
+                  <text x="560" y="155">c3d4e5f</text>
+                  <text x="850" y="226">e5f6g7h</text>
+                  <text x="620" y="326">d4e5f6g</text>
+                </g>
+
+                <rect x="414" y="22" width="292" height="54" rx="9" ry="9" fill="#edf3f8" stroke="#9ab2ca" stroke-width="2.2"></rect>
+                <text x="560" y="57" text-anchor="middle" fill="#23395d" font-family="'Chakra Petch', sans-serif" font-size="24" font-weight="700">
+                  feature-login
+                </text>
+                <path d="M560 76 L560 95" fill="none" stroke="#9ab2ca" stroke-width="2.4"></path>
+
+                <rect x="792" y="102" width="116" height="46" rx="8" ry="8" fill="#fff6e8" stroke="#f0a648" stroke-width="2.2"></rect>
+                <text x="850" y="131" text-anchor="middle" fill="#b96d13" font-family="'Chakra Petch', sans-serif" font-size="24" font-weight="700">
+                  main
+                </text>
+                <polygon points="850,90 856,99 844,99" fill="#f08a24"></polygon>
+                <path d="M850 148 L850 166" fill="none" stroke="#f0a648" stroke-width="2.4"></path>
+              </g>
+
+              <g data-branch-history-state="1" style="display: none">
+                <g fill="none" stroke="#587ca1" stroke-width="3.2" marker-end="url(#branches-history-arrow)">
+                  <path d="M282 220 L174 220"></path>
+                  <path d="M526 161 L389 209"></path>
+                  <path d="M656 220 L394 220"></path>
+                  <path d="M868 220 L764 220"></path>
+                  <path d="M588 294 L391 244"></path>
+                </g>
+
+                <polygon points="169,137 173,147 184,147 175,154 179,165 169,159 159,165 163,154 154,147 165,147" fill="#f08a24" stroke="#587ca1" stroke-width="2"></polygon>
+
+                <g fill="#ffffff" stroke="#587ca1" stroke-width="3.4">
+                  <circle cx="120" cy="220" r="54"></circle>
+                  <circle cx="340" cy="220" r="54"></circle>
+                  <circle cx="560" cy="149" r="54"></circle>
+                  <circle cx="710" cy="220" r="54"></circle>
+                  <circle cx="880" cy="220" r="54"></circle>
+                  <circle cx="620" cy="320" r="54"></circle>
+                </g>
+
+                <g fill="#355a86" font-family="'Chakra Petch', sans-serif" font-size="18" font-weight="700" text-anchor="middle">
+                  <text x="120" y="226">a1b2c3d</text>
+                  <text x="340" y="226">b2c3d4e</text>
+                  <text x="560" y="155">c3d4e5f</text>
+                  <text x="710" y="226">e5f6g7h</text>
+                  <text x="880" y="226">f6g7h8i</text>
+                  <text x="620" y="326">d4e5f6g</text>
+                </g>
+
+                <rect x="414" y="22" width="292" height="54" rx="9" ry="9" fill="#edf3f8" stroke="#9ab2ca" stroke-width="2.2"></rect>
+                <text x="560" y="57" text-anchor="middle" fill="#23395d" font-family="'Chakra Petch', sans-serif" font-size="24" font-weight="700">
+                  feature-login
+                </text>
+                <path d="M560 76 L560 95" fill="none" stroke="#9ab2ca" stroke-width="2.4"></path>
+
+                <rect x="822" y="102" width="116" height="46" rx="8" ry="8" fill="#fff6e8" stroke="#f0a648" stroke-width="2.2"></rect>
+                <text x="880" y="131" text-anchor="middle" fill="#b96d13" font-family="'Chakra Petch', sans-serif" font-size="24" font-weight="700">
+                  main
+                </text>
+                <polygon points="880,90 886,99 874,99" fill="#f08a24"></polygon>
+                <path d="M880 148 L880 166" fill="none" stroke="#f0a648" stroke-width="2.4"></path>
+
+                <text x="490" y="398" text-anchor="middle" fill="#23395d" font-family="'IBM Plex Sans', sans-serif" font-size="16" font-weight="600">
+                  New commit: the branch label slides forward to the newer commit.
+                </text>
+              </g>
+            </svg>
+          </div>
+          <div class="diagram-command-row">
+            <div class="step-command diagram-command">git log --oneline --graph --decorate</div>
+            <div class="step-command diagram-command">git commit -m "feat: continue main work"</div>
+          </div>
+        </article>
+
+        <article class="diagram-story-card" id="branch">
+          <div class="diagram-story-head">
+            <h2 class="diagram-story-title">Creating A Branch Adds A Label, Not A Commit</h2>
+            <span class="diagram-story-tag">Branch Label</span>
+          </div>
+          <p class="diagram-story-note">
+            Creating a branch does not create a new commit. Git simply adds another label, so
+            <code>main</code> and <code>feature/ui</code> can both point to the exact same commit
+            until one of them moves forward. Multiple branches can point to the same commit at the
+            same time.
+          </p>
+          <div class="diagram-canvas">
+            <svg viewBox="0 0 980 370" role="img" aria-label="Main and feature-ui branch labels stacked above the same commit with backward parent arrows between commits">
+              <defs>
+                <marker id="bh-arrow-1" viewBox="0 0 10 10" refX="8.2" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto">
+                  <path d="M0 0 L10 5 L0 10 z" fill="#587ca1"></path>
+                </marker>
+              </defs>
+
+              <rect x="74" y="28" width="286" height="64" rx="12" ry="12" fill="#23395d" stroke="#587ca1" stroke-width="2.2"></rect>
+              <text x="96" y="52" fill="#c9d7e6" font-family="'IBM Plex Sans', sans-serif" font-size="11" font-weight="700" letter-spacing="0.08em">
+                COMMAND RUN
+              </text>
+              <text x="96" y="73" fill="#ffffff" font-family="'IBM Plex Mono', Consolas, monospace" font-size="16" font-weight="600">
+                &gt; git branch feature/ui
+              </text>
+
+              <g fill="none" stroke="#587ca1" stroke-width="3.2" marker-end="url(#bh-arrow-1)">
+                <path d="M616 224 L484 224"></path>
+                <path d="M356 224 L224 224"></path>
+              </g>
+
+              <polygon points="216,160 220,170 231,170 222,177 226,188 216,182 206,188 210,177 201,170 212,170" fill="#f08a24" stroke="#587ca1" stroke-width="2"></polygon>
+
+              <g fill="#ffffff" stroke="#587ca1" stroke-width="3.4">
+                <circle cx="170" cy="224" r="54"></circle>
+                <circle cx="420" cy="224" r="54"></circle>
+                <circle cx="680" cy="224" r="54"></circle>
+              </g>
+
+              <g fill="#355a86" font-family="'Chakra Petch', sans-serif" font-size="18" font-weight="700" text-anchor="middle">
+                <text x="170" y="230">a1b2c3d</text>
+                <text x="420" y="230">b2c3d4e</text>
+                <text x="680" y="230">c3d4e5f</text>
+              </g>
+
+              <rect x="600" y="28" width="160" height="44" rx="8" ry="8" fill="#fff6e8" stroke="#f0a648" stroke-width="2.2"></rect>
+              <text x="680" y="56" text-anchor="middle" fill="#b96d13" font-family="'Chakra Petch', sans-serif" font-size="21" font-weight="700">
+                main
+              </text>
+              <path d="M680 72 L680 100" fill="none" stroke="#f0a648" stroke-width="2.4"></path>
+
+              <rect x="570" y="92" width="220" height="48" rx="9" ry="9" fill="#edf3f8" stroke="#9ab2ca" stroke-width="2.2"></rect>
+              <text x="680" y="123" text-anchor="middle" fill="#23395d" font-family="'Chakra Petch', sans-serif" font-size="21" font-weight="700">
+                feature/ui
+              </text>
+              <path d="M680 140 L680 168" fill="none" stroke="#9ab2ca" stroke-width="2.4"></path>
+
+              <text x="490" y="328" text-anchor="middle" fill="#23395d" font-family="'IBM Plex Sans', sans-serif" font-size="16" font-weight="600">
+                Both labels point to the same commit immediately after the branch is created.
+              </text>
+            </svg>
+          </div>
+          <div class="diagram-command-row">
+            <div class="step-command diagram-command">git branch feature/ui</div>
+            <div class="step-command diagram-command">git log --oneline --decorate</div>
+          </div>
+        </article>
+
+        <article class="diagram-story-card">
+          <div class="diagram-story-head">
+            <h2 class="diagram-story-title">A New Branch Starts A New Line Of Work</h2>
+            <span class="diagram-story-tag">Parallel Work</span>
+          </div>
+          <p class="diagram-story-note">
+            After a branch is created, both branches still share the same history up to the split
+            point. From there, each branch can receive new commits independently without affecting
+            the other.
+          </p>
+          <div class="diagram-canvas">
+            <svg viewBox="0 0 980 330" role="img" aria-label="Feature branch diverging from main so both branches can progress independently">
+              <path class="git-line-main-soft" d="M110 180 L890 180"></path>
+              <path class="git-line-feature" d="M350 180 L470 90 L690 90"></path>
+              <circle class="git-node" cx="200" cy="180" r="13"></circle>
+              <circle class="git-node" cx="280" cy="180" r="13"></circle>
+              <circle class="git-node" cx="350" cy="180" r="13"></circle>
+              <circle class="git-node" cx="490" cy="180" r="13"></circle>
+              <circle class="git-node" cx="620" cy="180" r="13"></circle>
+              <circle class="git-node" cx="790" cy="180" r="13"></circle>
+              <circle class="git-node-feature" cx="470" cy="90" r="13"></circle>
+              <circle class="git-node-feature" cx="580" cy="90" r="13"></circle>
+              <circle class="git-node-feature" cx="690" cy="90" r="13"></circle>
+
+              <text x="200" y="184" text-anchor="middle" fill="#355a86" font-family="'Chakra Petch', sans-serif" font-size="10" font-weight="700">
+                a1b2
+              </text>
+              <text x="280" y="184" text-anchor="middle" fill="#355a86" font-family="'Chakra Petch', sans-serif" font-size="10" font-weight="700">
+                b2c3
+              </text>
+              <text x="350" y="184" text-anchor="middle" fill="#355a86" font-family="'Chakra Petch', sans-serif" font-size="10" font-weight="700">
+                c3d4
+              </text>
+              <text x="490" y="184" text-anchor="middle" fill="#355a86" font-family="'Chakra Petch', sans-serif" font-size="10" font-weight="700">
+                d4e5
+              </text>
+              <text x="620" y="184" text-anchor="middle" fill="#355a86" font-family="'Chakra Petch', sans-serif" font-size="10" font-weight="700">
+                e5f6
+              </text>
+              <text x="790" y="184" text-anchor="middle" fill="#355a86" font-family="'Chakra Petch', sans-serif" font-size="10" font-weight="700">
+                f6g7
+              </text>
+              <text x="470" y="94" text-anchor="middle" fill="#355a86" font-family="'Chakra Petch', sans-serif" font-size="10" font-weight="700">
+                g7h8
+              </text>
+              <text x="580" y="94" text-anchor="middle" fill="#355a86" font-family="'Chakra Petch', sans-serif" font-size="10" font-weight="700">
+                h8i9
+              </text>
+              <text x="690" y="94" text-anchor="middle" fill="#355a86" font-family="'Chakra Petch', sans-serif" font-size="10" font-weight="700">
+                i9j0
+              </text>
+
+              <rect x="500" y="20" width="220" height="48" rx="9" ry="9" fill="#edf3f8" stroke="#9ab2ca" stroke-width="2.2"></rect>
+              <text x="610" y="51" text-anchor="middle" fill="#23395d" font-family="'Chakra Petch', sans-serif" font-size="21" font-weight="700">
+                feature/ui
+              </text>
+              <path d="M650 68 L690 76" fill="none" stroke="#9ab2ca" stroke-width="2.4"></path>
+
+              <rect x="730" y="20" width="120" height="44" rx="8" ry="8" fill="#fff6e8" stroke="#f0a648" stroke-width="2.2"></rect>
+              <text x="790" y="48" text-anchor="middle" fill="#b96d13" font-family="'Chakra Petch', sans-serif" font-size="21" font-weight="700">
+                main
+              </text>
+              <path d="M790 64 L790 166" fill="none" stroke="#f0a648" stroke-width="2.4"></path>
+
+              <text x="490" y="272" text-anchor="middle" fill="#4b698b" font-family="'IBM Plex Sans', sans-serif" font-size="15" font-weight="600">
+                shared history up to the split point
+              </text>
+              <text x="490" y="294" text-anchor="middle" fill="#4b698b" font-family="'IBM Plex Sans', sans-serif" font-size="15" font-weight="600">
+                after that, main and feature/ui move independently
+              </text>
+            </svg>
+          </div>
+          <div class="diagram-command-row">
+            <div class="step-command diagram-command">git switch -c feature/ui</div>
+            <div class="step-command diagram-command">git commit -m "feat: update UI"</div>
+          </div>
+        </article>
+      </section>
+
+      <section class="panel concept-page-nav" aria-label="Concept page navigation">
+        <a class="concept-page-nav-link concept-page-nav-prev" href="dag-history.html">
+          <span class="concept-page-nav-kicker">Previous</span>
+          <span class="concept-page-nav-title">DAG + History Graph</span>
+        </a>
+        <a class="concept-page-nav-link concept-page-nav-overview" href="../concepts.html">
+          <span class="concept-page-nav-kicker">All Concepts</span>
+          <span class="concept-page-nav-title">Back To Overview</span>
+        </a>
+        <a class="concept-page-nav-link concept-page-nav-next" href="head.html">
+          <span class="concept-page-nav-kicker">Next</span>
+          <span class="concept-page-nav-title">HEAD</span>
+        </a>
+      </section>
+    </main>
+
+    <script src="../floating-simulator.js"></script>
+    <script src="../floating-conflict-simulator.js"></script>
+    <script src="../simulator.js"></script>
+    <script src="../conflict-simulator.js"></script>
+    <script>
+      (function () {
+        const buttons = Array.from(document.querySelectorAll("[data-branch-history-target]"));
+        const states = Array.from(document.querySelectorAll("[data-branch-history-state]"));
+
+        if (!buttons.length || !states.length) {
+          return;
+        }
+
+        const setState = (targetIndex) => {
+          states.forEach((state, index) => {
+            state.style.display = index === targetIndex ? "inline" : "none";
+            state.setAttribute("aria-hidden", index === targetIndex ? "false" : "true");
+          });
+
+          buttons.forEach((button, index) => {
+            const active = index === targetIndex;
+            button.classList.toggle("is-active", active);
+            button.setAttribute("aria-pressed", active ? "true" : "false");
+          });
+        };
+
+        buttons.forEach((button, index) => {
+          button.addEventListener("click", () => setState(index));
+        });
+
+        setState(0);
+      })();
+    </script>
+  </body>
+</html>

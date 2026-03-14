@@ -2983,6 +2983,65 @@ tbody tr:nth-child(even) {
   margin: 0;
 }
 
+.concept-page-nav {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.7rem;
+  align-items: stretch;
+}
+
+.concept-page-nav-link {
+  display: grid;
+  gap: 0.18rem;
+  text-decoration: none;
+  border-radius: 16px;
+  border: 1px solid rgba(45, 86, 128, 0.22);
+  background: linear-gradient(155deg, rgba(248, 252, 255, 0.98), rgba(235, 244, 251, 0.98));
+  padding: 0.8rem 0.9rem;
+  color: #1f3553;
+  transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.concept-page-nav-link:hover {
+  transform: translateY(-1px);
+  border-color: rgba(33, 77, 121, 0.34);
+  box-shadow: 0 10px 20px rgba(24, 45, 70, 0.08);
+}
+
+.concept-page-nav-link:focus-visible {
+  outline: 2px solid rgba(39, 97, 148, 0.55);
+  outline-offset: 2px;
+}
+
+.concept-page-nav-kicker {
+  color: #6a86a4;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.concept-page-nav-title {
+  color: #1f3553;
+  font-family: "Chakra Petch", sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.12;
+}
+
+.concept-page-nav-overview {
+  text-align: center;
+  place-content: center;
+}
+
+.concept-page-nav-next {
+  text-align: right;
+}
+
+.concept-page-nav-spacer {
+  min-height: 1px;
+}
+
 .diagram-history-controls {
   display: flex;
   flex-wrap: wrap;
@@ -3012,6 +3071,12 @@ tbody tr:nth-child(even) {
 .diagram-history-btn:focus-visible {
   outline: 2px solid rgba(39, 97, 148, 0.55);
   outline-offset: 2px;
+}
+
+.diagram-history-btn.is-active {
+  border-color: transparent;
+  background: linear-gradient(120deg, #2f5f95, #2f8f83);
+  color: #ffffff;
 }
 
 .commit-history-stage.is-animated [data-step] {
@@ -3218,6 +3283,19 @@ tbody tr:nth-child(even) {
 }
 
 @media (max-width: 700px) {
+  .concept-page-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .concept-page-nav-next,
+  .concept-page-nav-overview {
+    text-align: left;
+  }
+
+  .concept-page-nav-spacer {
+    display: none;
+  }
+
   .diagram-sequence-pill {
     flex: 1 1 100%;
   }

@@ -26,11 +26,12 @@
               <a class="nav-dropdown-link" href="../concepts.html">Overview</a>
               <a class="nav-dropdown-link nav-dropdown-link-active" href="git-commits.html">1) Git + Commits</a>
               <a class="nav-dropdown-link" href="dag-history.html">2) DAG + History Graph</a>
-              <a class="nav-dropdown-link" href="branches-head.html">3) Branches + HEAD</a>
-              <a class="nav-dropdown-link" href="three-areas.html">4) Working Tree + Staging</a>
-              <a class="nav-dropdown-link" href="merge-rebase.html">5) Merge + Rebase</a>
-              <a class="nav-dropdown-link" href="undo-recovery.html">6) Undo + Recovery</a>
-              <a class="nav-dropdown-link" href="collaboration-devops.html">7) Collaboration + DevOps</a>
+              <a class="nav-dropdown-link" href="branches.html">3) Branches</a>
+              <a class="nav-dropdown-link" href="head.html">4) HEAD</a>
+              <a class="nav-dropdown-link" href="three-areas.html">5) Working Tree + Staging</a>
+              <a class="nav-dropdown-link" href="merge-rebase.html">6) Merge + Rebase</a>
+              <a class="nav-dropdown-link" href="undo-recovery.html">7) Undo + Recovery</a>
+              <a class="nav-dropdown-link" href="collaboration-devops.html">8) Collaboration + DevOps</a>
             </div>
           </details>
           <a class="nav-link" href="../git-setup.html">Git Setup</a>
@@ -50,7 +51,7 @@
             </div>
           </details>
         </nav>
-        <p class="eyebrow">Core Git 1/6</p>
+        <p class="eyebrow">Core Git 1/8</p>
         <h1>Git And Commits</h1>
         <p class="detail-hero-copy">
           Git is a database. The fundamental unit is a commit record: a full snapshot of your project at one moment in time.
@@ -273,6 +274,131 @@
           </div>
         </article>
 
+        <article class="diagram-story-card">
+          <div class="diagram-story-head">
+            <h2 class="diagram-story-title">Jump To Any Point In History</h2>
+            <span class="diagram-story-tag">Snapshot Recall</span>
+          </div>
+          <p class="diagram-story-note">
+            Because each commit stores a complete snapshot, Git can instantly restore the repository files exactly as they looked at that point in time. Here, `HEAD` and version tags are shown as a preview only; both are explained later in the learning path. The key idea for now is that moving to a saved point in history updates the files to that snapshot immediately.
+          </p>
+          <div class="diagram-history-controls" role="group" aria-label="Jump to another saved version">
+            <button type="button" class="diagram-history-btn" data-git-jump-play aria-pressed="false">Play</button>
+            <button type="button" class="diagram-history-btn is-active" data-git-jump-target="0" aria-pressed="true">v1.0</button>
+            <button type="button" class="diagram-history-btn" data-git-jump-target="1" aria-pressed="false">v1.1</button>
+            <button type="button" class="diagram-history-btn" data-git-jump-target="2" aria-pressed="false">v1.2</button>
+            <button type="button" class="diagram-history-btn" data-git-jump-target="3" aria-pressed="false">v2.0</button>
+            <button type="button" class="diagram-history-btn" data-git-jump-target="4" aria-pressed="false">v2.1</button>
+          </div>
+          <div class="diagram-canvas">
+            <svg viewBox="0 0 1100 560" role="img" aria-label="Git can instantly jump to a tagged commit and restore that project snapshot">
+              <defs>
+                <filter id="git-head-glow" x="-30%" y="-30%" width="160%" height="160%">
+                  <feGaussianBlur stdDeviation="8" result="blur"></feGaussianBlur>
+                  <feColorMatrix
+                    in="blur"
+                    type="matrix"
+                    values="1 0 0 0 0
+                            0 0.7 0 0 0.28
+                            0 0 0.2 0 0.03
+                            0 0 0 0.32 0"
+                  ></feColorMatrix>
+                </filter>
+                <marker id="git-jump-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                  <path d="M0 0 L10 5 L0 10 z" fill="#f08a24"></path>
+                </marker>
+              </defs>
+
+              <rect x="18" y="20" width="1064" height="520" rx="16" ry="16" fill="#edf3f8" stroke="#c7d5e2" stroke-width="1.5"></rect>
+
+              <g stroke="#bccddd" stroke-width="2.2" stroke-dasharray="8 8" fill="none">
+                <path d="M92 138 L1016 138"></path>
+              </g>
+
+              <g filter="url(#git-head-glow)">
+                <circle id="gitJumpHeadGlow" cx="108" cy="138" r="38" fill="#f08a24" opacity="0.26"></circle>
+              </g>
+
+              <g>
+                <rect id="gitJumpHeadBox" x="56" y="34" width="104" height="42" rx="10" ry="10" fill="#f08a24" stroke="#d97715" stroke-width="1.5"></rect>
+                <text id="gitJumpHeadLabel" x="108" y="62" fill="#ffffff" font-family="Chakra Petch, IBM Plex Sans, sans-serif" font-size="23" font-weight="700" text-anchor="middle">
+                  HEAD
+                </text>
+                <path id="gitJumpHeadArrow" d="M108 76 L108 94" fill="none" stroke="#f08a24" stroke-width="5" marker-end="url(#git-jump-arrow)"></path>
+              </g>
+
+              <g fill="#ffffff" stroke="#587ca1" stroke-width="3.2">
+                <circle data-jump-commit data-jump-x="108" cx="108" cy="138" r="38" fill="#f08a24" stroke="#587ca1"></circle>
+                <circle data-jump-commit data-jump-x="310" cx="310" cy="138" r="38"></circle>
+                <circle data-jump-commit data-jump-x="512" cx="512" cy="138" r="38"></circle>
+                <circle data-jump-commit data-jump-x="714" cx="714" cy="138" r="38"></circle>
+                <circle data-jump-commit data-jump-x="916" cx="916" cy="138" r="38"></circle>
+              </g>
+
+              <g font-family="IBM Plex Mono, Consolas, monospace" font-size="20" font-weight="700" text-anchor="middle">
+                <text data-jump-hash x="108" y="146" fill="#ffffff">a1b2</text>
+                <text data-jump-hash x="310" y="146" fill="#2f5f95">e4f5</text>
+                <text data-jump-hash x="512" y="146" fill="#2f5f95">i7j8</text>
+                <text data-jump-hash x="714" y="146" fill="#2f5f95">m0n1</text>
+                <text data-jump-hash x="916" y="146" fill="#2f5f95">q3r4</text>
+              </g>
+
+              <g fill="#6a86a4" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="16" font-weight="700" text-anchor="middle">
+                <text data-jump-version x="108" y="194" fill="#c26b17">v1.0</text>
+                <text data-jump-version x="310" y="194">v1.1</text>
+                <text data-jump-version x="512" y="194">v1.2</text>
+                <text data-jump-version x="714" y="194">v2.0</text>
+                <text data-jump-version x="916" y="194">v2.1</text>
+              </g>
+
+              <g>
+                <rect x="96" y="274" width="386" height="230" rx="16" ry="16" fill="#ffffff" stroke="#587ca1" stroke-width="3"></rect>
+                <text x="126" y="326" fill="#1f3553" font-family="Chakra Petch, IBM Plex Sans, sans-serif" font-size="28" font-weight="700">
+                  Project State
+                </text>
+                <rect x="348" y="294" width="90" height="34" rx="10" ry="10" fill="#f6fbff" stroke="#c7d5e2" stroke-width="1.5"></rect>
+                <text id="gitJumpVersionBadge" x="393" y="317" fill="#f08a24" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="18" font-weight="700" text-anchor="middle">
+                  v1.0
+                </text>
+                <path d="M122 342 L454 342" fill="none" stroke="#c7d5e2" stroke-width="2"></path>
+
+                <g fill="#375b7b" font-family="IBM Plex Mono, Consolas, monospace" font-size="13" font-weight="600">
+                  <text data-jump-file x="126" y="366">src/</text>
+                  <text data-jump-file x="126" y="386">index.ts</text>
+                  <text data-jump-file x="126" y="406">package.json</text>
+                  <text data-jump-file x="126" y="426"></text>
+                  <text data-jump-file x="126" y="446"></text>
+                  <text data-jump-file x="126" y="466"></text>
+                  <text data-jump-file x="126" y="486"></text>
+                </g>
+              </g>
+
+              <g>
+                <rect x="612" y="352" width="198" height="88" rx="16" ry="16" fill="#f08a24" stroke="#d97715" stroke-width="1.5"></rect>
+                <text x="711" y="406" fill="#ffffff" font-family="Chakra Petch, IBM Plex Sans, sans-serif" font-size="36" font-weight="700" text-anchor="middle">
+                  Instant!
+                </text>
+              </g>
+            </svg>
+          </div>
+          <div class="diagram-command-row">
+            <div id="gitJumpCommandVersion" class="step-command diagram-command">git switch --detach v1.0</div>
+            <div id="gitJumpCommandHash" class="step-command diagram-command">git checkout a1b2</div>
+          </div>
+        </article>
+
+      </section>
+
+      <section class="panel concept-page-nav" aria-label="Concept page navigation">
+        <div class="concept-page-nav-spacer" aria-hidden="true"></div>
+        <a class="concept-page-nav-link concept-page-nav-overview" href="../concepts.html">
+          <span class="concept-page-nav-kicker">All Concepts</span>
+          <span class="concept-page-nav-title">Back To Overview</span>
+        </a>
+        <a class="concept-page-nav-link concept-page-nav-next" href="dag-history.html">
+          <span class="concept-page-nav-kicker">Next</span>
+          <span class="concept-page-nav-title">DAG + History Graph</span>
+        </a>
       </section>
     </main>
 
@@ -378,6 +504,193 @@
 
         render();
         queueTick();
+      })();
+
+      (() => {
+        const jumpButtons = Array.from(document.querySelectorAll("[data-git-jump-target]"));
+        const playButton = document.querySelector("[data-git-jump-play]");
+        const jumpCommits = Array.from(document.querySelectorAll("[data-jump-commit]"));
+        const jumpHashes = Array.from(document.querySelectorAll("[data-jump-hash]"));
+        const jumpVersions = Array.from(document.querySelectorAll("[data-jump-version]"));
+        const jumpFiles = Array.from(document.querySelectorAll("[data-jump-file]"));
+        const headGlow = document.getElementById("gitJumpHeadGlow");
+        const headBox = document.getElementById("gitJumpHeadBox");
+        const headLabel = document.getElementById("gitJumpHeadLabel");
+        const headArrow = document.getElementById("gitJumpHeadArrow");
+        const versionBadge = document.getElementById("gitJumpVersionBadge");
+        const commandVersion = document.getElementById("gitJumpCommandVersion");
+        const commandHash = document.getElementById("gitJumpCommandHash");
+
+        if (
+          !jumpButtons.length ||
+          !jumpCommits.length ||
+          !jumpHashes.length ||
+          !jumpVersions.length ||
+          !jumpFiles.length ||
+          !headGlow ||
+          !headBox ||
+          !headLabel ||
+          !headArrow ||
+          !versionBadge ||
+          !commandVersion ||
+          !commandHash
+        ) {
+          return;
+        }
+
+        const states = [
+          {
+            version: "v1.0",
+            hash: "a1b2",
+            x: 108,
+            files: ["src/", "index.ts", "package.json"]
+          },
+          {
+            version: "v1.1",
+            hash: "e4f5",
+            x: 310,
+            files: ["src/", "index.ts", "utils.ts", "package.json"]
+          },
+          {
+            version: "v1.2",
+            hash: "i7j8",
+            x: 512,
+            files: ["src/", "index.ts", "utils.ts", "webhook.ts", "package.json"]
+          },
+          {
+            version: "v2.0",
+            hash: "m0n1",
+            x: 714,
+            files: ["src/", "index.ts", "utils.ts", "webhook.ts", "api.ts", "package.json"]
+          },
+          {
+            version: "v2.1",
+            hash: "q3r4",
+            x: 916,
+            files: ["src/", "index.ts", "utils.ts", "webhook.ts", "api.ts", "rollback.ts", "package.json"]
+          }
+        ];
+        const jumpStepDelayMs = 1700;
+        let currentJumpIndex = 0;
+        let jumpPlaying = false;
+        let jumpTimerId = null;
+
+        function clearJumpTimer() {
+          if (jumpTimerId !== null) {
+            window.clearTimeout(jumpTimerId);
+            jumpTimerId = null;
+          }
+        }
+
+        function renderPlayButton() {
+          if (!playButton) {
+            return;
+          }
+
+          const atEnd = currentJumpIndex >= states.length - 1;
+          playButton.textContent = jumpPlaying ? "Pause" : atEnd ? "Replay" : "Play";
+          playButton.setAttribute("aria-pressed", String(jumpPlaying));
+          playButton.classList.toggle("is-active", jumpPlaying);
+        }
+
+        function setJumpState(index) {
+          const state = states[index];
+          if (!state) {
+            return;
+          }
+          currentJumpIndex = index;
+
+          headGlow.setAttribute("cx", String(state.x));
+          headBox.setAttribute("x", String(state.x - 52));
+          headLabel.setAttribute("x", String(state.x));
+          headArrow.setAttribute("d", `M${state.x} 76 L${state.x} 94`);
+
+          jumpCommits.forEach((circle, circleIndex) => {
+            circle.setAttribute("fill", circleIndex === index ? "#f08a24" : "#ffffff");
+            circle.style.cursor = "pointer";
+          });
+
+          jumpHashes.forEach((hash, hashIndex) => {
+            hash.setAttribute("fill", hashIndex === index ? "#ffffff" : "#2f5f95");
+          });
+
+          jumpVersions.forEach((version, versionIndex) => {
+            version.setAttribute("fill", versionIndex === index ? "#c26b17" : "#6a86a4");
+          });
+
+          jumpFiles.forEach((fileRow, fileIndex) => {
+            fileRow.textContent = state.files[fileIndex] || "";
+          });
+
+          jumpButtons.forEach((button, buttonIndex) => {
+            const isActive = buttonIndex === index;
+            button.classList.toggle("is-active", isActive);
+            button.setAttribute("aria-pressed", String(isActive));
+          });
+
+          versionBadge.textContent = state.version;
+          commandVersion.textContent = `git switch --detach ${state.version}`;
+          commandHash.textContent = `git checkout ${state.hash}`;
+          renderPlayButton();
+        }
+
+        function pauseJumpPlayback() {
+          jumpPlaying = false;
+          clearJumpTimer();
+          renderPlayButton();
+        }
+
+        function queueJumpAdvance() {
+          clearJumpTimer();
+          if (!jumpPlaying || currentJumpIndex >= states.length - 1) {
+            if (currentJumpIndex >= states.length - 1) {
+              pauseJumpPlayback();
+            }
+            return;
+          }
+
+          jumpTimerId = window.setTimeout(() => {
+            setJumpState(currentJumpIndex + 1);
+            queueJumpAdvance();
+          }, jumpStepDelayMs);
+        }
+
+        function startJumpPlayback() {
+          if (currentJumpIndex >= states.length - 1) {
+            setJumpState(0);
+          }
+
+          jumpPlaying = true;
+          renderPlayButton();
+          queueJumpAdvance();
+        }
+
+        jumpButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            pauseJumpPlayback();
+            setJumpState(Number(button.getAttribute("data-git-jump-target")));
+          });
+        });
+
+        jumpCommits.forEach((circle, index) => {
+          circle.addEventListener("click", () => {
+            pauseJumpPlayback();
+            setJumpState(index);
+          });
+        });
+
+        if (playButton) {
+          playButton.addEventListener("click", () => {
+            if (jumpPlaying) {
+              pauseJumpPlayback();
+              return;
+            }
+
+            startJumpPlayback();
+          });
+        }
+
+        setJumpState(0);
       })();
     </script>
     <script src="../floating-simulator.js"></script>
