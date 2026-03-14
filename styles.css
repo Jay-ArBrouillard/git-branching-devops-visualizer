@@ -1589,6 +1589,26 @@ tbody tr:nth-child(even) {
   font-size: 0.9rem;
 }
 
+.tool-link-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid rgba(26, 69, 107, 0.18);
+  background: rgba(233, 242, 250, 0.82);
+}
+
+.tool-link-cta {
+  width: fit-content;
+  border-radius: 999px;
+  border: 1px solid rgba(36, 89, 136, 0.24);
+  background: rgba(235, 244, 251, 0.82);
+  color: #1f4e7c;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+}
+
 .provider-detail-page .layout {
   width: min(1180px, calc(100% - 2.2rem));
 }
@@ -1623,6 +1643,40 @@ tbody tr:nth-child(even) {
 }
 
 .detail-back-link:hover {
+  text-decoration: underline;
+}
+
+.tool-shot-panel {
+  display: grid;
+  gap: 0.64rem;
+}
+
+.tool-shot-figure {
+  margin: 0;
+  display: grid;
+  gap: 0.36rem;
+}
+
+.tool-shot-image {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid rgba(28, 71, 109, 0.18);
+  background: rgba(240, 247, 252, 0.82);
+  box-shadow: 0 12px 26px rgba(24, 45, 70, 0.1);
+}
+
+.tool-shot-figure figcaption {
+  color: #43627d;
+  font-size: 0.82rem;
+}
+
+.tool-shot-figure a {
+  color: #225d90;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.tool-shot-figure a:hover {
   text-decoration: underline;
 }
 

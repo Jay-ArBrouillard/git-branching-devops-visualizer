@@ -21,6 +21,7 @@ Interactive static site for teaching Git branching strategy decisions and DevOps
   - Git concepts
   - Advanced Git workflows
   - Git provider guides
+  - Git developer tool guides (SourceTree, TortoiseGit, GitHub Desktop)
   - Decision guide matrix
   - Client workshop flow and consensus recorder
 
@@ -55,9 +56,11 @@ npx serve -l 4173 .
 
 - `index.html` - Branching Visualizer homepage
 - `decision-guide.html` - Strategy comparison and selection guide
+- `developer-tools.html` - Git developer tools overview
 - `concepts.html` - Git fundamentals
 - `advanced-concepts.html` - Advanced Git workflows
 - `providers.html` - Provider overview
+- `developer-tools/*.html` - Developer tool deep-dive pages
 - `providers/*.html` - Provider deep-dive pages
 
 ## Project Structure
@@ -68,6 +71,7 @@ npx serve -l 4173 .
 - `concepts.js` - Git concepts page logic
 - `providers.js` - Provider explorer logic
 - `simulator.js` / `conflict-simulator.js` - Interactive simulators
+- `assets/screenshots/tools` - Tool UI screenshots used in developer tool pages
 
 ## Recommended Workflow
 

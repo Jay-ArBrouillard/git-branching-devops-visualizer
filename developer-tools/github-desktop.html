@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GitHub Desktop Developer Tool Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body class="provider-detail-page tool-detail-page">
+    <div class="bg-shape shape-one"></div>
+    <div class="bg-shape shape-two"></div>
+    <div class="bg-shape shape-three"></div>
+
+    <main class="layout">
+      <section class="panel hero">
+        <nav class="top-nav" aria-label="Site pages">
+          <a class="nav-link" href="../concepts.html">Git Concepts</a>
+          <a class="nav-link" href="../index.html">Branching Visualizer</a>
+          <a class="nav-link" href="../decision-guide.html">Decision Guide</a>
+          <a class="nav-link" href="../advanced-concepts.html">Advanced Git</a>
+          <details class="nav-dropdown">
+            <summary class="nav-link nav-dropdown-summary nav-link-active">Developer Tools</summary>
+            <div class="nav-dropdown-menu">
+              <a class="nav-dropdown-link" href="../developer-tools.html">Overview</a>
+              <a class="nav-dropdown-link" href="sourcetree.html">SourceTree</a>
+              <a class="nav-dropdown-link" href="tortoisegit.html">TortoiseGit</a>
+              <a class="nav-dropdown-link nav-dropdown-link-active" href="github-desktop.html">GitHub Desktop</a>
+            </div>
+          </details>
+          <details class="nav-dropdown">
+            <summary class="nav-link nav-dropdown-summary">Git Providers</summary>
+            <div class="nav-dropdown-menu">
+              <a class="nav-dropdown-link" href="../providers.html">Overview</a>
+              <a class="nav-dropdown-link" href="../providers/github.html">GitHub</a>
+              <a class="nav-dropdown-link" href="../providers/gitlab.html">GitLab</a>
+              <a class="nav-dropdown-link" href="../providers/bitbucket.html">Bitbucket</a>
+              <a class="nav-dropdown-link" href="../providers/azure-repos.html">Azure Repos</a>
+              <a class="nav-dropdown-link" href="../providers/gitea-forgejo.html">Gitea/Forgejo</a>
+            </div>
+          </details>
+        </nav>
+        <p class="eyebrow">Developer Tool Deep Dive</p>
+        <h1>GitHub Desktop</h1>
+        <p class="detail-hero-copy">
+          GitHub Desktop is a simplified Git client designed around everyday branch, commit, and pull
+          request workflows for teams that collaborate in GitHub-hosted repositories.
+        </p>
+        <div class="detail-hero-pills">
+          <span class="detail-pill">Platform: Windows + macOS</span>
+          <span class="detail-pill">Best Fit: Teams using GitHub</span>
+          <span class="detail-pill">Strength: Low-friction daily workflow</span>
+          <span class="detail-pill">Workflow: PR handoff and repo sync</span>
+        </div>
+        <a class="detail-back-link" href="../developer-tools.html">Back to developer tools overview</a>
+      </section>
+
+      <section class="panel">
+        <h2>At A Glance</h2>
+        <div class="detail-grid">
+          <article class="detail-card">
+            <h3>Where It Excels</h3>
+            <p>Fast onboarding, simple branch/commit UX, and direct pull request handoff into GitHub.</p>
+          </article>
+          <article class="detail-card">
+            <h3>Primary Tradeoff</h3>
+            <p>Less depth for advanced repository surgery compared with power-user Git clients or direct CLI.</p>
+          </article>
+          <article class="detail-card">
+            <h3>Branching Strategy Fit</h3>
+            <p>Strong with trunk-based and GitHub Flow where short-lived branches and PR checks are standard.</p>
+          </article>
+          <article class="detail-card">
+            <h3>DevOps Integration Fit</h3>
+            <p>Good local companion to GitHub review gates and FlexDeploy webhook-driven promotion pipelines.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel tool-shot-panel">
+        <h2>UI Screenshot</h2>
+        <figure class="tool-shot-figure">
+          <img
+            class="tool-shot-image"
+            src="../assets/screenshots/tools/github-desktop-ui.png"
+            alt="GitHub Desktop user interface screenshot"
+            loading="lazy"
+          />
+          <figcaption>
+            Source screenshot:
+            <a href="https://desktop.github.com/" target="_blank" rel="noreferrer">GitHub Desktop product page</a>.
+          </figcaption>
+        </figure>
+      </section>
+
+      <section class="panel">
+        <h2>Where Teams Use It In Practice</h2>
+        <div class="scenario-detail-grid">
+          <article class="scenario-detail-card">
+            <h3>Daily Branch Commits</h3>
+            <p>Developers commit and sync quickly with clear changed-file and diff context.</p>
+            <ul class="detail-list">
+              <li>Low cognitive load for new Git users.</li>
+              <li>Fast commit-to-PR handoff.</li>
+            </ul>
+          </article>
+          <article class="scenario-detail-card">
+            <h3>PR Workflow Support</h3>
+            <p>Teams open pull requests after local validation while governance remains in GitHub rules and approvals.</p>
+            <ul class="detail-list">
+              <li>Strong for review-first delivery patterns.</li>
+              <li>Clear synchronization with remote branches.</li>
+            </ul>
+          </article>
+          <article class="scenario-detail-card">
+            <h3>Incident Follow-Up</h3>
+            <p>Useful for preparing forward-fix branches after rollback, then handing back to controlled PR merges.</p>
+            <ul class="detail-list">
+              <li>Good for quick follow-up commits.</li>
+              <li>Keep rollback deployment actions in FlexDeploy.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel provider-docs">
+        <h2>Docs And References</h2>
+        <div class="provider-doc-grid">
+          <article class="provider-doc-card">
+            <h3>Official GitHub Desktop Docs</h3>
+            <ul class="provider-doc-list">
+              <li><a href="https://desktop.github.com/" target="_blank" rel="noreferrer">Product and download page</a></li>
+              <li><a href="https://docs.github.com/en/desktop" target="_blank" rel="noreferrer">GitHub Desktop documentation</a></li>
+              <li><a href="https://docs.github.com/en/desktop/overview/getting-started-with-github-desktop" target="_blank" rel="noreferrer">Getting started guide</a></li>
+            </ul>
+          </article>
+          <article class="provider-doc-card">
+            <h3>Operational Guidance</h3>
+            <ul class="provider-doc-list">
+              <li>Treat GitHub Desktop as a local workflow accelerator, not a policy engine.</li>
+              <li>Enforce required checks, approvals, and protected branches in GitHub settings.</li>
+              <li>Maintain CLI runbook training for advanced rollback and history repair tasks.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script src="../floating-simulator.js"></script>
+    <script src="../floating-conflict-simulator.js"></script>
+    <script src="../simulator.js"></script>
+    <script src="../conflict-simulator.js"></script>
+  </body>
+</html>

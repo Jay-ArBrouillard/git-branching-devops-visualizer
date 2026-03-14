@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SourceTree Developer Tool Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body class="provider-detail-page tool-detail-page">
+    <div class="bg-shape shape-one"></div>
+    <div class="bg-shape shape-two"></div>
+    <div class="bg-shape shape-three"></div>
+
+    <main class="layout">
+      <section class="panel hero">
+        <nav class="top-nav" aria-label="Site pages">
+          <a class="nav-link" href="../concepts.html">Git Concepts</a>
+          <a class="nav-link" href="../index.html">Branching Visualizer</a>
+          <a class="nav-link" href="../decision-guide.html">Decision Guide</a>
+          <a class="nav-link" href="../advanced-concepts.html">Advanced Git</a>
+          <details class="nav-dropdown">
+            <summary class="nav-link nav-dropdown-summary nav-link-active">Developer Tools</summary>
+            <div class="nav-dropdown-menu">
+              <a class="nav-dropdown-link" href="../developer-tools.html">Overview</a>
+              <a class="nav-dropdown-link nav-dropdown-link-active" href="sourcetree.html">SourceTree</a>
+              <a class="nav-dropdown-link" href="tortoisegit.html">TortoiseGit</a>
+              <a class="nav-dropdown-link" href="github-desktop.html">GitHub Desktop</a>
+            </div>
+          </details>
+          <details class="nav-dropdown">
+            <summary class="nav-link nav-dropdown-summary">Git Providers</summary>
+            <div class="nav-dropdown-menu">
+              <a class="nav-dropdown-link" href="../providers.html">Overview</a>
+              <a class="nav-dropdown-link" href="../providers/github.html">GitHub</a>
+              <a class="nav-dropdown-link" href="../providers/gitlab.html">GitLab</a>
+              <a class="nav-dropdown-link" href="../providers/bitbucket.html">Bitbucket</a>
+              <a class="nav-dropdown-link" href="../providers/azure-repos.html">Azure Repos</a>
+              <a class="nav-dropdown-link" href="../providers/gitea-forgejo.html">Gitea/Forgejo</a>
+            </div>
+          </details>
+        </nav>
+        <p class="eyebrow">Developer Tool Deep Dive</p>
+        <h1>SourceTree</h1>
+        <p class="detail-hero-copy">
+          SourceTree is a desktop Git client from Atlassian focused on visual branch history,
+          commit-level control, and repository operations without heavy CLI usage.
+        </p>
+        <div class="detail-hero-pills">
+          <span class="detail-pill">Platform: Windows + macOS</span>
+          <span class="detail-pill">Best Fit: Mixed-skill teams</span>
+          <span class="detail-pill">Strength: Visual branch workflows</span>
+          <span class="detail-pill">Workflow: PR and branch-protection friendly</span>
+        </div>
+        <a class="detail-back-link" href="../developer-tools.html">Back to developer tools overview</a>
+      </section>
+
+      <section class="panel">
+        <h2>At A Glance</h2>
+        <div class="detail-grid">
+          <article class="detail-card">
+            <h3>Where It Excels</h3>
+            <p>Branch graph visibility, interactive staging, conflict inspection, and repository diagnostics.</p>
+          </article>
+          <article class="detail-card">
+            <h3>Primary Tradeoff</h3>
+            <p>Large UI surface area can feel heavy for developers who only need lightweight commit and sync tasks.</p>
+          </article>
+          <article class="detail-card">
+            <h3>Branching Strategy Fit</h3>
+            <p>Good fit across trunk-based, GitHub Flow, and Git Flow when PR policies remain enforced in the Git host.</p>
+          </article>
+          <article class="detail-card">
+            <h3>DevOps Integration Fit</h3>
+            <p>Strong local companion while webhooks, approvals, and build-once promotion are handled by Git host + FlexDeploy.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel tool-shot-panel">
+        <h2>UI Screenshot</h2>
+        <figure class="tool-shot-figure">
+          <img
+            class="tool-shot-image"
+            src="../assets/screenshots/tools/sourcetree-ui.png"
+            alt="SourceTree desktop user interface screenshot"
+            loading="lazy"
+          />
+          <figcaption>
+            Source screenshot:
+            <a href="https://www.sourcetreeapp.com/" target="_blank" rel="noreferrer">SourceTree product page</a>.
+          </figcaption>
+        </figure>
+      </section>
+
+      <section class="panel">
+        <h2>Where Teams Use It In Practice</h2>
+        <div class="scenario-detail-grid">
+          <article class="scenario-detail-card">
+            <h3>Daily Feature Work</h3>
+            <p>Developers stage hunks, review diffs, and commit feature branches with clear visual feedback.</p>
+            <ul class="detail-list">
+              <li>Selective staging for safer commits.</li>
+              <li>Local history view before PR handoff.</li>
+            </ul>
+          </article>
+          <article class="scenario-detail-card">
+            <h3>Release Stabilization</h3>
+            <p>Release leads inspect branch relationships and isolate late-release fixes with less merge confusion.</p>
+            <ul class="detail-list">
+              <li>Visual merge-base awareness.</li>
+              <li>Easier cherry-pick and branch hygiene.</li>
+            </ul>
+          </article>
+          <article class="scenario-detail-card">
+            <h3>Rollback Preparation</h3>
+            <p>Teams inspect commit lineage before generating a revert branch and opening a rollback PR.</p>
+            <ul class="detail-list">
+              <li>Trace commit ancestry before revert.</li>
+              <li>Keep rollback as PR-based Git history change.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel provider-docs">
+        <h2>Docs And References</h2>
+        <div class="provider-doc-grid">
+          <article class="provider-doc-card">
+            <h3>Official SourceTree Docs</h3>
+            <ul class="provider-doc-list">
+              <li><a href="https://confluence.atlassian.com/get-started-with-sourcetree" target="_blank" rel="noreferrer">Get started with SourceTree</a></li>
+              <li><a href="https://support.atlassian.com/sourcetree/" target="_blank" rel="noreferrer">SourceTree support documentation</a></li>
+              <li><a href="https://www.sourcetreeapp.com/" target="_blank" rel="noreferrer">Product and download page</a></li>
+            </ul>
+          </article>
+          <article class="provider-doc-card">
+            <h3>Operational Guidance</h3>
+            <ul class="provider-doc-list">
+              <li>Keep protected branch merges in Git host UI with required checks.</li>
+              <li>Use SourceTree for local quality and commit shaping, not policy bypass.</li>
+              <li>Document one standard branch naming convention in team onboarding.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script src="../floating-simulator.js"></script>
+    <script src="../floating-conflict-simulator.js"></script>
+    <script src="../simulator.js"></script>
+    <script src="../conflict-simulator.js"></script>
+  </body>
+</html>

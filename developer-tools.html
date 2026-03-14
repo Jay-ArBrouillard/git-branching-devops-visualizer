@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Git Developer Tools Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-shape shape-one"></div>
+    <div class="bg-shape shape-two"></div>
+    <div class="bg-shape shape-three"></div>
+
+    <main class="layout">
+      <section class="panel hero">
+        <nav class="top-nav" aria-label="Site pages">
+          <a class="nav-link" href="concepts.html">Git Concepts</a>
+          <a class="nav-link" href="index.html">Branching Visualizer</a>
+          <a class="nav-link" href="decision-guide.html">Decision Guide</a>
+          <a class="nav-link" href="advanced-concepts.html">Advanced Git</a>
+          <details class="nav-dropdown">
+            <summary class="nav-link nav-dropdown-summary nav-link-active">Developer Tools</summary>
+            <div class="nav-dropdown-menu">
+              <a class="nav-dropdown-link nav-dropdown-link-active" href="developer-tools.html">Overview</a>
+              <a class="nav-dropdown-link" href="developer-tools/sourcetree.html">SourceTree</a>
+              <a class="nav-dropdown-link" href="developer-tools/tortoisegit.html">TortoiseGit</a>
+              <a class="nav-dropdown-link" href="developer-tools/github-desktop.html">GitHub Desktop</a>
+            </div>
+          </details>
+          <details class="nav-dropdown">
+            <summary class="nav-link nav-dropdown-summary">Git Providers</summary>
+            <div class="nav-dropdown-menu">
+              <a class="nav-dropdown-link" href="providers.html">Overview</a>
+              <a class="nav-dropdown-link" href="providers/github.html">GitHub</a>
+              <a class="nav-dropdown-link" href="providers/gitlab.html">GitLab</a>
+              <a class="nav-dropdown-link" href="providers/bitbucket.html">Bitbucket</a>
+              <a class="nav-dropdown-link" href="providers/azure-repos.html">Azure Repos</a>
+              <a class="nav-dropdown-link" href="providers/gitea-forgejo.html">Gitea/Forgejo</a>
+            </div>
+          </details>
+        </nav>
+        <p class="eyebrow">Developer Productivity Guide</p>
+        <h1>Git Developer Tools</h1>
+        <p class="hero-copy">
+          SourceTree, TortoiseGit, and GitHub Desktop provide visual workflows on top of Git. Use this
+          section to match tool choice with team skill level, operating system constraints, and your
+          PR-driven DevOps model.
+        </p>
+        <div class="hero-guide">
+          <p><strong>How to use this page:</strong> choose one or two GUI clients, validate fit with your branching strategy, then standardize docs and onboarding around them.</p>
+        </div>
+      </section>
+
+      <section class="panel identity-panel">
+        <h2>When GUI Tools Help Most</h2>
+        <p class="section-copy">GUI tools do not replace Git fundamentals. They reduce friction for day-to-day branch, commit, diff, and merge operations.</p>
+        <div class="identity-grid">
+          <article class="identity-card git">
+            <p class="identity-tag">Primary Value</p>
+            <h3>Visual Branch And History Context</h3>
+            <p>Teams can inspect commit graphs and branch relationships faster than reading raw CLI output.</p>
+          </article>
+          <article class="identity-card hosting">
+            <p class="identity-tag">Governance Fit</p>
+            <h3>Works With PR-Based Controls</h3>
+            <p>GUI clients complement branch protection and PR approvals in your Git host and FlexDeploy release controls.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel provider-subpages">
+        <div class="card-head">
+          <h2>Tool Deep-Dive Pages</h2>
+          <p>Each page includes docs links, screenshot, and practical usage guidance.</p>
+        </div>
+        <div class="provider-links-grid">
+          <a class="provider-link-card" href="developer-tools/sourcetree.html">
+            <img class="tool-link-image" src="assets/screenshots/tools/sourcetree-ui.png" alt="SourceTree application interface screenshot" loading="lazy" />
+            <h3>SourceTree</h3>
+            <p>Atlassian desktop Git GUI with strong visual branch and commit tooling.</p>
+            <span class="tool-link-cta">Open SourceTree guide</span>
+          </a>
+          <a class="provider-link-card" href="developer-tools/tortoisegit.html">
+            <img class="tool-link-image" src="assets/screenshots/tools/tortoisegit-ui.png" alt="TortoiseGit commit window screenshot" loading="lazy" />
+            <h3>TortoiseGit</h3>
+            <p>Windows shell-integrated Git workflow with context menu operations.</p>
+            <span class="tool-link-cta">Open TortoiseGit guide</span>
+          </a>
+          <a class="provider-link-card" href="developer-tools/github-desktop.html">
+            <img class="tool-link-image" src="assets/screenshots/tools/github-desktop-ui.png" alt="GitHub Desktop application screenshot" loading="lazy" />
+            <h3>GitHub Desktop</h3>
+            <p>Simple desktop client focused on branch changes, commits, and pull request handoff.</p>
+            <span class="tool-link-cta">Open GitHub Desktop guide</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="panel comparison">
+        <h2>Quick Comparison</h2>
+        <p class="section-copy">Use this matrix to shortlist a default GUI tool for your client teams.</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Dimension</th>
+                <th>SourceTree</th>
+                <th>TortoiseGit</th>
+                <th>GitHub Desktop</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>Best platform fit</th>
+                <td>Windows and macOS mixed teams</td>
+                <td>Windows-heavy teams</td>
+                <td>Cross-platform teams using GitHub</td>
+              </tr>
+              <tr>
+                <th>Branch visualization depth</th>
+                <td>High</td>
+                <td>Medium</td>
+                <td>Medium</td>
+              </tr>
+              <tr>
+                <th>Learning curve</th>
+                <td>Medium</td>
+                <td>Medium</td>
+                <td>Low</td>
+              </tr>
+              <tr>
+                <th>PR-centric workflow support</th>
+                <td>Good</td>
+                <td>Good with Git host web UI</td>
+                <td>Strong for GitHub pull requests</td>
+              </tr>
+              <tr>
+                <th>Best usage model</th>
+                <td>Power users and release engineers</td>
+                <td>Enterprise Windows operators</td>
+                <td>Developers newer to Git</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel provider-docs">
+        <h2>Official Docs And Downloads</h2>
+        <div class="provider-doc-grid">
+          <article class="provider-doc-card">
+            <h3>SourceTree</h3>
+            <ul class="provider-doc-list">
+              <li><a href="https://www.sourcetreeapp.com/" target="_blank" rel="noreferrer">SourceTree product page</a></li>
+              <li><a href="https://confluence.atlassian.com/get-started-with-sourcetree" target="_blank" rel="noreferrer">Get started documentation</a></li>
+              <li><a href="https://support.atlassian.com/sourcetree/" target="_blank" rel="noreferrer">SourceTree support docs</a></li>
+            </ul>
+          </article>
+          <article class="provider-doc-card">
+            <h3>TortoiseGit</h3>
+            <ul class="provider-doc-list">
+              <li><a href="https://tortoisegit.org/" target="_blank" rel="noreferrer">TortoiseGit project site</a></li>
+              <li><a href="https://tortoisegit.org/docs/tortoisegit/" target="_blank" rel="noreferrer">TortoiseGit manual</a></li>
+              <li><a href="https://tortoisegit.org/download/" target="_blank" rel="noreferrer">TortoiseGit download page</a></li>
+            </ul>
+          </article>
+          <article class="provider-doc-card">
+            <h3>GitHub Desktop</h3>
+            <ul class="provider-doc-list">
+              <li><a href="https://desktop.github.com/" target="_blank" rel="noreferrer">GitHub Desktop product page</a></li>
+              <li><a href="https://docs.github.com/en/desktop" target="_blank" rel="noreferrer">GitHub Desktop documentation</a></li>
+              <li><a href="https://github.com/desktop/desktop" target="_blank" rel="noreferrer">Open source repository</a></li>
+            </ul>
+          </article>
+          <article class="provider-doc-card">
+            <h3>Implementation Tip</h3>
+            <ul class="provider-doc-list">
+              <li>Standardize one primary tool per platform for support consistency.</li>
+              <li>Keep Git policy enforcement in the host platform and FlexDeploy, not in local GUI settings.</li>
+              <li>Train users to fall back to CLI for advanced recovery operations.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script src="floating-simulator.js"></script>
+    <script src="floating-conflict-simulator.js"></script>
+    <script src="simulator.js"></script>
+    <script src="conflict-simulator.js"></script>
+  </body>
+</html>

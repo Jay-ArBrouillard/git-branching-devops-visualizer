@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TortoiseGit Developer Tool Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body class="provider-detail-page tool-detail-page">
+    <div class="bg-shape shape-one"></div>
+    <div class="bg-shape shape-two"></div>
+    <div class="bg-shape shape-three"></div>
+
+    <main class="layout">
+      <section class="panel hero">
+        <nav class="top-nav" aria-label="Site pages">
+          <a class="nav-link" href="../concepts.html">Git Concepts</a>
+          <a class="nav-link" href="../index.html">Branching Visualizer</a>
+          <a class="nav-link" href="../decision-guide.html">Decision Guide</a>
+          <a class="nav-link" href="../advanced-concepts.html">Advanced Git</a>
+          <details class="nav-dropdown">
+            <summary class="nav-link nav-dropdown-summary nav-link-active">Developer Tools</summary>
+            <div class="nav-dropdown-menu">
+              <a class="nav-dropdown-link" href="../developer-tools.html">Overview</a>
+              <a class="nav-dropdown-link" href="sourcetree.html">SourceTree</a>
+              <a class="nav-dropdown-link nav-dropdown-link-active" href="tortoisegit.html">TortoiseGit</a>
+              <a class="nav-dropdown-link" href="github-desktop.html">GitHub Desktop</a>
+            </div>
+          </details>
+          <details class="nav-dropdown">
+            <summary class="nav-link nav-dropdown-summary">Git Providers</summary>
+            <div class="nav-dropdown-menu">
+              <a class="nav-dropdown-link" href="../providers.html">Overview</a>
+              <a class="nav-dropdown-link" href="../providers/github.html">GitHub</a>
+              <a class="nav-dropdown-link" href="../providers/gitlab.html">GitLab</a>
+              <a class="nav-dropdown-link" href="../providers/bitbucket.html">Bitbucket</a>
+              <a class="nav-dropdown-link" href="../providers/azure-repos.html">Azure Repos</a>
+              <a class="nav-dropdown-link" href="../providers/gitea-forgejo.html">Gitea/Forgejo</a>
+            </div>
+          </details>
+        </nav>
+        <p class="eyebrow">Developer Tool Deep Dive</p>
+        <h1>TortoiseGit</h1>
+        <p class="detail-hero-copy">
+          TortoiseGit is a Windows shell-integrated Git client. It is commonly used in enterprise Windows
+          environments where right-click workflows and file-explorer integration are preferred.
+        </p>
+        <div class="detail-hero-pills">
+          <span class="detail-pill">Platform: Windows</span>
+          <span class="detail-pill">Best Fit: Windows-centric teams</span>
+          <span class="detail-pill">Strength: Explorer context menu workflow</span>
+          <span class="detail-pill">Workflow: Useful with strict enterprise controls</span>
+        </div>
+        <a class="detail-back-link" href="../developer-tools.html">Back to developer tools overview</a>
+      </section>
+
+      <section class="panel">
+        <h2>At A Glance</h2>
+        <div class="detail-grid">
+          <article class="detail-card">
+            <h3>Where It Excels</h3>
+            <p>Direct file-system integration, quick commit/pull/push actions, and practical Windows-native operations.</p>
+          </article>
+          <article class="detail-card">
+            <h3>Primary Tradeoff</h3>
+            <p>Windows-only footprint and more traditional UI compared to newer cross-platform developer tools.</p>
+          </article>
+          <article class="detail-card">
+            <h3>Branching Strategy Fit</h3>
+            <p>Works well with trunk-based and GitHub Flow if teams still rely on PR approvals in the Git host.</p>
+          </article>
+          <article class="detail-card">
+            <h3>DevOps Integration Fit</h3>
+            <p>Effective for local preparation while promotion orchestration and rollback remain governed in FlexDeploy.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel tool-shot-panel">
+        <h2>UI Screenshot</h2>
+        <figure class="tool-shot-figure">
+          <img
+            class="tool-shot-image"
+            src="../assets/screenshots/tools/tortoisegit-ui.png"
+            alt="TortoiseGit commit dialog screenshot"
+            loading="lazy"
+          />
+          <figcaption>
+            Source screenshot:
+            <a href="https://tortoisegit.org/about/screenshots/" target="_blank" rel="noreferrer">TortoiseGit screenshots page</a>.
+          </figcaption>
+        </figure>
+      </section>
+
+      <section class="panel">
+        <h2>Where Teams Use It In Practice</h2>
+        <div class="scenario-detail-grid">
+          <article class="scenario-detail-card">
+            <h3>Routine Local Commits</h3>
+            <p>Developers commit directly from Windows Explorer with staged file control and diff checks.</p>
+            <ul class="detail-list">
+              <li>Fast context-menu commit actions.</li>
+              <li>Easy access to log and diff from file paths.</li>
+            </ul>
+          </article>
+          <article class="scenario-detail-card">
+            <h3>Branch Management</h3>
+            <p>Short-lived feature branches can be created, switched, and merged through guided dialogs.</p>
+            <ul class="detail-list">
+              <li>Good fit for users transitioning from central VCS tools.</li>
+              <li>Lower CLI friction for daily operations.</li>
+            </ul>
+          </article>
+          <article class="scenario-detail-card">
+            <h3>Incident Recovery Prep</h3>
+            <p>Useful for identifying bad commits before opening rollback PR paths in the protected remote repository.</p>
+            <ul class="detail-list">
+              <li>Trace change history before rollback branch creation.</li>
+              <li>Keep deployment rollback in FlexDeploy for speed.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel provider-docs">
+        <h2>Docs And References</h2>
+        <div class="provider-doc-grid">
+          <article class="provider-doc-card">
+            <h3>Official TortoiseGit Docs</h3>
+            <ul class="provider-doc-list">
+              <li><a href="https://tortoisegit.org/" target="_blank" rel="noreferrer">TortoiseGit project site</a></li>
+              <li><a href="https://tortoisegit.org/docs/tortoisegit/" target="_blank" rel="noreferrer">TortoiseGit manual</a></li>
+              <li><a href="https://tortoisegit.org/download/" target="_blank" rel="noreferrer">Downloads</a></li>
+            </ul>
+          </article>
+          <article class="provider-doc-card">
+            <h3>Operational Guidance</h3>
+            <ul class="provider-doc-list">
+              <li>Use TortoiseGit for local changes and sync, then open PRs in your Git host.</li>
+              <li>Do not rely on local client settings for enforcement of enterprise controls.</li>
+              <li>Document a standard fallback CLI runbook for advanced recovery commands.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script src="../floating-simulator.js"></script>
+    <script src="../floating-conflict-simulator.js"></script>
+    <script src="../simulator.js"></script>
+    <script src="../conflict-simulator.js"></script>
+  </body>
+</html>
