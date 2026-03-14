@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="refresh" content="0; url=git-commits.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Redirecting...</title>
+    <script>
+      (function () {
+        const map = {
+          "#repository": "dag-history.html#repository",
+          "#commit": "git-commits.html#commit",
+          "#tags": "git-commits.html#tags",
+          "#working-directory": "three-areas.html#working-directory",
+          "#staging-area": "three-areas.html#staging-area",
+        };
+        const target = map[window.location.hash] || "git-commits.html";
+        window.location.replace(target);
+      })();
+    </script>
+  </head>
+  <body>
+    <p>Redirecting to <a href="git-commits.html">Git + Commits</a>...</p>
+  </body>
+</html>

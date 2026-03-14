@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Git Concepts: Merge And Rebase</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body class="provider-detail-page">
+    <div class="bg-shape shape-one"></div>
+    <div class="bg-shape shape-two"></div>
+    <div class="bg-shape shape-three"></div>
+
+    <main class="layout">
+      <section class="panel hero">
+        <nav class="top-nav" aria-label="Site pages">
+          <details class="nav-dropdown">
+            <summary class="nav-link nav-dropdown-summary nav-link-active">Git Concepts</summary>
+            <div class="nav-dropdown-menu">
+              <a class="nav-dropdown-link" href="../concepts.html">Overview</a>
+              <a class="nav-dropdown-link" href="git-commits.html">1) Git + Commits</a>
+              <a class="nav-dropdown-link" href="dag-history.html">2) DAG + History Graph</a>
+              <a class="nav-dropdown-link" href="branches-head.html">3) Branches + HEAD</a>
+              <a class="nav-dropdown-link" href="three-areas.html">4) Working Tree + Staging</a>
+              <a class="nav-dropdown-link nav-dropdown-link-active" href="merge-rebase.html">5) Merge + Rebase</a>
+              <a class="nav-dropdown-link" href="undo-recovery.html">6) Undo + Recovery</a>
+              <a class="nav-dropdown-link" href="collaboration-devops.html">7) Collaboration + DevOps</a>
+            </div>
+          </details>
+          <a class="nav-link" href="../git-setup.html">Git Setup</a>
+          <a class="nav-link" href="../index.html">Branching Visualizer</a>
+          <a class="nav-link" href="../decision-guide.html">Decision Guide</a>
+          <a class="nav-link" href="../advanced-concepts.html">Advanced Git</a>
+          <a class="nav-link" href="../developer-tools.html">Developer Tools</a>
+          <details class="nav-dropdown">
+            <summary class="nav-link nav-dropdown-summary">Git Providers</summary>
+            <div class="nav-dropdown-menu">
+              <a class="nav-dropdown-link" href="../providers.html">Overview</a>
+              <a class="nav-dropdown-link" href="../providers/github.html">GitHub</a>
+              <a class="nav-dropdown-link" href="../providers/gitlab.html">GitLab</a>
+              <a class="nav-dropdown-link" href="../providers/bitbucket.html">Bitbucket</a>
+              <a class="nav-dropdown-link" href="../providers/azure-repos.html">Azure Repos</a>
+              <a class="nav-dropdown-link" href="../providers/gitea-forgejo.html">Gitea/Forgejo</a>
+            </div>
+          </details>
+        </nav>
+        <p class="eyebrow">Core Git 5/6</p>
+        <h1>Merge And Rebase</h1>
+        <p class="detail-hero-copy">
+          Both commands integrate change. Merge preserves branch topology; rebase rewrites commit lineage.
+        </p>
+        <div class="detail-hero-pills">
+          <span class="detail-pill" id="merge">Merge keeps history context</span>
+          <span class="detail-pill">Rebase creates new commit IDs</span>
+          <span class="detail-pill">Policy matters on shared branches</span>
+        </div>
+        <a class="detail-back-link" href="../concepts.html">Back to Git Concepts overview</a>
+      </section>
+
+      <section class="panel">
+        <h2>Integration Choices</h2>
+        <div class="diagram-sequence">
+          <span class="diagram-sequence-pill">feature branch ready</span>
+          <span class="diagram-sequence-pill">run checks + review</span>
+          <span class="diagram-sequence-pill">merge or rebase strategy</span>
+          <span class="diagram-sequence-pill">protect shared history</span>
+        </div>
+      </section>
+
+      <section class="panel diagram-story">
+        <article class="diagram-story-card">
+          <div class="diagram-story-head">
+            <h2 class="diagram-story-title">Merge Path (Topology Preserved)</h2>
+            <span class="diagram-story-tag">Default Team Safe</span>
+          </div>
+          <div class="diagram-canvas">
+            <svg viewBox="0 0 980 280" role="img" aria-label="Merge integration preserving branch topology">
+              <path class="git-line-main" d="M100 210 L890 210"></path>
+              <path class="git-line-feature" d="M280 210 L410 120 L600 120"></path>
+              <path class="git-line-feature" d="M600 120 L710 210"></path>
+
+              <circle class="git-node" cx="170" cy="210" r="13"></circle>
+              <circle class="git-node" cx="280" cy="210" r="13"></circle>
+              <circle class="git-node-feature" cx="410" cy="120" r="13"></circle>
+              <circle class="git-node-feature" cx="510" cy="120" r="13"></circle>
+              <circle class="git-node-feature" cx="600" cy="120" r="13"></circle>
+              <circle class="git-node" cx="710" cy="210" r="13"></circle>
+              <circle class="git-node" cx="810" cy="210" r="13"></circle>
+
+              <rect class="git-pill-review" x="550" y="76" width="130" height="26" rx="13" ry="13"></rect>
+              <text class="git-pill-text" x="615" y="89">PR approved</text>
+              <rect class="git-pill" x="768" y="226" width="84" height="26" rx="13" ry="13"></rect>
+              <text class="git-pill-text" x="810" y="239">main</text>
+            </svg>
+          </div>
+          <div class="diagram-command-row">
+            <div class="step-command diagram-command">git switch main && git pull --ff-only origin main</div>
+            <div class="step-command diagram-command">git merge --no-ff feature/payments</div>
+          </div>
+        </article>
+
+        <article class="diagram-story-card">
+          <div class="diagram-story-head">
+            <h2 class="diagram-story-title">Rebase Path (Linearized Branch)</h2>
+            <span class="diagram-story-tag">Private Branch Cleanup</span>
+          </div>
+          <div class="diagram-canvas">
+            <svg viewBox="0 0 980 300" role="img" aria-label="Rebase replay creating new commit IDs on top of main">
+              <defs>
+                <marker id="mr-arrow-1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#2f9f78"></path>
+                </marker>
+              </defs>
+
+              <text class="git-label" x="60" y="44">Before rebase</text>
+              <path class="git-line-main-soft" d="M70 84 L390 84"></path>
+              <path class="git-line-feature" d="M200 84 L290 148 L390 148"></path>
+              <circle class="git-node" cx="130" cy="84" r="12"></circle>
+              <circle class="git-node" cx="200" cy="84" r="12"></circle>
+              <circle class="git-node" cx="290" cy="84" r="12"></circle>
+              <circle class="git-node-feature" cx="290" cy="148" r="12"></circle>
+              <circle class="git-node-feature" cx="390" cy="148" r="12"></circle>
+
+              <path class="git-arrow-feature" d="M420 116 L530 116" marker-end="url(#mr-arrow-1)"></path>
+              <text class="git-note" x="438" y="106">replay commits</text>
+
+              <text class="git-label" x="560" y="44">After rebase</text>
+              <path class="git-line-main" d="M570 84 L910 84"></path>
+              <circle class="git-node" cx="630" cy="84" r="12"></circle>
+              <circle class="git-node" cx="710" cy="84" r="12"></circle>
+              <circle class="git-node-feature" cx="790" cy="84" r="12"></circle>
+              <circle class="git-node-feature" cx="870" cy="84" r="12"></circle>
+              <text class="git-small" x="779" y="62">f1'</text>
+              <text class="git-small" x="859" y="62">f2'</text>
+
+              <rect class="git-panel" x="60" y="196" width="860" height="70" rx="14" ry="14"></rect>
+              <text class="git-note" x="86" y="226">Rebase rewrites commit IDs. Use on your branch before merge; avoid rewriting protected shared history.</text>
+            </svg>
+          </div>
+          <div class="diagram-command-row">
+            <div class="step-command diagram-command">git fetch origin</div>
+            <div class="step-command diagram-command">git rebase origin/main</div>
+            <div class="step-command diagram-command">git push --force-with-lease (only if policy allows)</div>
+          </div>
+        </article>
+
+        <article class="diagram-story-card">
+          <div class="diagram-story-head">
+            <h2 class="diagram-story-title">Decision Rule Of Thumb</h2>
+            <span class="diagram-story-tag">Policy</span>
+          </div>
+          <div class="diagram-canvas">
+            <svg viewBox="0 0 980 220" role="img" aria-label="Simple merge versus rebase policy guide">
+              <rect class="git-panel" x="70" y="46" width="390" height="132" rx="16" ry="16"></rect>
+              <text class="git-label" x="96" y="82">Use Merge when:</text>
+              <text class="git-note" x="96" y="110">branch is reviewed by PR</text>
+              <text class="git-note" x="96" y="132">history context should stay visible</text>
+              <text class="git-note" x="96" y="154">team prefers audit-friendly topology</text>
+
+              <rect class="git-panel" x="520" y="46" width="390" height="132" rx="16" ry="16"></rect>
+              <text class="git-label" x="546" y="82">Use Rebase when:</text>
+              <text class="git-note" x="546" y="110">cleaning your local feature branch</text>
+              <text class="git-note" x="546" y="132">updating to latest main before PR merge</text>
+              <text class="git-note" x="546" y="154">history rewrite is team-approved</text>
+            </svg>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <script src="../floating-simulator.js"></script>
+    <script src="../floating-conflict-simulator.js"></script>
+    <script src="../simulator.js"></script>
+    <script src="../conflict-simulator.js"></script>
+  </body>
+</html>

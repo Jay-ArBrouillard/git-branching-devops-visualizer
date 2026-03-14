@@ -52,64 +52,41 @@
       <section class="panel concepts-path">
         <h2>Learning Path</h2>
         <div class="path-grid">
-          <article class="path-step">
+          <a class="path-step" href="concepts/git-commits.html">
             <p class="path-index">1</p>
-            <h3>Understand The Repository</h3>
-            <p>A repository stores project files and complete change history over time.</p>
-          </article>
-          <article class="path-step">
+            <h3>Git And Commits</h3>
+            <p>Understand Git as a database and commit as the fundamental record (full project snapshot).</p>
+          </a>
+          <a class="path-step" href="concepts/dag-history.html">
             <p class="path-index">2</p>
-            <h3>Track Changes With Commits</h3>
-            <p>Commits are snapshots with messages explaining what changed and why.</p>
-          </article>
-          <article class="path-step">
+            <h3>DAG History Graph</h3>
+            <p>Learn how parent pointers create a directed acyclic graph and why links always point backward.</p>
+          </a>
+          <a class="path-step" href="concepts/branches-head.html">
             <p class="path-index">3</p>
-            <h3>Collaborate Using Branches</h3>
-            <p>Branches isolate work and prevent unfinished changes from breaking production.</p>
-          </article>
-          <article class="path-step">
+            <h3>Branches And HEAD</h3>
+            <p>Learn how branch names and HEAD pointers move as commits are added.</p>
+          </a>
+          <a class="path-step" href="concepts/three-areas.html">
             <p class="path-index">4</p>
-            <h3>Integrate Through Review</h3>
-            <p>Pull or merge requests combine human review with automated quality checks.</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="panel concepts-grid-wrap">
-        <h2>Core Git Concepts</h2>
-        <div class="concepts-grid">
-          <article class="concept-card">
-            <h3>Repository</h3>
-            <p>The project space that stores source code plus all historical versions.</p>
-          </article>
-          <article class="concept-card">
-            <h3>Working Directory</h3>
-            <p>Your local files where edits happen before staging and committing.</p>
-          </article>
-          <article class="concept-card">
-            <h3>Staging Area</h3>
-            <p>A preparation zone that lets you choose exactly which changes go into the next commit.</p>
-          </article>
-          <article class="concept-card">
-            <h3>Commit</h3>
-            <p>A recorded snapshot of staged changes with author, timestamp, and message.</p>
-          </article>
-          <article class="concept-card">
-            <h3>Branch</h3>
-            <p>An independent line of development used for features, fixes, or experiments.</p>
-          </article>
-          <article class="concept-card">
-            <h3>Merge</h3>
-            <p>The act of combining changes from one branch into another branch.</p>
-          </article>
-          <article class="concept-card">
-            <h3>Remote</h3>
-            <p>A shared server repository, usually named <code>origin</code>, used for team collaboration.</p>
-          </article>
-          <article class="concept-card">
-            <h3>Tag</h3>
-            <p>A stable label for a specific commit, commonly used for release versions.</p>
-          </article>
+            <h3>Working Tree And Staging</h3>
+            <p>Understand the three layers: working directory, index, and repository.</p>
+          </a>
+          <a class="path-step" href="concepts/merge-rebase.html">
+            <p class="path-index">5</p>
+            <h3>Merge And Rebase</h3>
+            <p>Choose integration strategy with clear tradeoffs on history shape and safety.</p>
+          </a>
+          <a class="path-step" href="concepts/undo-recovery.html">
+            <p class="path-index">6</p>
+            <h3>Undo And Recovery</h3>
+            <p>Use restore, revert, reset, and reflog with protected-branch-safe defaults.</p>
+          </a>
+          <a class="path-step" href="concepts/collaboration-devops.html">
+            <p class="path-index">7</p>
+            <h3>Collaboration And DevOps</h3>
+            <p>Connect PR approvals and merge webhooks to FlexDeploy orchestration.</p>
+          </a>
         </div>
       </section>
 
@@ -181,9 +158,9 @@
           <li class="scenario-step">
             <div class="step-head">
               <span class="step-lane journey-lane">5</span>
-              <span class="step-action">Merge approved change and deploy through CI/CD pipeline.</span>
+              <span class="step-action">After approval, merge feature into main (local merge equivalent shown here).</span>
             </div>
-            <div class="step-command">PR merged to main -> automated deploy</div>
+            <div class="step-command">git checkout main && git pull origin main && git merge --no-ff feature/update-pricing-banner && git push origin main</div>
           </li>
         </ol>
       </section>

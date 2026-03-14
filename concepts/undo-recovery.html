@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Git Undo And Recovery Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body class="provider-detail-page">
+    <div class="bg-shape shape-one"></div>
+    <div class="bg-shape shape-two"></div>
+    <div class="bg-shape shape-three"></div>
+
+    <main class="layout">
+      <section class="panel hero">
+        <nav class="top-nav" aria-label="Site pages">
+          <details class="nav-dropdown">
+            <summary class="nav-link nav-dropdown-summary nav-link-active">Git Concepts</summary>
+            <div class="nav-dropdown-menu">
+              <a class="nav-dropdown-link" href="../concepts.html">Overview</a>
+              <a class="nav-dropdown-link" href="git-commits.html">1) Git + Commits</a>
+              <a class="nav-dropdown-link" href="dag-history.html">2) DAG + History Graph</a>
+              <a class="nav-dropdown-link" href="branches-head.html">3) Branches + HEAD</a>
+              <a class="nav-dropdown-link" href="three-areas.html">4) Working Tree + Staging</a>
+              <a class="nav-dropdown-link" href="merge-rebase.html">5) Merge + Rebase</a>
+              <a class="nav-dropdown-link nav-dropdown-link-active" href="undo-recovery.html">6) Undo + Recovery</a>
+              <a class="nav-dropdown-link" href="collaboration-devops.html">7) Collaboration + DevOps</a>
+            </div>
+          </details>
+          <a class="nav-link" href="../git-setup.html">Git Setup</a>
+          <a class="nav-link" href="../index.html">Branching Visualizer</a>
+          <a class="nav-link" href="../decision-guide.html">Decision Guide</a>
+          <a class="nav-link" href="../advanced-concepts.html">Advanced Git</a>
+          <a class="nav-link" href="../developer-tools.html">Developer Tools</a>
+          <details class="nav-dropdown">
+            <summary class="nav-link nav-dropdown-summary">Git Providers</summary>
+            <div class="nav-dropdown-menu">
+              <a class="nav-dropdown-link" href="../providers.html">Overview</a>
+              <a class="nav-dropdown-link" href="../providers/github.html">GitHub</a>
+              <a class="nav-dropdown-link" href="../providers/gitlab.html">GitLab</a>
+              <a class="nav-dropdown-link" href="../providers/bitbucket.html">Bitbucket</a>
+              <a class="nav-dropdown-link" href="../providers/azure-repos.html">Azure Repos</a>
+              <a class="nav-dropdown-link" href="../providers/gitea-forgejo.html">Gitea/Forgejo</a>
+            </div>
+          </details>
+        </nav>
+        <p class="eyebrow">Core Git 6/6</p>
+        <h1>Undo And Recovery</h1>
+        <p class="detail-hero-copy">
+          Recover fast without damaging shared history. Choose the command based on what layer you need to fix.
+        </p>
+        <div class="detail-hero-pills">
+          <span class="detail-pill">File undo: restore</span>
+          <span class="detail-pill">Shared undo: revert</span>
+          <span class="detail-pill">Local rewrite only: reset</span>
+        </div>
+        <a class="detail-back-link" href="../concepts.html">Back to Git Concepts overview</a>
+      </section>
+
+      <section class="panel">
+        <h2>Recovery Order Of Preference</h2>
+        <div class="diagram-sequence">
+          <span class="diagram-sequence-pill">restore file changes</span>
+          <span class="diagram-sequence-pill">revert shared commit</span>
+          <span class="diagram-sequence-pill">reset private branch</span>
+          <span class="diagram-sequence-pill">reflog for rescue</span>
+          <span class="diagram-sequence-pill">FlexDeploy version restore</span>
+        </div>
+      </section>
+
+      <section class="panel diagram-story">
+        <article class="diagram-story-card">
+          <div class="diagram-story-head">
+            <h2 class="diagram-story-title">Restore: File-Level Undo</h2>
+            <span class="diagram-story-tag">No History Rewrite</span>
+          </div>
+          <div class="diagram-canvas">
+            <svg viewBox="0 0 980 230" role="img" aria-label="Undoing file changes between working tree and index">
+              <defs>
+                <marker id="ur-arrow-1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#2f5f95"></path>
+                </marker>
+              </defs>
+
+              <rect class="git-panel" x="70" y="52" width="260" height="126" rx="16" ry="16"></rect>
+              <text class="git-label" x="98" y="90">Working Directory</text>
+              <text class="git-note" x="98" y="118">edited files</text>
+              <text class="git-small" x="98" y="147">M app.js</text>
+
+              <rect class="git-panel" x="370" y="52" width="260" height="126" rx="16" ry="16"></rect>
+              <text class="git-label" x="445" y="90">Index</text>
+              <text class="git-note" x="410" y="118">staged changes</text>
+              <text class="git-small" x="410" y="147">A flowchart.js</text>
+
+              <rect class="git-panel" x="670" y="52" width="240" height="126" rx="16" ry="16"></rect>
+              <text class="git-label" x="720" y="90">HEAD Commit</text>
+              <text class="git-note" x="706" y="118">last snapshot</text>
+
+              <path class="git-arrow" d="M365 112 L338 112" marker-end="url(#ur-arrow-1)"></path>
+              <text class="git-note" x="242" y="103">restore file</text>
+
+              <path class="git-arrow-soft" d="M665 112 L638 112" marker-end="url(#ur-arrow-1)"></path>
+              <text class="git-note" x="545" y="103">restore --staged</text>
+            </svg>
+          </div>
+          <div class="diagram-command-row">
+            <div class="step-command diagram-command">git restore path/to/file</div>
+            <div class="step-command diagram-command">git restore --staged path/to/file</div>
+          </div>
+        </article>
+
+        <article class="diagram-story-card">
+          <div class="diagram-story-head">
+            <h2 class="diagram-story-title">Reset vs Revert On Commit History</h2>
+            <span class="diagram-story-tag">Shared Safety</span>
+          </div>
+          <div class="diagram-canvas">
+            <svg viewBox="0 0 980 290" role="img" aria-label="Comparison of reset moving pointer and revert adding undo commit">
+              <defs>
+                <marker id="ur-arrow-2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#c88a34"></path>
+                </marker>
+              </defs>
+
+              <text class="git-label" x="50" y="44">Reset (private branch cleanup)</text>
+              <path class="git-line-main-soft" d="M70 82 L430 82"></path>
+              <circle class="git-node" cx="140" cy="82" r="13"></circle>
+              <circle class="git-node" cx="220" cy="82" r="13"></circle>
+              <circle class="git-node" cx="300" cy="82" r="13"></circle>
+              <circle class="git-node-muted" cx="380" cy="82" r="13"></circle>
+              <rect class="git-pill" x="262" y="98" width="80" height="24" rx="12" ry="12"></rect>
+              <text class="git-pill-text" x="302" y="110">main</text>
+              <path class="git-arrow-warn" d="M370 120 L315 120" marker-end="url(#ur-arrow-2)"></path>
+
+              <text class="git-label" x="50" y="174">Revert (shared-safe)</text>
+              <path class="git-line-main" d="M70 210 L480 210"></path>
+              <circle class="git-node" cx="140" cy="210" r="13"></circle>
+              <circle class="git-node" cx="220" cy="210" r="13"></circle>
+              <circle class="git-node" cx="300" cy="210" r="13"></circle>
+              <circle class="git-node-warn" cx="380" cy="210" r="13"></circle>
+              <circle class="git-node" cx="460" cy="210" r="13"></circle>
+              <text class="git-note" x="364" y="194">bad commit</text>
+              <text class="git-note" x="432" y="194">revert commit</text>
+
+              <rect class="git-panel" x="560" y="58" width="370" height="194" rx="16" ry="16"></rect>
+              <text class="git-label" x="585" y="92">Policy</text>
+              <text class="git-note" x="585" y="124">Protected trunk/main: prefer revert through PR.</text>
+              <text class="git-note" x="585" y="154">Avoid force-push and reset on shared branches.</text>
+              <text class="git-note" x="585" y="184">Keep history auditable for approvals and releases.</text>
+            </svg>
+          </div>
+          <div class="diagram-command-row">
+            <div class="step-command diagram-command">git reset --soft &lt;sha&gt; (local/private only)</div>
+            <div class="step-command diagram-command">git revert &lt;sha&gt; (recommended on shared branches)</div>
+          </div>
+        </article>
+
+        <article class="diagram-story-card">
+          <div class="diagram-story-head">
+            <h2 class="diagram-story-title">Two Rollback Options: Deploy State vs Git History</h2>
+            <span class="diagram-story-tag">Operational + Code Recovery</span>
+          </div>
+          <p class="diagram-story-note">
+            Fast environment recovery can be FlexDeploy version restore. Git history correction should still be PR-governed.
+          </p>
+          <div class="diagram-canvas">
+            <svg viewBox="0 0 980 250" role="img" aria-label="FlexDeploy version restore and git revert PR recovery lanes">
+              <defs>
+                <marker id="ur-arrow-3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#2f5f95"></path>
+                </marker>
+                <marker id="ur-arrow-4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#cd8f37"></path>
+                </marker>
+              </defs>
+
+              <text class="git-label" x="60" y="45">Lane 1: Environment rollback (FlexDeploy)</text>
+              <rect class="git-panel" x="60" y="58" width="258" height="66" rx="14" ry="14"></rect>
+              <rect class="git-panel" x="360" y="58" width="258" height="66" rx="14" ry="14"></rect>
+              <rect class="git-panel" x="660" y="58" width="258" height="66" rx="14" ry="14"></rect>
+              <text class="git-note" x="92" y="97">Current prod version</text>
+              <text class="git-note" x="410" y="97">Select previous version</text>
+              <text class="git-note" x="724" y="97">Deploy restore</text>
+              <path class="git-arrow" d="M322 90 L351 90" marker-end="url(#ur-arrow-3)"></path>
+              <path class="git-arrow" d="M622 90 L651 90" marker-end="url(#ur-arrow-3)"></path>
+
+              <text class="git-label" x="60" y="165">Lane 2: Git history correction (PR flow)</text>
+              <rect class="git-panel" x="60" y="178" width="258" height="56" rx="14" ry="14"></rect>
+              <rect class="git-panel" x="360" y="178" width="258" height="56" rx="14" ry="14"></rect>
+              <rect class="git-panel" x="660" y="178" width="258" height="56" rx="14" ry="14"></rect>
+              <text class="git-note" x="82" y="211">Create revert/fix branch</text>
+              <text class="git-note" x="405" y="211">Open and approve PR</text>
+              <text class="git-note" x="707" y="211">Merge to protected main</text>
+              <path class="git-arrow-warn" d="M322 206 L351 206" marker-end="url(#ur-arrow-4)"></path>
+              <path class="git-arrow-warn" d="M622 206 L651 206" marker-end="url(#ur-arrow-4)"></path>
+            </svg>
+          </div>
+          <div class="diagram-command-row">
+            <div class="step-command diagram-command">git switch -c revert/fix-issue</div>
+            <div class="step-command diagram-command">git revert &lt;sha&gt; || apply forward fix</div>
+            <div class="step-command diagram-command">git push -u origin revert/fix-issue</div>
+          </div>
+        </article>
+
+        <article class="diagram-story-card">
+          <div class="diagram-story-head">
+            <h2 class="diagram-story-title">Reflog Rescue For Lost Commits</h2>
+            <span class="diagram-story-tag">Last Resort Recovery</span>
+          </div>
+          <div class="diagram-canvas">
+            <svg viewBox="0 0 980 205" role="img" aria-label="Reflog entries and creating recovery branch from prior head">
+              <rect class="git-panel" x="56" y="42" width="868" height="120" rx="16" ry="16"></rect>
+              <text class="git-label" x="86" y="73">Reflog timeline</text>
+              <text class="git-small" x="86" y="99">HEAD@{0}: reset --hard 9a1f</text>
+              <text class="git-small" x="86" y="119">HEAD@{1}: commit: feat checkout improvements</text>
+              <text class="git-small" x="86" y="139">HEAD@{2}: checkout: moving from feature/payments to main</text>
+            </svg>
+          </div>
+          <div class="diagram-command-row">
+            <div class="step-command diagram-command">git reflog</div>
+            <div class="step-command diagram-command">git checkout -b recovery HEAD@{1}</div>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <script src="../floating-simulator.js"></script>
+    <script src="../floating-conflict-simulator.js"></script>
+    <script src="../simulator.js"></script>
+    <script src="../conflict-simulator.js"></script>
+  </body>
+</html>

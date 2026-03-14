@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Git Concepts: Working Tree And Staging</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body class="provider-detail-page">
+    <div class="bg-shape shape-one"></div>
+    <div class="bg-shape shape-two"></div>
+    <div class="bg-shape shape-three"></div>
+
+    <main class="layout">
+      <section class="panel hero">
+        <nav class="top-nav" aria-label="Site pages">
+          <details class="nav-dropdown">
+            <summary class="nav-link nav-dropdown-summary nav-link-active">Git Concepts</summary>
+            <div class="nav-dropdown-menu">
+              <a class="nav-dropdown-link" href="../concepts.html">Overview</a>
+              <a class="nav-dropdown-link" href="git-commits.html">1) Git + Commits</a>
+              <a class="nav-dropdown-link" href="dag-history.html">2) DAG + History Graph</a>
+              <a class="nav-dropdown-link" href="branches-head.html">3) Branches + HEAD</a>
+              <a class="nav-dropdown-link nav-dropdown-link-active" href="three-areas.html">4) Working Tree + Staging</a>
+              <a class="nav-dropdown-link" href="merge-rebase.html">5) Merge + Rebase</a>
+              <a class="nav-dropdown-link" href="undo-recovery.html">6) Undo + Recovery</a>
+              <a class="nav-dropdown-link" href="collaboration-devops.html">7) Collaboration + DevOps</a>
+            </div>
+          </details>
+          <a class="nav-link" href="../git-setup.html">Git Setup</a>
+          <a class="nav-link" href="../index.html">Branching Visualizer</a>
+          <a class="nav-link" href="../decision-guide.html">Decision Guide</a>
+          <a class="nav-link" href="../advanced-concepts.html">Advanced Git</a>
+          <a class="nav-link" href="../developer-tools.html">Developer Tools</a>
+          <details class="nav-dropdown">
+            <summary class="nav-link nav-dropdown-summary">Git Providers</summary>
+            <div class="nav-dropdown-menu">
+              <a class="nav-dropdown-link" href="../providers.html">Overview</a>
+              <a class="nav-dropdown-link" href="../providers/github.html">GitHub</a>
+              <a class="nav-dropdown-link" href="../providers/gitlab.html">GitLab</a>
+              <a class="nav-dropdown-link" href="../providers/bitbucket.html">Bitbucket</a>
+              <a class="nav-dropdown-link" href="../providers/azure-repos.html">Azure Repos</a>
+              <a class="nav-dropdown-link" href="../providers/gitea-forgejo.html">Gitea/Forgejo</a>
+            </div>
+          </details>
+        </nav>
+        <p class="eyebrow">Core Git 4/6</p>
+        <h1>Working Tree, Staging, Repository</h1>
+        <p class="detail-hero-copy">
+          Git work happens in three layers. Most confusion is solved by identifying which layer changed.
+        </p>
+        <div class="detail-hero-pills">
+          <span class="detail-pill" id="working-directory">Working directory</span>
+          <span class="detail-pill" id="staging-area">Staging index</span>
+          <span class="detail-pill">Committed history</span>
+        </div>
+        <a class="detail-back-link" href="../concepts.html">Back to Git Concepts overview</a>
+      </section>
+
+      <section class="panel">
+        <h2>Three Layers Sequence</h2>
+        <div class="diagram-sequence">
+          <span class="diagram-sequence-pill">Edit file</span>
+          <span class="diagram-sequence-pill">Stage selected changes</span>
+          <span class="diagram-sequence-pill">Commit snapshot</span>
+          <span class="diagram-sequence-pill">Repeat in small increments</span>
+        </div>
+      </section>
+
+      <section class="panel diagram-story">
+        <article class="diagram-story-card">
+          <div class="diagram-story-head">
+            <h2 class="diagram-story-title">State Flow Across Layers</h2>
+            <span class="diagram-story-tag">Mental Model</span>
+          </div>
+          <div class="diagram-canvas">
+            <svg viewBox="0 0 980 260" role="img" aria-label="Flow from working directory to index to repository">
+              <defs>
+                <marker id="ta-arrow-1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#2f5f95"></path>
+                </marker>
+                <marker id="ta-arrow-2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#2f9f78"></path>
+                </marker>
+              </defs>
+
+              <rect class="git-panel" x="58" y="48" width="265" height="156" rx="16" ry="16"></rect>
+              <text class="git-label" x="86" y="84">Working Directory</text>
+              <text class="git-note" x="86" y="113">modified files on disk</text>
+              <text class="git-small" x="86" y="144">M src/api.js</text>
+              <text class="git-small" x="86" y="166">M src/ui.js</text>
+
+              <rect class="git-panel" x="356" y="48" width="265" height="156" rx="16" ry="16"></rect>
+              <text class="git-label" x="428" y="84">Index (Staging)</text>
+              <text class="git-note" x="384" y="113">selected changes for next commit</text>
+              <text class="git-small" x="384" y="144">A src/api.js (partial)</text>
+
+              <rect class="git-panel" x="654" y="48" width="265" height="156" rx="16" ry="16"></rect>
+              <text class="git-label" x="723" y="84">Repository</text>
+              <text class="git-note" x="688" y="113">committed snapshots</text>
+              <text class="git-small" x="688" y="144">commit 9fab23</text>
+
+              <path class="git-arrow" d="M329 125 L347 125" marker-end="url(#ta-arrow-1)"></path>
+              <text class="git-note" x="287" y="106">add</text>
+
+              <path class="git-arrow-feature" d="M627 125 L646 125" marker-end="url(#ta-arrow-2)"></path>
+              <text class="git-note" x="585" y="106">commit</text>
+            </svg>
+          </div>
+          <div class="diagram-command-row">
+            <div class="step-command diagram-command">git status</div>
+            <div class="step-command diagram-command">git add -p</div>
+            <div class="step-command diagram-command">git commit -m "message"</div>
+          </div>
+        </article>
+
+        <article class="diagram-story-card">
+          <div class="diagram-story-head">
+            <h2 class="diagram-story-title">Partial Staging Keeps Commits Clean</h2>
+            <span class="diagram-story-tag">Patch Mode</span>
+          </div>
+          <div class="diagram-canvas">
+            <svg viewBox="0 0 980 250" role="img" aria-label="Selecting hunks from modified files for staging">
+              <rect class="git-panel" x="60" y="56" width="400" height="142" rx="16" ry="16"></rect>
+              <text class="git-label" x="88" y="92">Working file has mixed changes</text>
+              <text class="git-small" x="90" y="120">+ bugfix in webhook parser</text>
+              <text class="git-small" x="90" y="142">+ refactor variable names</text>
+              <text class="git-small" x="90" y="164">+ optional debug logs</text>
+
+              <rect class="git-panel" x="520" y="56" width="400" height="142" rx="16" ry="16"></rect>
+              <text class="git-label" x="548" y="92">Stage only the bugfix hunk</text>
+              <text class="git-small" x="550" y="120">index contains minimal safe change</text>
+              <text class="git-note" x="550" y="146">smaller PR, faster review, lower rollback risk</text>
+
+              <path class="git-arrow" d="M468 128 L510 128"></path>
+            </svg>
+          </div>
+          <div class="diagram-command-row">
+            <div class="step-command diagram-command">git add -p</div>
+            <div class="step-command diagram-command">git diff --staged</div>
+          </div>
+        </article>
+
+        <article class="diagram-story-card">
+          <div class="diagram-story-head">
+            <h2 class="diagram-story-title">Status Output Is A Layer Debugger</h2>
+            <span class="diagram-story-tag">Troubleshooting</span>
+          </div>
+          <div class="diagram-canvas">
+            <svg viewBox="0 0 980 220" role="img" aria-label="Git status showing staged and unstaged changes">
+              <rect class="git-panel" x="70" y="40" width="840" height="140" rx="16" ry="16"></rect>
+              <text class="git-label" x="98" y="76">$ git status</text>
+              <text class="git-small" x="98" y="103">Changes to be committed:   modified: src/webhook.js</text>
+              <text class="git-small" x="98" y="126">Changes not staged:        modified: src/ui.js</text>
+              <text class="git-small" x="98" y="149">Untracked files:           docs/notes.md</text>
+            </svg>
+          </div>
+          <div class="diagram-command-row">
+            <div class="step-command diagram-command">git status</div>
+            <div class="step-command diagram-command">git restore --staged src/webhook.js</div>
+            <div class="step-command diagram-command">git restore src/ui.js</div>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <script src="../floating-simulator.js"></script>
+    <script src="../floating-conflict-simulator.js"></script>
+    <script src="../simulator.js"></script>
+    <script src="../conflict-simulator.js"></script>
+  </body>
+</html>

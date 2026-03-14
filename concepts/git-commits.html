@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Git Concepts: Git And Commits</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body class="provider-detail-page">
+    <div class="bg-shape shape-one"></div>
+    <div class="bg-shape shape-two"></div>
+    <div class="bg-shape shape-three"></div>
+
+    <main class="layout">
+      <section class="panel hero">
+        <nav class="top-nav" aria-label="Site pages">
+          <details class="nav-dropdown">
+            <summary class="nav-link nav-dropdown-summary nav-link-active">Git Concepts</summary>
+            <div class="nav-dropdown-menu">
+              <a class="nav-dropdown-link" href="../concepts.html">Overview</a>
+              <a class="nav-dropdown-link nav-dropdown-link-active" href="git-commits.html">1) Git + Commits</a>
+              <a class="nav-dropdown-link" href="dag-history.html">2) DAG + History Graph</a>
+              <a class="nav-dropdown-link" href="branches-head.html">3) Branches + HEAD</a>
+              <a class="nav-dropdown-link" href="three-areas.html">4) Working Tree + Staging</a>
+              <a class="nav-dropdown-link" href="merge-rebase.html">5) Merge + Rebase</a>
+              <a class="nav-dropdown-link" href="undo-recovery.html">6) Undo + Recovery</a>
+              <a class="nav-dropdown-link" href="collaboration-devops.html">7) Collaboration + DevOps</a>
+            </div>
+          </details>
+          <a class="nav-link" href="../git-setup.html">Git Setup</a>
+          <a class="nav-link" href="../index.html">Branching Visualizer</a>
+          <a class="nav-link" href="../decision-guide.html">Decision Guide</a>
+          <a class="nav-link" href="../advanced-concepts.html">Advanced Git</a>
+          <a class="nav-link" href="../developer-tools.html">Developer Tools</a>
+          <details class="nav-dropdown">
+            <summary class="nav-link nav-dropdown-summary">Git Providers</summary>
+            <div class="nav-dropdown-menu">
+              <a class="nav-dropdown-link" href="../providers.html">Overview</a>
+              <a class="nav-dropdown-link" href="../providers/github.html">GitHub</a>
+              <a class="nav-dropdown-link" href="../providers/gitlab.html">GitLab</a>
+              <a class="nav-dropdown-link" href="../providers/bitbucket.html">Bitbucket</a>
+              <a class="nav-dropdown-link" href="../providers/azure-repos.html">Azure Repos</a>
+              <a class="nav-dropdown-link" href="../providers/gitea-forgejo.html">Gitea/Forgejo</a>
+            </div>
+          </details>
+        </nav>
+        <p class="eyebrow">Core Git 1/6</p>
+        <h1>Git And Commits</h1>
+        <p class="detail-hero-copy">
+          Git is a database. The fundamental unit is a commit record: a full snapshot of your project at one moment in time.
+        </p>
+        <a class="detail-back-link" href="../concepts.html">Back to Git Concepts overview</a>
+      </section>
+
+      <section class="panel diagram-story">
+        <article class="diagram-story-card" id="commit">
+          <div class="diagram-story-head">
+            <h2 class="diagram-story-title">Commit Object Anatomy</h2>
+            <span class="diagram-story-tag">Record Model</span>
+          </div>
+          <p class="diagram-story-note">
+            A commit is not "the changes only." It is a complete photograph of the project state plus pointers and metadata.
+          </p>
+          <div class="diagram-canvas">
+            <svg viewBox="0 0 980 250" role="img" aria-label="Commit record anatomy with snapshot pointer metadata and parent pointer">
+              <rect class="git-panel" x="60" y="46" width="420" height="160" rx="16" ry="16"></rect>
+              <text class="git-label" x="85" y="82">Record (commit SHA): 9fab23</text>
+              <text class="git-small" x="86" y="108">snapshot pointer (tree): 73b2a1</text>
+              <text class="git-small" x="86" y="130">parent pointer: ac19f4</text>
+              <text class="git-small" x="86" y="152">metadata: author + time + message</text>
+              <text class="git-small" x="86" y="174">example message: feat add webhook payload parser</text>
+
+              <rect class="git-panel" x="560" y="46" width="360" height="160" rx="16" ry="16"></rect>
+              <text class="git-label" x="590" y="82">Project snapshot (all tracked files)</text>
+              <text class="git-small" x="592" y="108">src/</text>
+              <text class="git-small" x="592" y="130">index.ts</text>
+              <text class="git-small" x="592" y="152">utils.ts</text>
+              <text class="git-small" x="592" y="174">package.json</text>
+              <text class="git-note" x="592" y="196">content hash-addressed and immutable</text>
+
+              <path class="git-arrow" d="M488 126 L548 126"></path>
+            </svg>
+          </div>
+          <div class="diagram-command-row">
+            <div class="step-command diagram-command">git show --name-status --oneline HEAD</div>
+            <div class="step-command diagram-command">git cat-file -p HEAD</div>
+          </div>
+        </article>
+
+        <article class="diagram-story-card">
+          <div class="diagram-story-head">
+            <h2 class="diagram-story-title">Commit History</h2>
+            <span class="diagram-story-tag">Backward Links</span>
+          </div>
+          <p class="diagram-story-note">
+            Every commit points to older commit(s), except the first commit which has no parent. A commit can also have two parents (merge commit), which is explained later. Git traverses history by following parent pointers backward.
+          </p>
+          <div class="diagram-history-controls" role="group" aria-label="Commit history animation controls">
+            <button type="button" class="diagram-history-btn" data-commit-history-pause aria-pressed="true">Pause</button>
+            <button type="button" class="diagram-history-btn" data-commit-history-final>Show Final</button>
+          </div>
+          <div class="diagram-canvas">
+            <svg
+              class="commit-history-stage"
+              viewBox="0 0 1200 470"
+              role="img"
+              aria-label="Commit history with snapshot cards, parent arrows, and a merge commit with two parents"
+            >
+              <defs>
+                <marker id="gc-arrow-1" viewBox="0 0 10 10" refX="8.6" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                  <path d="M0 0 L10 5 L0 10 z" fill="#4d7397"></path>
+                </marker>
+              </defs>
+
+              <rect x="10" y="10" width="1180" height="450" rx="12" ry="12" fill="#edf3f8" stroke="#c7d5e2" stroke-width="1.5"></rect>
+
+              <g data-step="0">
+                <g fill="#ffffff" stroke="#587ca1" stroke-width="3">
+                  <rect x="40" y="188" width="140" height="170" rx="2" ry="2" transform="rotate(-1 110 273)"></rect>
+                </g>
+                <g fill="#f08a24" stroke="#587ca1" stroke-width="2">
+                  <polygon points="170,188 173,195 181,195 175,200 177,208 170,203 163,208 165,200 159,195 167,195"></polygon>
+                </g>
+                <g fill="#375b7b" font-family="IBM Plex Mono, Consolas, monospace" font-size="12" font-weight="600">
+                  <text x="58" y="222">src/</text>
+                  <text x="58" y="242">index.ts</text>
+                  <text x="58" y="262">utils.ts</text>
+                  <text x="58" y="282">package.json</text>
+                </g>
+                <g fill="#2f5f95" font-family="IBM Plex Mono, Consolas, monospace" font-size="17" font-weight="700">
+                  <text x="58" y="336">a9f4c12</text>
+                </g>
+              </g>
+
+              <g data-step="1">
+                <g fill="#ffffff" stroke="#587ca1" stroke-width="3">
+                  <rect x="225" y="188" width="140" height="170" rx="2" ry="2" transform="rotate(-1 295 273)"></rect>
+                </g>
+                <g fill="#375b7b" font-family="IBM Plex Mono, Consolas, monospace" font-size="12" font-weight="600">
+                  <text x="243" y="222">src/</text>
+                  <text x="243" y="242">index.ts</text>
+                  <text x="243" y="262">utils.ts</text>
+                  <text x="243" y="282">package.json</text>
+                </g>
+                <g fill="#2f5f95" font-family="IBM Plex Mono, Consolas, monospace" font-size="17" font-weight="700">
+                  <text x="243" y="336">b7d1e40</text>
+                </g>
+                <g fill="none" stroke="#4d7397" stroke-width="3.2" marker-end="url(#gc-arrow-1)">
+                  <path d="M225 296 C211 310, 194 310, 180 296"></path>
+                </g>
+                <g fill="#6a86a4" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="11" font-weight="700">
+                  <text x="192" y="372">parent</text>
+                </g>
+              </g>
+
+              <g data-step="2">
+                <g fill="#ffffff" stroke="#587ca1" stroke-width="3">
+                  <rect x="410" y="188" width="140" height="170" rx="2" ry="2" transform="rotate(-1 480 273)"></rect>
+                </g>
+                <g fill="#375b7b" font-family="IBM Plex Mono, Consolas, monospace" font-size="12" font-weight="600">
+                  <text x="428" y="222">src/</text>
+                  <text x="428" y="242">index.ts</text>
+                  <text x="428" y="262">utils.ts</text>
+                  <text x="428" y="282">package.json</text>
+                </g>
+                <g fill="#2f5f95" font-family="IBM Plex Mono, Consolas, monospace" font-size="17" font-weight="700">
+                  <text x="428" y="336">c3ab982</text>
+                </g>
+                <g fill="none" stroke="#4d7397" stroke-width="3.2" marker-end="url(#gc-arrow-1)">
+                  <path d="M410 296 C396 310, 379 310, 365 296"></path>
+                </g>
+                <g fill="#6a86a4" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="11" font-weight="700">
+                  <text x="377" y="372">parent</text>
+                </g>
+              </g>
+
+              <g data-step="3">
+                <g fill="#ffffff" stroke="#587ca1" stroke-width="3">
+                  <rect x="595" y="188" width="140" height="170" rx="2" ry="2" transform="rotate(-1 665 273)"></rect>
+                </g>
+                <g fill="#375b7b" font-family="IBM Plex Mono, Consolas, monospace" font-size="12" font-weight="600">
+                  <text x="613" y="222">src/</text>
+                  <text x="613" y="242">index.ts</text>
+                  <text x="613" y="262">utils.ts</text>
+                  <text x="613" y="282">package.json</text>
+                </g>
+                <g fill="#2f5f95" font-family="IBM Plex Mono, Consolas, monospace" font-size="17" font-weight="700">
+                  <text x="613" y="336">d8f2a55</text>
+                </g>
+                <g fill="none" stroke="#4d7397" stroke-width="3.2" marker-end="url(#gc-arrow-1)">
+                  <path d="M595 296 C581 310, 564 310, 550 296"></path>
+                </g>
+                <g fill="#6a86a4" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="11" font-weight="700">
+                  <text x="562" y="372">parent</text>
+                </g>
+              </g>
+
+              <g data-step="4">
+                <g fill="#ffffff" stroke="#587ca1" stroke-width="3">
+                  <rect x="780" y="188" width="140" height="170" rx="2" ry="2" transform="rotate(-1 850 273)"></rect>
+                </g>
+                <g fill="#375b7b" font-family="IBM Plex Mono, Consolas, monospace" font-size="12" font-weight="600">
+                  <text x="798" y="222">src/</text>
+                  <text x="798" y="242">index.ts</text>
+                  <text x="798" y="262">utils.ts</text>
+                  <text x="798" y="282">package.json</text>
+                </g>
+                <g fill="#2f5f95" font-family="IBM Plex Mono, Consolas, monospace" font-size="17" font-weight="700">
+                  <text x="798" y="336">e1c7b39</text>
+                </g>
+                <g fill="none" stroke="#4d7397" stroke-width="3.2" marker-end="url(#gc-arrow-1)">
+                  <path d="M780 296 C766 310, 749 310, 735 296"></path>
+                </g>
+                <g fill="#6a86a4" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="11" font-weight="700">
+                  <text x="747" y="372">parent</text>
+                </g>
+              </g>
+
+              <g data-step="5">
+                <g fill="#ffffff" stroke="#587ca1" stroke-width="3">
+                  <rect x="800" y="32" width="140" height="130" rx="2" ry="2" transform="rotate(1 870 97)"></rect>
+                </g>
+                <g fill="#375b7b" font-family="IBM Plex Mono, Consolas, monospace" font-size="12" font-weight="600">
+                  <text x="818" y="60">src/</text>
+                  <text x="818" y="80">index.ts</text>
+                  <text x="818" y="100">utils.ts</text>
+                  <text x="818" y="120">package.json</text>
+                </g>
+                <g fill="#2f5f95" font-family="IBM Plex Mono, Consolas, monospace" font-size="17" font-weight="700">
+                  <text x="818" y="144">f4b8c21</text>
+                </g>
+                <g fill="#6a86a4" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="11" font-weight="700">
+                  <text x="852" y="24">feature</text>
+                </g>
+              </g>
+
+              <g data-step="6">
+                <g fill="#ffffff" stroke="#587ca1" stroke-width="3">
+                  <rect x="1010" y="190" width="140" height="170" rx="2" ry="2" transform="rotate(-1 1080 275)"></rect>
+                </g>
+                <rect x="1002" y="182" width="156" height="186" rx="4" ry="4" fill="none" stroke="#8aa7c3" stroke-width="2.2" stroke-dasharray="7 6"></rect>
+                <g fill="#375b7b" font-family="IBM Plex Mono, Consolas, monospace" font-size="12" font-weight="600">
+                  <text x="1028" y="224">src/</text>
+                  <text x="1028" y="244">index.ts</text>
+                  <text x="1028" y="264">utils.ts</text>
+                  <text x="1028" y="284">package.json</text>
+                </g>
+                <g fill="#2f5f95" font-family="IBM Plex Mono, Consolas, monospace" font-size="17" font-weight="700">
+                  <text x="1028" y="338">m9a4f0e</text>
+                </g>
+                <g fill="none" stroke="#4d7397" stroke-width="3.2" marker-end="url(#gc-arrow-1)">
+                  <path d="M1010 298 C996 312, 979 312, 920 298"></path>
+                  <path d="M1010 248 C980 232, 952 204, 920 172"></path>
+                </g>
+                <g fill="#6a86a4" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="11" font-weight="700">
+                  <text x="944" y="372">parent</text>
+                  <text x="953" y="206">parent</text>
+                </g>
+                <text x="988" y="440" fill="#f08a24" font-family="Chakra Petch, IBM Plex Sans, sans-serif" font-size="28" font-weight="700">
+                  Two parents!
+                </text>
+              </g>
+            </svg>
+          </div>
+          <div class="diagram-command-row">
+            <div class="step-command diagram-command">git log --oneline --decorate</div>
+          </div>
+        </article>
+
+      </section>
+    </main>
+
+    <script>
+      (() => {
+        const stage = document.querySelector(".commit-history-stage");
+        if (!stage) {
+          return;
+        }
+
+        const stepElements = Array.from(stage.querySelectorAll("[data-step]"));
+        if (!stepElements.length) {
+          return;
+        }
+
+        stage.classList.add("is-animated");
+
+        const pauseButton = document.querySelector("[data-commit-history-pause]");
+        const finalButton = document.querySelector("[data-commit-history-final]");
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const maxStep = Math.max(...stepElements.map((element) => Number(element.getAttribute("data-step") || "0")));
+        const stepIntervalMs = 1100;
+        let currentStep = prefersReducedMotion ? maxStep : 0;
+        let paused = prefersReducedMotion;
+        let timerId = null;
+
+        function render() {
+          for (const element of stepElements) {
+            const step = Number(element.getAttribute("data-step") || "0");
+            element.classList.toggle("is-visible", step <= currentStep);
+          }
+
+          if (!pauseButton) {
+            return;
+          }
+
+          const canReplay = currentStep >= maxStep;
+          pauseButton.textContent = paused ? (canReplay ? "Replay" : "Resume") : "Pause";
+          pauseButton.setAttribute("aria-pressed", String(paused));
+        }
+
+        function clearTimer() {
+          if (timerId !== null) {
+            window.clearTimeout(timerId);
+            timerId = null;
+          }
+        }
+
+        function queueTick() {
+          clearTimer();
+          if (paused || currentStep >= maxStep) {
+            return;
+          }
+
+          timerId = window.setTimeout(() => {
+            currentStep += 1;
+            if (currentStep >= maxStep) {
+              currentStep = maxStep;
+              paused = true;
+              render();
+              clearTimer();
+              return;
+            }
+
+            render();
+            queueTick();
+          }, stepIntervalMs);
+        }
+
+        function pause() {
+          paused = true;
+          clearTimer();
+          render();
+        }
+
+        function resume() {
+          if (currentStep >= maxStep) {
+            currentStep = 0;
+          }
+
+          paused = false;
+          render();
+          queueTick();
+        }
+
+        if (pauseButton) {
+          pauseButton.addEventListener("click", () => {
+            if (paused) {
+              resume();
+              return;
+            }
+
+            pause();
+          });
+        }
+
+        if (finalButton) {
+          finalButton.addEventListener("click", () => {
+            currentStep = maxStep;
+            pause();
+          });
+        }
+
+        render();
+        queueTick();
+      })();
+    </script>
+    <script src="../floating-simulator.js"></script>
+    <script src="../floating-conflict-simulator.js"></script>
+    <script src="../simulator.js"></script>
+    <script src="../conflict-simulator.js"></script>
+  </body>
+</html>
