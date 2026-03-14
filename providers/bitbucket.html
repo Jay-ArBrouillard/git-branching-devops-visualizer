@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bitbucket Provider Deep Dive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body class="provider-detail-page">
+    <div class="bg-shape shape-one"></div>
+    <div class="bg-shape shape-two"></div>
+    <div class="bg-shape shape-three"></div>
+
+    <main class="layout">
+      <section class="panel hero">
+        <nav class="top-nav" aria-label="Site pages">
+          <a class="nav-link" href="../index.html">Branching Visualizer</a>
+          <a class="nav-link" href="../decision-guide.html">Decision Guide</a>
+          <a class="nav-link" href="../concepts.html">Git Concepts</a>
+          <a class="nav-link" href="../advanced-concepts.html">Advanced Git</a>
+          <details class="nav-dropdown">
+            <summary class="nav-link nav-dropdown-summary nav-link-active">Git Providers</summary>
+            <div class="nav-dropdown-menu">
+              <a class="nav-dropdown-link" href="../providers.html">Overview</a>
+              <a class="nav-dropdown-link" href="github.html">GitHub</a>
+              <a class="nav-dropdown-link" href="gitlab.html">GitLab</a>
+              <a class="nav-dropdown-link nav-dropdown-link-active" href="bitbucket.html">Bitbucket</a>
+              <a class="nav-dropdown-link" href="azure-repos.html">Azure Repos</a>
+              <a class="nav-dropdown-link" href="gitea-forgejo.html">Gitea/Forgejo</a>
+            </div>
+          </details>
+        </nav>
+        <p class="eyebrow">Provider Deep Dive</p>
+        <h1>Bitbucket Deep Dive</h1>
+        <p class="detail-hero-copy">
+          Bitbucket is a Git hosting platform that is strongest when paired with the Atlassian ecosystem, especially Jira-driven planning and team-level governance.
+        </p>
+        <div class="detail-hero-pills">
+          <span class="detail-pill">Hosting: Cloud + Data Center</span>
+          <span class="detail-pill">Best Fit: Atlassian-native teams</span>
+          <span class="detail-pill">Governance: Medium to High</span>
+          <span class="detail-pill">Native CI/CD: Bitbucket Pipelines</span>
+        </div>
+        <a class="detail-back-link" href="../providers.html">Back to provider comparison</a>
+      </section>
+
+      <section class="panel">
+        <h2>At A Glance</h2>
+        <div class="detail-grid">
+          <article class="detail-card">
+            <h3>What It Is Strong At</h3>
+            <p>Jira traceability, branch permissions, and predictable team workflows for organizations already using Atlassian products.</p>
+          </article>
+          <article class="detail-card">
+            <h3>Primary Risks</h3>
+            <p>Pipeline and ecosystem flexibility may require additional external tools for advanced platform engineering needs.</p>
+          </article>
+          <article class="detail-card">
+            <h3>Branching Fit</h3>
+            <p>Good for GitFlow and controlled release models; also supports modern lightweight branching with PR discipline.</p>
+          </article>
+          <article class="detail-card">
+            <h3>Migration Complexity</h3>
+            <p>Low to medium when teams already use Jira and Confluence; medium when moving complex non-Atlassian integrations.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>DevOps Workflow By Scenario</h2>
+        <div class="scenario-detail-grid">
+          <article class="scenario-detail-card">
+            <h3>Standard Change</h3>
+            <p>Feature branch mapped to Jira ticket, pull request validation, then pipeline-based release progression.</p>
+            <ul class="detail-list">
+              <li>Enforce branch naming with ticket IDs.</li>
+              <li>Require PR reviewers and successful pipeline.</li>
+              <li>Update Jira workflow automatically on merge.</li>
+            </ul>
+          </article>
+          <article class="scenario-detail-card">
+            <h3>Emergency Change</h3>
+            <p>Hotfix branch with incident-linked ticket, fast review path, and focused pipeline checks.</p>
+            <ul class="detail-list">
+              <li>Use emergency PR template and incident link.</li>
+              <li>Run smoke tests and rollback validation.</li>
+              <li>Back-merge hotfix to development branches.</li>
+            </ul>
+          </article>
+          <article class="scenario-detail-card">
+            <h3>Rollback</h3>
+            <p>Revert release commit, trigger rollback pipeline, and keep Jira/audit records aligned.</p>
+            <ul class="detail-list">
+              <li>Track rollback decision in change ticket.</li>
+              <li>Automate deployment reversion and checks.</li>
+              <li>Create follow-up task for forward fix.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Capabilities And Governance</h2>
+        <div class="detail-grid">
+          <article class="detail-card">
+            <h3>Source Control And Review</h3>
+            <ul class="detail-list">
+              <li>Pull requests with reviewer controls and merge checks.</li>
+              <li>Branch permissions and merge restrictions by role.</li>
+              <li>Tight Jira issue linkage supports delivery traceability.</li>
+            </ul>
+          </article>
+          <article class="detail-card">
+            <h3>CI/CD And Release</h3>
+            <ul class="detail-list">
+              <li>Bitbucket Pipelines for integrated build and test automation.</li>
+              <li>External CI tooling support for larger-scale platform needs.</li>
+              <li>Release process can be synchronized with Jira change states.</li>
+            </ul>
+          </article>
+          <article class="detail-card">
+            <h3>Security And Compliance</h3>
+            <ul class="detail-list">
+              <li>Permissions and workflow controls support governance basics.</li>
+              <li>Enterprise security depth may depend on add-ons or external tooling.</li>
+              <li>Audit strategy often combines Bitbucket and Jira records.</li>
+            </ul>
+          </article>
+          <article class="detail-card">
+            <h3>Integration Ecosystem</h3>
+            <ul class="detail-list">
+              <li>Strongest when paired with Jira and Confluence workflows.</li>
+              <li>Integrates with external deployment and monitoring platforms.</li>
+              <li>Best for organizations standardizing on Atlassian stack.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel provider-task-table">
+        <h2>Where Developers Go First</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Task</th>
+                <th>Main page or path</th>
+                <th>Why this page matters</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>Create repository</th>
+                <td>Repositories -> Create repository</td>
+                <td>Establishes project boundaries and repository settings.</td>
+              </tr>
+              <tr>
+                <th>Open pull request</th>
+                <td>Repository -> Pull requests -> Create pull request</td>
+                <td>Main code review gate before merge to protected branches.</td>
+              </tr>
+              <tr>
+                <th>Configure pipelines</th>
+                <td>Repository -> Pipelines and `bitbucket-pipelines.yml`</td>
+                <td>Runs build/test automation and deployment steps.</td>
+              </tr>
+              <tr>
+                <th>Set branch restrictions</th>
+                <td>Repository settings -> Branch restrictions</td>
+                <td>Controls merge permissions and branch safety policies.</td>
+              </tr>
+              <tr>
+                <th>Manage pipeline variables</th>
+                <td>Repository settings -> Pipelines -> Variables</td>
+                <td>Protects secrets and deploy credentials in CI/CD.</td>
+              </tr>
+              <tr>
+                <th>Link Jira workflow</th>
+                <td>Jira issue -> Development panel and smart commit links</td>
+                <td>Maintains traceability from work item to code and deploy.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel provider-checklist">
+        <h2>Day-1 Setup Checklist</h2>
+        <div class="checklist-grid">
+          <article class="checklist-card">
+            <h3>Before First Merge</h3>
+            <ul class="checklist-list">
+              <li>Define branch restrictions for `main` and release branches.</li>
+              <li>Require minimum PR reviewers and successful builds.</li>
+              <li>Create baseline pipeline config for lint/test/build.</li>
+              <li>Set branch naming convention with Jira issue keys.</li>
+              <li>Configure repository permissions by team role.</li>
+            </ul>
+          </article>
+          <article class="checklist-card">
+            <h3>Week-One Hardening</h3>
+            <ul class="checklist-list">
+              <li>Template PR description and incident hotfix process.</li>
+              <li>Add pipeline quality gates and deployment checks.</li>
+              <li>Standardize smart commit usage in Jira workflows.</li>
+              <li>Enable audit-friendly release and rollback notes.</li>
+              <li>Document fallback path for pipeline outages.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel provider-pitfalls">
+        <h2>Common Pitfalls And Fixes</h2>
+        <div class="pitfall-grid">
+          <article class="pitfall-card">
+            <h3>Weak branch restrictions</h3>
+            <p class="pitfall-risk"><strong>Risk:</strong> direct commits bypass review and break release quality.</p>
+            <p class="pitfall-fix"><strong>Fix:</strong> enforce PR-only merges and required build status checks.</p>
+          </article>
+          <article class="pitfall-card">
+            <h3>Jira traceability not enforced</h3>
+            <p class="pitfall-risk"><strong>Risk:</strong> change records and code history drift apart.</p>
+            <p class="pitfall-fix"><strong>Fix:</strong> require issue keys in branch names and commit messages.</p>
+          </article>
+          <article class="pitfall-card">
+            <h3>Pipelines too slow for PR feedback</h3>
+            <p class="pitfall-risk"><strong>Risk:</strong> developers merge late and conflict frequency rises.</p>
+            <p class="pitfall-fix"><strong>Fix:</strong> split fast PR checks from slower nightly validation runs.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel provider-docs">
+        <h2>Documentation Links</h2>
+        <p>Official Bitbucket docs for deeper implementation details.</p>
+        <div class="provider-doc-grid">
+          <article class="provider-doc-card">
+            <h3>Getting Started And Repositories</h3>
+            <ul class="provider-doc-list">
+              <li><a href="https://support.atlassian.com/bitbucket-cloud/docs/get-started-with-bitbucket/" target="_blank" rel="noreferrer">Get started with Bitbucket Cloud</a></li>
+              <li><a href="https://support.atlassian.com/bitbucket-cloud/docs/create-a-repository/" target="_blank" rel="noreferrer">Create and organize repositories</a></li>
+            </ul>
+          </article>
+          <article class="provider-doc-card">
+            <h3>Pull Requests And Branch Controls</h3>
+            <ul class="provider-doc-list">
+              <li><a href="https://support.atlassian.com/bitbucket-cloud/docs/create-a-pull-request/" target="_blank" rel="noreferrer">Pull request workflow</a></li>
+              <li><a href="https://support.atlassian.com/bitbucket-cloud/docs/use-branch-permissions/" target="_blank" rel="noreferrer">Branch permissions and merge safety</a></li>
+            </ul>
+          </article>
+          <article class="provider-doc-card">
+            <h3>CI/CD And Automation</h3>
+            <ul class="provider-doc-list">
+              <li><a href="https://support.atlassian.com/bitbucket-cloud/docs/get-started-with-bitbucket-pipelines/" target="_blank" rel="noreferrer">Bitbucket Pipelines overview</a></li>
+              <li><a href="https://support.atlassian.com/bitbucket-cloud/docs/bitbucket-pipelines-configuration-reference/" target="_blank" rel="noreferrer">Pipelines configuration reference</a></li>
+            </ul>
+          </article>
+          <article class="provider-doc-card">
+            <h3>Jira Integration And Access</h3>
+            <ul class="provider-doc-list">
+              <li><a href="https://support.atlassian.com/bitbucket-cloud/docs/connect-bitbucket-cloud-to-jira-software-cloud/" target="_blank" rel="noreferrer">Connect Bitbucket with Jira</a></li>
+              <li><a href="https://support.atlassian.com/bitbucket-cloud/docs/use-app-passwords/" target="_blank" rel="noreferrer">App passwords and token access</a></li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script src="../floating-simulator.js"></script>
+    <script src="../floating-conflict-simulator.js"></script>
+    <script src="../simulator.js"></script>
+    <script src="../conflict-simulator.js"></script>
+  </body>
+</html>
+

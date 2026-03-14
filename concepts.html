@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Git Concepts Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-shape shape-one"></div>
+    <div class="bg-shape shape-two"></div>
+    <div class="bg-shape shape-three"></div>
+
+    <main class="layout">
+      <section class="panel hero">
+        <nav class="top-nav" aria-label="Site pages">
+          <a class="nav-link" href="index.html">Branching Visualizer</a>
+          <a class="nav-link" href="decision-guide.html">Decision Guide</a>
+          <a class="nav-link nav-link-active" href="concepts.html">Git Concepts</a>
+          <a class="nav-link" href="advanced-concepts.html">Advanced Git</a>
+          <details class="nav-dropdown">
+            <summary class="nav-link nav-dropdown-summary">Git Providers</summary>
+            <div class="nav-dropdown-menu">
+              <a class="nav-dropdown-link" href="providers.html">Overview</a>
+              <a class="nav-dropdown-link" href="providers/github.html">GitHub</a>
+              <a class="nav-dropdown-link" href="providers/gitlab.html">GitLab</a>
+              <a class="nav-dropdown-link" href="providers/bitbucket.html">Bitbucket</a>
+              <a class="nav-dropdown-link" href="providers/azure-repos.html">Azure Repos</a>
+              <a class="nav-dropdown-link" href="providers/gitea-forgejo.html">Gitea/Forgejo</a>
+            </div>
+          </details>
+        </nav>
+        <p class="eyebrow">Beginner Onboarding</p>
+        <h1>Git Concepts Explained</h1>
+        <p class="hero-copy">
+          This page teaches Git from the ground up so non-technical stakeholders can understand how
+          teams track changes, collaborate safely, and recover from mistakes.
+        </p>
+        <div class="hero-guide">
+          <p><strong>How to learn:</strong> read concepts top to bottom, then use the command explorer to match commands to real work situations.</p>
+        </div>
+      </section>
+
+      <section class="panel concepts-path">
+        <h2>Learning Path</h2>
+        <div class="path-grid">
+          <article class="path-step">
+            <p class="path-index">1</p>
+            <h3>Understand The Repository</h3>
+            <p>A repository stores project files and complete change history over time.</p>
+          </article>
+          <article class="path-step">
+            <p class="path-index">2</p>
+            <h3>Track Changes With Commits</h3>
+            <p>Commits are snapshots with messages explaining what changed and why.</p>
+          </article>
+          <article class="path-step">
+            <p class="path-index">3</p>
+            <h3>Collaborate Using Branches</h3>
+            <p>Branches isolate work and prevent unfinished changes from breaking production.</p>
+          </article>
+          <article class="path-step">
+            <p class="path-index">4</p>
+            <h3>Integrate Through Review</h3>
+            <p>Pull or merge requests combine human review with automated quality checks.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel concepts-grid-wrap">
+        <h2>Core Git Concepts</h2>
+        <div class="concepts-grid">
+          <article class="concept-card">
+            <h3>Repository</h3>
+            <p>The project space that stores source code plus all historical versions.</p>
+          </article>
+          <article class="concept-card">
+            <h3>Working Directory</h3>
+            <p>Your local files where edits happen before staging and committing.</p>
+          </article>
+          <article class="concept-card">
+            <h3>Staging Area</h3>
+            <p>A preparation zone that lets you choose exactly which changes go into the next commit.</p>
+          </article>
+          <article class="concept-card">
+            <h3>Commit</h3>
+            <p>A recorded snapshot of staged changes with author, timestamp, and message.</p>
+          </article>
+          <article class="concept-card">
+            <h3>Branch</h3>
+            <p>An independent line of development used for features, fixes, or experiments.</p>
+          </article>
+          <article class="concept-card">
+            <h3>Merge</h3>
+            <p>The act of combining changes from one branch into another branch.</p>
+          </article>
+          <article class="concept-card">
+            <h3>Remote</h3>
+            <p>A shared server repository, usually named <code>origin</code>, used for team collaboration.</p>
+          </article>
+          <article class="concept-card">
+            <h3>Tag</h3>
+            <p>A stable label for a specific commit, commonly used for release versions.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel command-explorer">
+        <div class="card-head">
+          <h2>Command Explorer</h2>
+          <p>Pick a situation to see the commands and what each one means.</p>
+        </div>
+        <div id="intentTabs" class="strategy-tabs" aria-label="Command intent picker"></div>
+        <div id="intentSummary" class="intent-summary"></div>
+        <div id="commandCards" class="command-cards"></div>
+      </section>
+
+      <section class="panel glossary">
+        <h2>Quick Glossary</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Term</th>
+                <th>Plain explanation</th>
+                <th>Why it matters</th>
+              </tr>
+            </thead>
+            <tbody id="glossaryBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel journey">
+        <h2>One Complete Git Journey</h2>
+        <ol class="scenario-steps">
+          <li class="scenario-step">
+            <div class="step-head">
+              <span class="step-lane journey-lane">1</span>
+              <span class="step-action">Clone the shared repository to your machine.</span>
+            </div>
+            <div class="step-command">git clone &lt;repo-url&gt;</div>
+          </li>
+          <li class="scenario-step">
+            <div class="step-head">
+              <span class="step-lane journey-lane">2</span>
+              <span class="step-action">Create a branch so your change is isolated.</span>
+            </div>
+            <div class="step-command">git checkout -b feature/update-pricing-banner</div>
+          </li>
+          <li class="scenario-step">
+            <div class="step-head">
+              <span class="step-lane journey-lane">3</span>
+              <span class="step-action">Stage and commit your work with a useful message.</span>
+            </div>
+            <div class="step-command">git add . && git commit -m "feat: update pricing banner"</div>
+          </li>
+          <li class="scenario-step">
+            <div class="step-head">
+              <span class="step-lane journey-lane">4</span>
+              <span class="step-action">Push and open a pull request for review and CI checks.</span>
+            </div>
+            <div class="step-command">git push -u origin feature/update-pricing-banner</div>
+          </li>
+          <li class="scenario-step">
+            <div class="step-head">
+              <span class="step-lane journey-lane">5</span>
+              <span class="step-action">Merge approved change and deploy through CI/CD pipeline.</span>
+            </div>
+            <div class="step-command">PR merged to main -> automated deploy</div>
+          </li>
+        </ol>
+      </section>
+    </main>
+
+    <script src="concepts.js"></script>
+    <script src="floating-simulator.js"></script>
+    <script src="floating-conflict-simulator.js"></script>
+    <script src="simulator.js"></script>
+    <script src="conflict-simulator.js"></script>
+  </body>
+</html>

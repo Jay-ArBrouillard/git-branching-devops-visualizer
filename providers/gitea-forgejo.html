@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gitea and Forgejo Provider Deep Dive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body class="provider-detail-page">
+    <div class="bg-shape shape-one"></div>
+    <div class="bg-shape shape-two"></div>
+    <div class="bg-shape shape-three"></div>
+
+    <main class="layout">
+      <section class="panel hero">
+        <nav class="top-nav" aria-label="Site pages">
+          <a class="nav-link" href="../index.html">Branching Visualizer</a>
+          <a class="nav-link" href="../decision-guide.html">Decision Guide</a>
+          <a class="nav-link" href="../concepts.html">Git Concepts</a>
+          <a class="nav-link" href="../advanced-concepts.html">Advanced Git</a>
+          <details class="nav-dropdown">
+            <summary class="nav-link nav-dropdown-summary nav-link-active">Git Providers</summary>
+            <div class="nav-dropdown-menu">
+              <a class="nav-dropdown-link" href="../providers.html">Overview</a>
+              <a class="nav-dropdown-link" href="github.html">GitHub</a>
+              <a class="nav-dropdown-link" href="gitlab.html">GitLab</a>
+              <a class="nav-dropdown-link" href="bitbucket.html">Bitbucket</a>
+              <a class="nav-dropdown-link" href="azure-repos.html">Azure Repos</a>
+              <a class="nav-dropdown-link nav-dropdown-link-active" href="gitea-forgejo.html">Gitea/Forgejo</a>
+            </div>
+          </details>
+        </nav>
+        <p class="eyebrow">Provider Deep Dive</p>
+        <h1>Gitea and Forgejo Deep Dive</h1>
+        <p class="detail-hero-copy">
+          Gitea and Forgejo are lightweight self-hosted Git forge platforms designed for teams that prioritize control, sovereignty, and low infrastructure overhead.
+        </p>
+        <div class="detail-hero-pills">
+          <span class="detail-pill">Hosting: Primarily self-managed</span>
+          <span class="detail-pill">Best Fit: Sovereignty-focused teams</span>
+          <span class="detail-pill">Governance: Team-defined</span>
+          <span class="detail-pill">Native CI/CD: External integration model</span>
+        </div>
+        <a class="detail-back-link" href="../providers.html">Back to provider comparison</a>
+      </section>
+
+      <section class="panel">
+        <h2>At A Glance</h2>
+        <div class="detail-grid">
+          <article class="detail-card">
+            <h3>What It Is Strong At</h3>
+            <p>Operational simplicity, private hosting control, and affordable ownership for internal engineering workflows.</p>
+          </article>
+          <article class="detail-card">
+            <h3>Primary Risks</h3>
+            <p>Advanced enterprise workflow features often require building an external toolchain around the core platform.</p>
+          </article>
+          <article class="detail-card">
+            <h3>Branching Fit</h3>
+            <p>Supports any Git strategy; success depends on external CI/CD and policy automation design.</p>
+          </article>
+          <article class="detail-card">
+            <h3>Migration Complexity</h3>
+            <p>Low to medium for repository migration, medium to high for enterprise-grade CI/CD and governance setup.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>DevOps Workflow By Scenario</h2>
+        <div class="scenario-detail-grid">
+          <article class="scenario-detail-card">
+            <h3>Standard Change</h3>
+            <p>Branch and pull request in Gitea/Forgejo, external CI validates, external CD promotes release.</p>
+            <ul class="detail-list">
+              <li>Use protected branches and review policies in forge.</li>
+              <li>Trigger CI through webhooks (Jenkins, Drone, Woodpecker).</li>
+              <li>Track deployment through separate release automation.</li>
+            </ul>
+          </article>
+          <article class="scenario-detail-card">
+            <h3>Emergency Change</h3>
+            <p>Hotfix branch with incident controls, accelerated external pipeline, and monitored deployment runbook.</p>
+            <ul class="detail-list">
+              <li>Apply emergency PR label and reviewer bypass policy as needed.</li>
+              <li>Run minimal but critical quality gates in CI.</li>
+              <li>Document incident timeline in external ITSM or ticketing.</li>
+            </ul>
+          </article>
+          <article class="scenario-detail-card">
+            <h3>Rollback</h3>
+            <p>Create explicit revert commit and redeploy previous artifact using release automation tooling.</p>
+            <ul class="detail-list">
+              <li>Keep rollback playbook in ops repository.</li>
+              <li>Store build metadata for quick last-known-good selection.</li>
+              <li>Feed lessons learned into pipeline regression tests.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Capabilities And Governance</h2>
+        <div class="detail-grid">
+          <article class="detail-card">
+            <h3>Source Control And Review</h3>
+            <ul class="detail-list">
+              <li>Git repositories, branches, pull requests, and review workflow basics.</li>
+              <li>Branch protection and access controls for team governance.</li>
+              <li>Lightweight UI and low operating footprint.</li>
+            </ul>
+          </article>
+          <article class="detail-card">
+            <h3>CI/CD And Release</h3>
+            <ul class="detail-list">
+              <li>External CI/CD expected through webhook integration model.</li>
+              <li>Common pairing: Jenkins/Drone/Woodpecker + Argo CD/Flux.</li>
+              <li>Release governance depends on your chosen external tools.</li>
+            </ul>
+          </article>
+          <article class="detail-card">
+            <h3>Security And Compliance</h3>
+            <ul class="detail-list">
+              <li>Security posture depends on hosting environment hardening.</li>
+              <li>Useful for isolated and air-gapped environments.</li>
+              <li>Compliance reporting usually assembled from multiple systems.</li>
+            </ul>
+          </article>
+          <article class="detail-card">
+            <h3>Integration Ecosystem</h3>
+            <ul class="detail-list">
+              <li>Open integration via API and webhook events.</li>
+              <li>Strong fit for teams comfortable managing internal platform glue.</li>
+              <li>Ideal where data sovereignty is a hard requirement.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel provider-task-table">
+        <h2>Where Developers Go First</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Task</th>
+                <th>Main page or path</th>
+                <th>Why this page matters</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>Create repository</th>
+                <td>Dashboard -> New repository</td>
+                <td>Sets up project ownership, visibility, and base settings.</td>
+              </tr>
+              <tr>
+                <th>Open pull request</th>
+                <td>Repository -> Pull requests -> New pull request</td>
+                <td>Main workflow for review and controlled merge decisions.</td>
+              </tr>
+              <tr>
+                <th>Configure automation</th>
+                <td>Repository -> Actions (if enabled) / webhook to external CI</td>
+                <td>Connects source events to build and release pipelines.</td>
+              </tr>
+              <tr>
+                <th>Protect branches</th>
+                <td>Repository -> Settings -> Branches -> Add branch protection</td>
+                <td>Prevents unsafe direct updates to production branches.</td>
+              </tr>
+              <tr>
+                <th>Manage keys and secrets</th>
+                <td>Repository -> Settings -> Deploy keys / Actions secrets</td>
+                <td>Controls secure access for CI runners and deployments.</td>
+              </tr>
+              <tr>
+                <th>Operate platform health</th>
+                <td>Site administration -> Monitoring and logs</td>
+                <td>Supports uptime, audit, and troubleshooting in self-hosted setups.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel provider-checklist">
+        <h2>Day-1 Setup Checklist</h2>
+        <div class="checklist-grid">
+          <article class="checklist-card">
+            <h3>Before First Merge</h3>
+            <ul class="checklist-list">
+              <li>Set repository permissions and team roles.</li>
+              <li>Enable branch protection on `main` and release branches.</li>
+              <li>Create PR review and approval baseline.</li>
+              <li>Wire webhook triggers to CI pipeline engine.</li>
+              <li>Verify backup and restore process for repositories.</li>
+            </ul>
+          </article>
+          <article class="checklist-card">
+            <h3>Week-One Hardening</h3>
+            <ul class="checklist-list">
+              <li>Set runner isolation and least-privilege deploy access.</li>
+              <li>Document rollback and hotfix operational runbook.</li>
+              <li>Add monitoring and alerting for forge availability.</li>
+              <li>Define patching cadence for host and forge updates.</li>
+              <li>Centralize logs for incident investigation.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel provider-pitfalls">
+        <h2>Common Pitfalls And Fixes</h2>
+        <div class="pitfall-grid">
+          <article class="pitfall-card">
+            <h3>No standardized CI integration</h3>
+            <p class="pitfall-risk"><strong>Risk:</strong> repos drift into inconsistent quality gates.</p>
+            <p class="pitfall-fix"><strong>Fix:</strong> ship a default CI template and enforce webhook conventions.</p>
+          </article>
+          <article class="pitfall-card">
+            <h3>Underestimating ops ownership</h3>
+            <p class="pitfall-risk"><strong>Risk:</strong> downtime and slow incident recovery on self-hosted stack.</p>
+            <p class="pitfall-fix"><strong>Fix:</strong> define platform SLOs, on-call, and backup restore drills.</p>
+          </article>
+          <article class="pitfall-card">
+            <h3>Weak secret handling in pipelines</h3>
+            <p class="pitfall-risk"><strong>Risk:</strong> credential exposure and uncontrolled production access.</p>
+            <p class="pitfall-fix"><strong>Fix:</strong> isolate deploy credentials and rotate secrets automatically.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel provider-docs">
+        <h2>Documentation Links</h2>
+        <p>Official Gitea and Forgejo docs for deeper self-hosted platform guidance.</p>
+        <div class="provider-doc-grid">
+          <article class="provider-doc-card">
+            <h3>Gitea User Workflows</h3>
+            <ul class="provider-doc-list">
+              <li><a href="https://docs.gitea.com/" target="_blank" rel="noreferrer">Gitea documentation home</a></li>
+              <li><a href="https://docs.gitea.com/usage/" target="_blank" rel="noreferrer">Gitea usage documentation</a></li>
+            </ul>
+          </article>
+          <article class="provider-doc-card">
+            <h3>Gitea Administration</h3>
+            <ul class="provider-doc-list">
+              <li><a href="https://docs.gitea.com/administration/" target="_blank" rel="noreferrer">Administration guidance</a></li>
+              <li><a href="https://docs.gitea.com/administration/backup-and-restore" target="_blank" rel="noreferrer">Backup and restore procedures</a></li>
+            </ul>
+          </article>
+          <article class="provider-doc-card">
+            <h3>Forgejo User And CI Docs</h3>
+            <ul class="provider-doc-list">
+              <li><a href="https://forgejo.org/docs/latest/user/" target="_blank" rel="noreferrer">Forgejo user documentation</a></li>
+              <li><a href="https://forgejo.org/docs/latest/user/actions/" target="_blank" rel="noreferrer">Forgejo Actions guidance</a></li>
+            </ul>
+          </article>
+          <article class="provider-doc-card">
+            <h3>Forgejo Operations</h3>
+            <ul class="provider-doc-list">
+              <li><a href="https://forgejo.org/docs/latest/admin/" target="_blank" rel="noreferrer">Forgejo admin documentation</a></li>
+              <li><a href="https://forgejo.org/docs/latest/admin/upgrade/" target="_blank" rel="noreferrer">Upgrade and lifecycle management</a></li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script src="../floating-simulator.js"></script>
+    <script src="../floating-conflict-simulator.js"></script>
+    <script src="../simulator.js"></script>
+    <script src="../conflict-simulator.js"></script>
+  </body>
+</html>
+

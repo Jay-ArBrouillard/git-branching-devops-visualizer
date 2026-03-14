@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Advanced Git Concepts</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-shape shape-one"></div>
+    <div class="bg-shape shape-two"></div>
+    <div class="bg-shape shape-three"></div>
+
+    <main class="layout">
+      <section class="panel hero">
+        <nav class="top-nav" aria-label="Site pages">
+          <a class="nav-link" href="index.html">Branching Visualizer</a>
+          <a class="nav-link" href="decision-guide.html">Decision Guide</a>
+          <a class="nav-link" href="concepts.html">Git Concepts</a>
+          <a class="nav-link nav-link-active" href="advanced-concepts.html">Advanced Git</a>
+          <details class="nav-dropdown">
+            <summary class="nav-link nav-dropdown-summary">Git Providers</summary>
+            <div class="nav-dropdown-menu">
+              <a class="nav-dropdown-link" href="providers.html">Overview</a>
+              <a class="nav-dropdown-link" href="providers/github.html">GitHub</a>
+              <a class="nav-dropdown-link" href="providers/gitlab.html">GitLab</a>
+              <a class="nav-dropdown-link" href="providers/bitbucket.html">Bitbucket</a>
+              <a class="nav-dropdown-link" href="providers/azure-repos.html">Azure Repos</a>
+              <a class="nav-dropdown-link" href="providers/gitea-forgejo.html">Gitea/Forgejo</a>
+            </div>
+          </details>
+        </nav>
+        <p class="eyebrow">Advanced Collaboration And Recovery</p>
+        <h1>Advanced Git Concepts</h1>
+        <p class="hero-copy">
+          Learn how experienced teams handle merge conflicts, rebase safely, and recover from production mistakes
+          without losing auditability.
+        </p>
+        <div class="hero-guide">
+          <p><strong>How to use this page:</strong> read each workflow, then run the commands in the interactive console and verify the graph changes.</p>
+        </div>
+      </section>
+
+      <section class="panel concepts-grid-wrap">
+        <h2>Conflict And History Concepts</h2>
+        <div class="concepts-grid">
+          <article class="concept-card">
+            <h3>Merge Conflict</h3>
+            <p>Happens when Git cannot automatically combine overlapping edits from two branches.</p>
+          </article>
+          <article class="concept-card">
+            <h3>Conflict Markers</h3>
+            <p>Files show <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code>, and <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> blocks to resolve manually.</p>
+          </article>
+          <article class="concept-card">
+            <h3>Rebase Conflict</h3>
+            <p>Occurs while replaying commits onto a new base. Resolve each commit, then continue rebase.</p>
+          </article>
+          <article class="concept-card">
+            <h3>Cherry-pick</h3>
+            <p>Applies one specific commit to another branch, useful for urgent hotfix back-ports.</p>
+          </article>
+          <article class="concept-card">
+            <h3>Revert vs Reset</h3>
+            <p><code>revert</code> adds a safe undo commit for shared history. <code>reset</code> rewrites local branch history.</p>
+          </article>
+          <article class="concept-card">
+            <h3>Force Push Discipline</h3>
+            <p>Use <code>--force-with-lease</code> only on agreed branches and never on protected production branches.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel journey">
+        <h2>Merge Conflict Resolution Workflow</h2>
+        <ol class="scenario-steps">
+          <li class="scenario-step">
+            <div class="step-head">
+              <span class="step-lane journey-lane">1</span>
+              <span class="step-action">Update your branch before opening or updating a PR.</span>
+            </div>
+            <div class="step-command">git checkout feature/cart && git fetch origin && git merge origin/main</div>
+          </li>
+          <li class="scenario-step">
+            <div class="step-head">
+              <span class="step-lane journey-lane">2</span>
+              <span class="step-action">Resolve conflict markers in changed files and keep intended logic.</span>
+            </div>
+            <div class="step-command">edit files with conflict markers then run tests</div>
+          </li>
+          <li class="scenario-step">
+            <div class="step-head">
+              <span class="step-lane journey-lane">3</span>
+              <span class="step-action">Stage resolved files and complete merge commit.</span>
+            </div>
+            <div class="step-command">git add . && git commit -m "merge: resolve conflicts with main"</div>
+          </li>
+          <li class="scenario-step">
+            <div class="step-head">
+              <span class="step-lane journey-lane">4</span>
+              <span class="step-action">Push and rerun CI checks before merge approval.</span>
+            </div>
+            <div class="step-command">git push origin feature/cart</div>
+          </li>
+        </ol>
+      </section>
+
+      <section class="panel journey">
+        <h2>Rebase Conflict Workflow</h2>
+        <ol class="scenario-steps">
+          <li class="scenario-step">
+            <div class="step-head">
+              <span class="step-lane journey-lane">1</span>
+              <span class="step-action">Start rebase onto latest mainline.</span>
+            </div>
+            <div class="step-command">git checkout feature/cart && git fetch origin && git rebase origin/main</div>
+          </li>
+          <li class="scenario-step">
+            <div class="step-head">
+              <span class="step-lane journey-lane">2</span>
+              <span class="step-action">Resolve each conflict, then continue rebase sequence.</span>
+            </div>
+            <div class="step-command">git add &lt;resolved-file&gt; && git rebase --continue</div>
+          </li>
+          <li class="scenario-step">
+            <div class="step-head">
+              <span class="step-lane journey-lane">3</span>
+              <span class="step-action">Abort if the branch becomes risky to untangle.</span>
+            </div>
+            <div class="step-command">git rebase --abort</div>
+          </li>
+          <li class="scenario-step">
+            <div class="step-head">
+              <span class="step-lane journey-lane">4</span>
+              <span class="step-action">Publish rewritten history safely.</span>
+            </div>
+            <div class="step-command">git push --force-with-lease origin feature/cart</div>
+          </li>
+        </ol>
+      </section>
+
+      <section class="panel glossary">
+        <h2>Rollback Decision Matrix</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Situation</th>
+                <th>Recommended command</th>
+                <th>Reason</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>Bad commit already shared</th>
+                <td><code>git revert &lt;sha&gt;</code></td>
+                <td>Preserves audit trail and avoids rewriting teammates' history.</td>
+              </tr>
+              <tr>
+                <th>Local commit not pushed yet</th>
+                <td><code>git reset --soft HEAD~1</code></td>
+                <td>Allows editing commit before sharing while keeping file changes staged.</td>
+              </tr>
+              <tr>
+                <th>Hotfix must also reach release branch</th>
+                <td><code>git cherry-pick &lt;sha&gt;</code></td>
+                <td>Moves one proven fix without merging unrelated commits.</td>
+              </tr>
+              <tr>
+                <th>Emergency production rollback</th>
+                <td><code>git revert &lt;sha&gt;</code> + redeploy pipeline</td>
+                <td>Fast, traceable rollback that fits regulated release controls.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+
+    <script src="floating-simulator.js"></script>
+    <script src="floating-conflict-simulator.js"></script>
+    <script src="simulator.js"></script>
+    <script src="conflict-simulator.js"></script>
+  </body>
+</html>

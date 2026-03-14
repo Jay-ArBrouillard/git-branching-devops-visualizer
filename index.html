@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Git Branching Strategy Visualizer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-shape shape-one"></div>
+    <div class="bg-shape shape-two"></div>
+    <div class="bg-shape shape-three"></div>
+
+    <main class="layout">
+      <section class="panel hero">
+        <nav class="top-nav" aria-label="Site pages">
+          <a class="nav-link nav-link-active" href="index.html">Branching Visualizer</a>
+          <a class="nav-link" href="decision-guide.html">Decision Guide</a>
+          <a class="nav-link" href="concepts.html">Git Concepts</a>
+          <a class="nav-link" href="advanced-concepts.html">Advanced Git</a>
+          <details class="nav-dropdown">
+            <summary class="nav-link nav-dropdown-summary">Git Providers</summary>
+            <div class="nav-dropdown-menu">
+              <a class="nav-dropdown-link" href="providers.html">Overview</a>
+              <a class="nav-dropdown-link" href="providers/github.html">GitHub</a>
+              <a class="nav-dropdown-link" href="providers/gitlab.html">GitLab</a>
+              <a class="nav-dropdown-link" href="providers/bitbucket.html">Bitbucket</a>
+              <a class="nav-dropdown-link" href="providers/azure-repos.html">Azure Repos</a>
+              <a class="nav-dropdown-link" href="providers/gitea-forgejo.html">Gitea/Forgejo</a>
+            </div>
+          </details>
+        </nav>
+        <p class="eyebrow">DevOps Teaching Visualizer</p>
+        <h1>Git Branching Strategy Visualizer</h1>
+        <p class="hero-copy">
+          Learn how modern teams ship software with Git by comparing proven branching strategies and
+          seeing how CI/CD tools handle normal delivery, emergency fixes, and rollback.
+        </p>
+        <div class="hero-guide">
+          <p><strong>How to use this page:</strong> pick a strategy and scenario for Git branch flow, then use the CI section for build, test, and deploy integration.</p>
+        </div>
+        <div id="strategyTabs" class="strategy-tabs" aria-label="Branching strategy picker"></div>
+        <a class="provider-detail-link" href="decision-guide.html">Open Branching Decision Guide</a>
+      </section>
+
+      <section class="panel fundamentals">
+        <h2>Core Concepts In Plain Language</h2>
+        <div class="fundamentals-grid">
+          <article class="fundamentals-card">
+            <h3>Branch</h3>
+            <p>A branch is a safe lane for change. Teams isolate work so unfinished code does not break production.</p>
+          </article>
+          <article class="fundamentals-card">
+            <h3>Pull or Merge Request</h3>
+            <p>Requests are quality gates where reviewers and automation verify the change before integration.</p>
+          </article>
+          <article class="fundamentals-card">
+            <h3>CI Pipeline</h3>
+            <p>CI validates every commit with build, tests, and security scans. Green pipeline means safe to promote.</p>
+          </article>
+          <article class="fundamentals-card">
+            <h3>CD Promotion</h3>
+            <p>CD deploys the same tested artifact through environments with approvals, monitoring, and rollback controls.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel studio">
+        <div class="studio-top">
+          <article class="overview-card">
+            <p class="eyebrow">Selected Strategy</p>
+            <h2 id="strategyName"></h2>
+            <p id="strategyTagline" class="tagline"></p>
+            <p id="strategyBestFor" class="best-for"></p>
+            <p id="strategyGate" class="gate"></p>
+          </article>
+          <article class="pros-cons-card">
+            <div>
+              <h3>Pros</h3>
+              <ul id="prosList" class="bullet-list"></ul>
+            </div>
+            <div>
+              <h3>Cons</h3>
+              <ul id="consList" class="bullet-list"></ul>
+            </div>
+          </article>
+        </div>
+
+        <div class="studio-grid studio-grid-single">
+          <article class="viz-card">
+            <div class="card-head">
+              <h3>Branch Flow Map</h3>
+              <p id="flowCaption"></p>
+            </div>
+            <svg id="branchMap" role="img" aria-label="Branching workflow visualizer"></svg>
+          </article>
+        </div>
+
+        <article class="scenario-card">
+          <div class="card-head">
+            <h3>Scenario Simulator</h3>
+            <p>Switch between routine change delivery, urgent hotfix response, and rollback operations.</p>
+          </div>
+          <div id="scenarioTabs" class="scenario-tabs" aria-label="Scenario picker"></div>
+          <h4 id="scenarioTitle"></h4>
+          <p id="scenarioSummary" class="scenario-summary"></p>
+          <ol id="scenarioSteps" class="scenario-steps"></ol>
+          <div id="scenarioRollbackOptions" class="scenario-rollback-options" hidden></div>
+        </article>
+      </section>
+
+      <section class="panel orchestration">
+        <div class="card-head">
+          <h2>FlexDeploy Integration Path</h2>
+          <p>How Git review, webhooks, approvals, and governed promotion connect end to end.</p>
+        </div>
+        <div class="orchestration-top">
+          <article class="integration-overview-card">
+            <p class="eyebrow">Current Delivery Model</p>
+            <h3 id="flexdeployStrategyName"></h3>
+            <p id="flexdeploySummary" class="tagline"></p>
+            <p id="flexdeployPositioning" class="integration-note"></p>
+            <div class="detail-hero-pills integration-pills">
+              <span id="flexdeployTrigger" class="detail-pill"></span>
+              <span id="flexdeployReviewGate" class="detail-pill"></span>
+              <span id="flexdeployProdGate" class="detail-pill"></span>
+            </div>
+          </article>
+        </div>
+        <div id="integrationDiagramGrid" class="integration-diagram-grid">
+          <article class="integration-diagram-card">
+            <div class="card-head">
+              <h3>Flowchart View</h3>
+              <p id="flexdeployDiagramCaption"></p>
+            </div>
+            <div class="diagram-controls">
+              <label class="diagram-toggle">
+                <input id="compareModeToggle" type="checkbox" />
+                Compare with another strategy
+              </label>
+              <label class="diagram-select-wrap">
+                <span>Compare strategy</span>
+                <select id="compareStrategySelect"></select>
+              </label>
+              <label id="rollbackModeWrap" class="diagram-select-wrap" hidden>
+                <span>Rollback mode</span>
+                <select id="rollbackModeSelect"></select>
+              </label>
+            </div>
+            <div class="integration-diagram-wrap">
+              <svg id="flexdeployDiagram" role="img" aria-label="FlexDeploy integration flowchart"></svg>
+              <div id="flexdeployTooltip" class="flex-diagram-tooltip" hidden>
+                <p id="flexdeployTooltipTitle" class="flex-diagram-tooltip-title"></p>
+                <p id="flexdeployTooltipBody" class="flex-diagram-tooltip-body"></p>
+              </div>
+            </div>
+          </article>
+          <article id="flexdeployCompareCard" class="integration-diagram-card integration-diagram-compare" hidden>
+            <div class="card-head">
+              <h3>Comparison Flowchart</h3>
+              <p id="flexdeployCompareCaption"></p>
+            </div>
+            <div class="integration-diagram-wrap">
+              <svg id="flexdeployCompareDiagram" role="img" aria-label="FlexDeploy comparison flowchart"></svg>
+              <div id="flexdeployCompareTooltip" class="flex-diagram-tooltip" hidden>
+                <p id="flexdeployCompareTooltipTitle" class="flex-diagram-tooltip-title"></p>
+                <p id="flexdeployCompareTooltipBody" class="flex-diagram-tooltip-body"></p>
+              </div>
+            </div>
+          </article>
+        </div>
+        <div class="integration-grid">
+          <article class="integration-card">
+            <h3>Webhook Setup</h3>
+            <ul id="flexdeployWebhookList" class="bullet-list"></ul>
+          </article>
+          <article class="integration-card">
+            <h3>Git Review And Branch Policy</h3>
+            <ul id="flexdeployReviewList" class="bullet-list"></ul>
+          </article>
+          <article class="integration-card">
+            <h3>Approvals And Change Gates</h3>
+            <ul id="flexdeployApprovalList" class="bullet-list"></ul>
+          </article>
+          <article class="integration-card">
+            <h3>Release Promotion</h3>
+            <ul id="flexdeployReleaseList" class="bullet-list"></ul>
+          </article>
+          <article class="integration-card">
+            <h3>Rollback Functionality</h3>
+            <ul id="flexdeployObserveList" class="bullet-list"></ul>
+          </article>
+        </div>
+      </section>
+
+    </main>
+
+    <script src="app.js"></script>
+    <script src="floating-simulator.js"></script>
+    <script src="floating-conflict-simulator.js"></script>
+    <script src="simulator.js"></script>
+    <script src="conflict-simulator.js"></script>
+  </body>
+</html>

@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Azure Repos Provider Deep Dive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body class="provider-detail-page">
+    <div class="bg-shape shape-one"></div>
+    <div class="bg-shape shape-two"></div>
+    <div class="bg-shape shape-three"></div>
+
+    <main class="layout">
+      <section class="panel hero">
+        <nav class="top-nav" aria-label="Site pages">
+          <a class="nav-link" href="../index.html">Branching Visualizer</a>
+          <a class="nav-link" href="../decision-guide.html">Decision Guide</a>
+          <a class="nav-link" href="../concepts.html">Git Concepts</a>
+          <a class="nav-link" href="../advanced-concepts.html">Advanced Git</a>
+          <details class="nav-dropdown">
+            <summary class="nav-link nav-dropdown-summary nav-link-active">Git Providers</summary>
+            <div class="nav-dropdown-menu">
+              <a class="nav-dropdown-link" href="../providers.html">Overview</a>
+              <a class="nav-dropdown-link" href="github.html">GitHub</a>
+              <a class="nav-dropdown-link" href="gitlab.html">GitLab</a>
+              <a class="nav-dropdown-link" href="bitbucket.html">Bitbucket</a>
+              <a class="nav-dropdown-link nav-dropdown-link-active" href="azure-repos.html">Azure Repos</a>
+              <a class="nav-dropdown-link" href="gitea-forgejo.html">Gitea/Forgejo</a>
+            </div>
+          </details>
+        </nav>
+        <p class="eyebrow">Provider Deep Dive</p>
+        <h1>Azure Repos Deep Dive</h1>
+        <p class="detail-hero-copy">
+          Azure Repos is part of Azure DevOps and focuses on enterprise governance, work tracking integration, and controlled release operations at organizational scale.
+        </p>
+        <div class="detail-hero-pills">
+          <span class="detail-pill">Hosting: Azure DevOps Services + Server</span>
+          <span class="detail-pill">Best Fit: Enterprise and regulated teams</span>
+          <span class="detail-pill">Governance: High</span>
+          <span class="detail-pill">Native CI/CD: Azure Pipelines</span>
+        </div>
+        <a class="detail-back-link" href="../providers.html">Back to provider comparison</a>
+      </section>
+
+      <section class="panel">
+        <h2>At A Glance</h2>
+        <div class="detail-grid">
+          <article class="detail-card">
+            <h3>What It Is Strong At</h3>
+            <p>End-to-end traceability from work item to deployment, strong RBAC controls, and governance for large organizations.</p>
+          </article>
+          <article class="detail-card">
+            <h3>Primary Risks</h3>
+            <p>Operational complexity can increase if template standards and environment ownership are unclear.</p>
+          </article>
+          <article class="detail-card">
+            <h3>Branching Fit</h3>
+            <p>Strong for GitFlow and controlled promotion models, also supports trunk-based with policy-as-code guardrails.</p>
+          </article>
+          <article class="detail-card">
+            <h3>Migration Complexity</h3>
+            <p>Medium when moving enterprise pipelines and identity models; lower for teams already on Azure DevOps.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>DevOps Workflow By Scenario</h2>
+        <div class="scenario-detail-grid">
+          <article class="scenario-detail-card">
+            <h3>Standard Change</h3>
+            <p>Work item-linked branch and PR, pipeline validation, staged approvals, and production promotion.</p>
+            <ul class="detail-list">
+              <li>Require work item linking before merge.</li>
+              <li>Enforce build validation and branch policies.</li>
+              <li>Use environment approvals and deployment checks.</li>
+            </ul>
+          </article>
+          <article class="scenario-detail-card">
+            <h3>Emergency Change</h3>
+            <p>Emergency hotfix lane with incident governance and accelerated but controlled release approval.</p>
+            <ul class="detail-list">
+              <li>Use emergency change template and incident context.</li>
+              <li>Run fast validation pipeline profile.</li>
+              <li>Capture approver and release evidence automatically.</li>
+            </ul>
+          </article>
+          <article class="scenario-detail-card">
+            <h3>Rollback</h3>
+            <p>Revert commit and redeploy prior stable artifact with full traceability through release history.</p>
+            <ul class="detail-list">
+              <li>Identify last known-good build from release metadata.</li>
+              <li>Trigger rollback stage and post-deploy verification.</li>
+              <li>Link root-cause and corrective action work items.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Capabilities And Governance</h2>
+        <div class="detail-grid">
+          <article class="detail-card">
+            <h3>Source Control And Review</h3>
+            <ul class="detail-list">
+              <li>Branch policies for reviewers, linked work items, and build checks.</li>
+              <li>Fine-grained permissions for enterprise access management.</li>
+              <li>Pull request governance integrated with Azure identity controls.</li>
+            </ul>
+          </article>
+          <article class="detail-card">
+            <h3>CI/CD And Release</h3>
+            <ul class="detail-list">
+              <li>Azure Pipelines supports templates, stages, and approvals.</li>
+              <li>Environment checks enforce production safeguards.</li>
+              <li>Release evidence and logs support audit-ready delivery.</li>
+            </ul>
+          </article>
+          <article class="detail-card">
+            <h3>Security And Compliance</h3>
+            <ul class="detail-list">
+              <li>Enterprise policies and identity controls align with compliance needs.</li>
+              <li>Integration with security scanning and compliance tooling is common.</li>
+              <li>Strong audit data from boards, repos, and pipelines combined.</li>
+            </ul>
+          </article>
+          <article class="detail-card">
+            <h3>Integration Ecosystem</h3>
+            <ul class="detail-list">
+              <li>Tight integration with Azure Boards, Artifacts, and cloud runtime services.</li>
+              <li>Works with external observability and ITSM systems.</li>
+              <li>Well-suited to Microsoft-centric enterprise architecture.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel provider-task-table">
+        <h2>Where Developers Go First</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Task</th>
+                <th>Main page or path</th>
+                <th>Why this page matters</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>Create repository</th>
+                <td>Project settings -> Repositories -> New repository</td>
+                <td>Starts source control boundaries and team permissions.</td>
+              </tr>
+              <tr>
+                <th>Open pull request</th>
+                <td>Repos -> Pull requests -> New pull request</td>
+                <td>Primary merge gate with branch policy enforcement.</td>
+              </tr>
+              <tr>
+                <th>Configure CI/CD</th>
+                <td>Pipelines -> New pipeline and `azure-pipelines.yml`</td>
+                <td>Defines enterprise build, test, and release flow.</td>
+              </tr>
+              <tr>
+                <th>Set branch policies</th>
+                <td>Repos -> Branches -> Branch policies</td>
+                <td>Enforces reviewers, build validation, and link requirements.</td>
+              </tr>
+              <tr>
+                <th>Manage secrets</th>
+                <td>Pipelines -> Library -> Variable groups / Key Vault links</td>
+                <td>Secures credentials used by deployment automation.</td>
+              </tr>
+              <tr>
+                <th>Track work item linkage</th>
+                <td>Boards work item -> Development panel</td>
+                <td>Creates traceable path from backlog to production change.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel provider-checklist">
+        <h2>Day-1 Setup Checklist</h2>
+        <div class="checklist-grid">
+          <article class="checklist-card">
+            <h3>Before First Merge</h3>
+            <ul class="checklist-list">
+              <li>Require pull request reviews on protected branches.</li>
+              <li>Enable build validation and linked work item policy.</li>
+              <li>Create baseline pipeline template for primary stack.</li>
+              <li>Set environment approvals for production.</li>
+              <li>Define role-based permissions for repository and pipeline.</li>
+            </ul>
+          </article>
+          <article class="checklist-card">
+            <h3>Week-One Hardening</h3>
+            <ul class="checklist-list">
+              <li>Adopt shared YAML templates across teams.</li>
+              <li>Integrate variable groups with secure secret stores.</li>
+              <li>Publish rollback procedure in release pipeline.</li>
+              <li>Enable dashboards for deployment and failure rates.</li>
+              <li>Document emergency approval path for hotfixes.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel provider-pitfalls">
+        <h2>Common Pitfalls And Fixes</h2>
+        <div class="pitfall-grid">
+          <article class="pitfall-card">
+            <h3>Policy gaps between repos</h3>
+            <p class="pitfall-risk"><strong>Risk:</strong> inconsistent quality and audit evidence across teams.</p>
+            <p class="pitfall-fix"><strong>Fix:</strong> apply centralized policy templates and periodic checks.</p>
+          </article>
+          <article class="pitfall-card">
+            <h3>Environment approvals too manual</h3>
+            <p class="pitfall-risk"><strong>Risk:</strong> release bottlenecks and delayed incident response.</p>
+            <p class="pitfall-fix"><strong>Fix:</strong> automate low-risk promotions and reserve manual gates for prod.</p>
+          </article>
+          <article class="pitfall-card">
+            <h3>Weak work-item discipline</h3>
+            <p class="pitfall-risk"><strong>Risk:</strong> compliance reporting lacks full change traceability.</p>
+            <p class="pitfall-fix"><strong>Fix:</strong> enforce linked work items at PR and merge policy level.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel provider-docs">
+        <h2>Documentation Links</h2>
+        <p>Official Microsoft docs for deeper Azure Repos implementation details.</p>
+        <div class="provider-doc-grid">
+          <article class="provider-doc-card">
+            <h3>Getting Started And Repos</h3>
+            <ul class="provider-doc-list">
+              <li><a href="https://learn.microsoft.com/en-us/azure/devops/repos/git/?view=azure-devops" target="_blank" rel="noreferrer">Azure Repos Git documentation</a></li>
+              <li><a href="https://learn.microsoft.com/en-us/azure/devops/repos/git/create-new-repo?view=azure-devops" target="_blank" rel="noreferrer">Create a new repository</a></li>
+            </ul>
+          </article>
+          <article class="provider-doc-card">
+            <h3>Pull Requests And Branch Policies</h3>
+            <ul class="provider-doc-list">
+              <li><a href="https://learn.microsoft.com/en-us/azure/devops/repos/git/pull-requests?view=azure-devops" target="_blank" rel="noreferrer">Pull request workflow and reviews</a></li>
+              <li><a href="https://learn.microsoft.com/en-us/azure/devops/repos/git/branch-policies?view=azure-devops" target="_blank" rel="noreferrer">Branch policies and merge gates</a></li>
+            </ul>
+          </article>
+          <article class="provider-doc-card">
+            <h3>CI/CD And Release</h3>
+            <ul class="provider-doc-list">
+              <li><a href="https://learn.microsoft.com/en-us/azure/devops/pipelines/?view=azure-devops" target="_blank" rel="noreferrer">Azure Pipelines documentation</a></li>
+              <li><a href="https://learn.microsoft.com/en-us/azure/devops/pipelines/yaml-schema/?view=azure-pipelines" target="_blank" rel="noreferrer">YAML schema reference</a></li>
+            </ul>
+          </article>
+          <article class="provider-doc-card">
+            <h3>Security, Roles, And Secrets</h3>
+            <ul class="provider-doc-list">
+              <li><a href="https://learn.microsoft.com/en-us/azure/devops/organizations/security/about-security-roles?view=azure-devops" target="_blank" rel="noreferrer">Security roles and access model</a></li>
+              <li><a href="https://learn.microsoft.com/en-us/azure/devops/pipelines/library/?view=azure-devops" target="_blank" rel="noreferrer">Variable groups and secret handling</a></li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script src="../floating-simulator.js"></script>
+    <script src="../floating-conflict-simulator.js"></script>
+    <script src="../simulator.js"></script>
+    <script src="../conflict-simulator.js"></script>
+  </body>
+</html>
+

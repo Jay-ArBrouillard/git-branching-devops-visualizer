@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GitLab Provider Deep Dive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body class="provider-detail-page">
+    <div class="bg-shape shape-one"></div>
+    <div class="bg-shape shape-two"></div>
+    <div class="bg-shape shape-three"></div>
+
+    <main class="layout">
+      <section class="panel hero">
+        <nav class="top-nav" aria-label="Site pages">
+          <a class="nav-link" href="../index.html">Branching Visualizer</a>
+          <a class="nav-link" href="../decision-guide.html">Decision Guide</a>
+          <a class="nav-link" href="../concepts.html">Git Concepts</a>
+          <a class="nav-link" href="../advanced-concepts.html">Advanced Git</a>
+          <details class="nav-dropdown">
+            <summary class="nav-link nav-dropdown-summary nav-link-active">Git Providers</summary>
+            <div class="nav-dropdown-menu">
+              <a class="nav-dropdown-link" href="../providers.html">Overview</a>
+              <a class="nav-dropdown-link" href="github.html">GitHub</a>
+              <a class="nav-dropdown-link nav-dropdown-link-active" href="gitlab.html">GitLab</a>
+              <a class="nav-dropdown-link" href="bitbucket.html">Bitbucket</a>
+              <a class="nav-dropdown-link" href="azure-repos.html">Azure Repos</a>
+              <a class="nav-dropdown-link" href="gitea-forgejo.html">Gitea/Forgejo</a>
+            </div>
+          </details>
+        </nav>
+        <p class="eyebrow">Provider Deep Dive</p>
+        <h1>GitLab Deep Dive</h1>
+        <p class="detail-hero-copy">
+          GitLab provides an integrated DevSecOps platform where source control, CI/CD, security testing, and release environments are managed in a unified workflow.
+        </p>
+        <div class="detail-hero-pills">
+          <span class="detail-pill">Hosting: Cloud + Dedicated + Self-managed</span>
+          <span class="detail-pill">Best Fit: Platform and enterprise teams</span>
+          <span class="detail-pill">Governance: High</span>
+          <span class="detail-pill">Native CI/CD: GitLab CI</span>
+        </div>
+        <a class="detail-back-link" href="../providers.html">Back to provider comparison</a>
+      </section>
+
+      <section class="panel">
+        <h2>At A Glance</h2>
+        <div class="detail-grid">
+          <article class="detail-card">
+            <h3>What It Is Strong At</h3>
+            <p>Integrated planning-to-production lifecycle, robust pipeline orchestration, and strong built-in security controls.</p>
+          </article>
+          <article class="detail-card">
+            <h3>Primary Risks</h3>
+            <p>Feature breadth can increase onboarding time without clear operating model and templates.</p>
+          </article>
+          <article class="detail-card">
+            <h3>Branching Fit</h3>
+            <p>Excellent for regulated release promotion models and flexible for trunk-based teams.</p>
+          </article>
+          <article class="detail-card">
+            <h3>Migration Complexity</h3>
+            <p>Medium, especially when porting complex CI/CD and security pipelines from multi-tool stacks.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>DevOps Workflow By Scenario</h2>
+        <div class="scenario-detail-grid">
+          <article class="scenario-detail-card">
+            <h3>Standard Change</h3>
+            <p>Merge request validation to main, then controlled environment promotion from preprod to production.</p>
+            <ul class="detail-list">
+              <li>Use approval rules by code owner and risk category.</li>
+              <li>Run full CI stages with quality and security gates.</li>
+              <li>Promote a single artifact SHA across environments.</li>
+            </ul>
+          </article>
+          <article class="scenario-detail-card">
+            <h3>Emergency Change</h3>
+            <p>Patch production lane, run emergency pipeline, then back-propagate fix to main and lower environments.</p>
+            <ul class="detail-list">
+              <li>Use incident-specific pipeline profile for speed.</li>
+              <li>Require incident approver and post-incident review.</li>
+              <li>Synchronize hotfix upstream to avoid regression.</li>
+            </ul>
+          </article>
+          <article class="scenario-detail-card">
+            <h3>Rollback</h3>
+            <p>Revert in production branch, redeploy, then synchronize corrected state back to integration branches.</p>
+            <ul class="detail-list">
+              <li>Audit rollback event with release evidence.</li>
+              <li>Automate branch resynchronization after rollback.</li>
+              <li>Capture root-cause action items in issue workflow.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Capabilities And Governance</h2>
+        <div class="detail-grid">
+          <article class="detail-card">
+            <h3>Source Control And Review</h3>
+            <ul class="detail-list">
+              <li>Merge request templates and role-based approvals.</li>
+              <li>Protected branches, protected tags, and code owner enforcement.</li>
+              <li>Strong linkage between issues, commits, and merge requests.</li>
+            </ul>
+          </article>
+          <article class="detail-card">
+            <h3>CI/CD And Release</h3>
+            <ul class="detail-list">
+              <li>Pipeline stages and environments in one native model.</li>
+              <li>Release pipelines support canary and staged deployments.</li>
+              <li>Environment dashboards improve release visibility.</li>
+            </ul>
+          </article>
+          <article class="detail-card">
+            <h3>Security And Compliance</h3>
+            <ul class="detail-list">
+              <li>Built-in SAST, DAST, dependency, and container scanning options.</li>
+              <li>Policy-as-code patterns for security and compliance gates.</li>
+              <li>Audit events and compliance reporting for regulated programs.</li>
+            </ul>
+          </article>
+          <article class="detail-card">
+            <h3>Integration Ecosystem</h3>
+            <ul class="detail-list">
+              <li>Integrates with cloud platforms, Kubernetes, and observability stacks.</li>
+              <li>API-driven automation for enterprise platform engineering.</li>
+              <li>Strong fit for organizations seeking toolchain consolidation.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel provider-task-table">
+        <h2>Where Developers Go First</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Task</th>
+                <th>Main page or path</th>
+                <th>Why this page matters</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>Create project</th>
+                <td>Top nav -> New project/repository</td>
+                <td>Defines repository boundaries, visibility, and owner groups.</td>
+              </tr>
+              <tr>
+                <th>Open merge request</th>
+                <td>Project -> Merge requests -> New merge request</td>
+                <td>Central review gate for approvals and policy checks.</td>
+              </tr>
+              <tr>
+                <th>Configure CI/CD</th>
+                <td>Project -> CI/CD -> Pipelines and `.gitlab-ci.yml`</td>
+                <td>Builds the stage-based pipeline and release flow.</td>
+              </tr>
+              <tr>
+                <th>Protect branches</th>
+                <td>Project -> Settings -> Repository -> Protected branches</td>
+                <td>Controls direct pushes and merge rules on critical branches.</td>
+              </tr>
+              <tr>
+                <th>Manage variables and secrets</th>
+                <td>Project -> Settings -> CI/CD -> Variables</td>
+                <td>Stores pipeline tokens and deploy credentials safely.</td>
+              </tr>
+              <tr>
+                <th>Review vulnerabilities</th>
+                <td>Project -> Security and Compliance -> Vulnerability report</td>
+                <td>Tracks scan results and remediation workflows.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel provider-checklist">
+        <h2>Day-1 Setup Checklist</h2>
+        <div class="checklist-grid">
+          <article class="checklist-card">
+            <h3>Before First Merge</h3>
+            <ul class="checklist-list">
+              <li>Protect `main` and release branches.</li>
+              <li>Set merge request approval rules by risk level.</li>
+              <li>Create baseline `.gitlab-ci.yml` pipeline stages.</li>
+              <li>Configure environment promotion strategy.</li>
+              <li>Set required code owner review for sensitive paths.</li>
+            </ul>
+          </article>
+          <article class="checklist-card">
+            <h3>Week-One Hardening</h3>
+            <ul class="checklist-list">
+              <li>Enable built-in security scans for critical repos.</li>
+              <li>Standardize CI templates and group-level policies.</li>
+              <li>Configure deployment approvals and protected environments.</li>
+              <li>Set artifact retention and pipeline cleanup rules.</li>
+              <li>Publish release and incident dashboards.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel provider-pitfalls">
+        <h2>Common Pitfalls And Fixes</h2>
+        <div class="pitfall-grid">
+          <article class="pitfall-card">
+            <h3>Overcomplex pipeline graph early on</h3>
+            <p class="pitfall-risk"><strong>Risk:</strong> long feedback loops reduce developer throughput.</p>
+            <p class="pitfall-fix"><strong>Fix:</strong> start with a thin baseline and layer advanced stages gradually.</p>
+          </article>
+          <article class="pitfall-card">
+            <h3>Inconsistent approval rules per project</h3>
+            <p class="pitfall-risk"><strong>Risk:</strong> governance becomes uneven across teams.</p>
+            <p class="pitfall-fix"><strong>Fix:</strong> use group-level templates and shared policy defaults.</p>
+          </article>
+          <article class="pitfall-card">
+            <h3>Hotfix not propagated to mainline</h3>
+            <p class="pitfall-risk"><strong>Risk:</strong> next release reintroduces production incidents.</p>
+            <p class="pitfall-fix"><strong>Fix:</strong> enforce incident close checklist with back-merge verification.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel provider-docs">
+        <h2>Documentation Links</h2>
+        <p>Official GitLab docs for deeper implementation details.</p>
+        <div class="provider-doc-grid">
+          <article class="provider-doc-card">
+            <h3>Getting Started And Projects</h3>
+            <ul class="provider-doc-list">
+              <li><a href="https://docs.gitlab.com/ee/tutorials/" target="_blank" rel="noreferrer">GitLab tutorials and onboarding</a></li>
+              <li><a href="https://docs.gitlab.com/ee/user/project/" target="_blank" rel="noreferrer">Project management documentation</a></li>
+            </ul>
+          </article>
+          <article class="provider-doc-card">
+            <h3>Merge Requests And Branch Policies</h3>
+            <ul class="provider-doc-list">
+              <li><a href="https://docs.gitlab.com/ee/user/project/merge_requests/" target="_blank" rel="noreferrer">Merge request workflows</a></li>
+              <li><a href="https://docs.gitlab.com/ee/user/project/protected_branches.html" target="_blank" rel="noreferrer">Protected branches configuration</a></li>
+            </ul>
+          </article>
+          <article class="provider-doc-card">
+            <h3>CI/CD And Pipelines</h3>
+            <ul class="provider-doc-list">
+              <li><a href="https://docs.gitlab.com/ee/ci/" target="_blank" rel="noreferrer">GitLab CI/CD documentation</a></li>
+              <li><a href="https://docs.gitlab.com/ee/ci/yaml/" target="_blank" rel="noreferrer">`.gitlab-ci.yml` reference</a></li>
+            </ul>
+          </article>
+          <article class="provider-doc-card">
+            <h3>Security And Compliance</h3>
+            <ul class="provider-doc-list">
+              <li><a href="https://docs.gitlab.com/ee/user/application_security/" target="_blank" rel="noreferrer">Application security capabilities</a></li>
+              <li><a href="https://docs.gitlab.com/ee/administration/compliance_center/" target="_blank" rel="noreferrer">Compliance center guidance</a></li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script src="../floating-simulator.js"></script>
+    <script src="../floating-conflict-simulator.js"></script>
+    <script src="../simulator.js"></script>
+    <script src="../conflict-simulator.js"></script>
+  </body>
+</html>
+

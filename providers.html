@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Git Providers Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-shape shape-one"></div>
+    <div class="bg-shape shape-two"></div>
+    <div class="bg-shape shape-three"></div>
+
+    <main class="layout">
+      <section class="panel hero">
+        <nav class="top-nav" aria-label="Site pages">
+          <a class="nav-link" href="index.html">Branching Visualizer</a>
+          <a class="nav-link" href="decision-guide.html">Decision Guide</a>
+          <a class="nav-link" href="concepts.html">Git Concepts</a>
+          <a class="nav-link" href="advanced-concepts.html">Advanced Git</a>
+          <details class="nav-dropdown">
+            <summary class="nav-link nav-dropdown-summary nav-link-active">Git Providers</summary>
+            <div class="nav-dropdown-menu">
+              <a class="nav-dropdown-link nav-dropdown-link-active" href="providers.html">Overview</a>
+              <a class="nav-dropdown-link" href="providers/github.html">GitHub</a>
+              <a class="nav-dropdown-link" href="providers/gitlab.html">GitLab</a>
+              <a class="nav-dropdown-link" href="providers/bitbucket.html">Bitbucket</a>
+              <a class="nav-dropdown-link" href="providers/azure-repos.html">Azure Repos</a>
+              <a class="nav-dropdown-link" href="providers/gitea-forgejo.html">Gitea/Forgejo</a>
+            </div>
+          </details>
+        </nav>
+        <p class="eyebrow">Platform Decision Guide</p>
+        <h1>Git Providers</h1>
+        <p class="hero-copy">
+          Git is the version control engine. GitHub, GitLab, Bitbucket, Azure Repos, and others are
+          platforms that host repositories and add collaboration, security, and DevOps tooling.
+        </p>
+        <div class="hero-guide">
+          <p><strong>Decision shortcut:</strong> first choose your workflow in Git, then choose a provider that matches your governance and toolchain needs.</p>
+        </div>
+      </section>
+
+      <section class="panel identity-panel">
+        <h2>The Core Difference</h2>
+        <p class="section-copy">Git is the version-control engine. Hosting platforms are the collaboration and DevOps layers built around Git.</p>
+        <div class="identity-grid">
+          <article class="identity-card git">
+            <p class="identity-tag">Technology Layer</p>
+            <h3>Git</h3>
+            <p>Open source distributed version control system installed locally (CLI + history model).</p>
+            <ul class="bullet-list">
+              <li>Tracks file history with commits and branches.</li>
+              <li>Works even without internet once repo is cloned.</li>
+              <li>Same Git commands regardless of hosting provider.</li>
+            </ul>
+          </article>
+          <article class="identity-card hosting">
+            <p class="identity-tag">Platform Layer</p>
+            <h3>Git Hosting Platforms</h3>
+            <p>Platforms like GitHub, GitLab, Bitbucket, Azure Repos, and Gitea/Forgejo host Git repos and add team workflow capabilities.</p>
+            <ul class="bullet-list">
+              <li>Add pull/merge requests, permissions, and code review policies.</li>
+              <li>Integrate CI/CD, security scanning, and deployment controls.</li>
+              <li>Provide governance, auditing, and integration with other DevOps tools.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel provider-explorer">
+        <div class="card-head">
+          <h2>Provider Explorer</h2>
+          <p>Select a provider to see strengths, tradeoffs, and best-fit team context.</p>
+        </div>
+        <div id="providerTabs" class="strategy-tabs" aria-label="Provider picker"></div>
+        <div class="provider-detail-grid">
+          <article class="provider-overview-card">
+            <p class="eyebrow">Selected Provider</p>
+            <h3 id="providerName"></h3>
+            <p id="providerTagline" class="provider-tagline"></p>
+            <p id="providerBestFor" class="provider-best-for"></p>
+            <p id="providerHosting" class="provider-hosting"></p>
+            <a id="providerDetailLink" class="provider-detail-link" href="providers/github.html">Open full provider deep dive</a>
+          </article>
+          <article class="pros-cons-card">
+            <div>
+              <h3>Strengths</h3>
+              <ul id="providerPros" class="bullet-list"></ul>
+            </div>
+            <div>
+              <h3>Tradeoffs</h3>
+              <ul id="providerCons" class="bullet-list"></ul>
+            </div>
+          </article>
+        </div>
+        <article class="provider-tooling-card">
+          <h3>DevOps Tooling Perspective</h3>
+          <ul id="providerTooling" class="bullet-list"></ul>
+        </article>
+      </section>
+
+      <section class="panel comparison">
+        <h2>Provider Comparison Matrix</h2>
+        <p class="section-copy">Use this to shortlist a provider based on governance, CI/CD depth, and ecosystem fit.</p>
+        <div class="table-wrap">
+          <table id="providerTable"></table>
+        </div>
+      </section>
+    </main>
+
+    <script src="providers.js"></script>
+    <script src="floating-simulator.js"></script>
+    <script src="floating-conflict-simulator.js"></script>
+    <script src="simulator.js"></script>
+    <script src="conflict-simulator.js"></script>
+  </body>
+</html>

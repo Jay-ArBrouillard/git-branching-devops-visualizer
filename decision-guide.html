@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Branching Strategy Decision Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-shape shape-one"></div>
+    <div class="bg-shape shape-two"></div>
+    <div class="bg-shape shape-three"></div>
+
+    <main class="layout">
+      <section class="panel hero">
+        <nav class="top-nav" aria-label="Site pages">
+          <a class="nav-link" href="index.html">Branching Visualizer</a>
+          <a class="nav-link nav-link-active" href="decision-guide.html">Decision Guide</a>
+          <a class="nav-link" href="concepts.html">Git Concepts</a>
+          <a class="nav-link" href="advanced-concepts.html">Advanced Git</a>
+          <details class="nav-dropdown">
+            <summary class="nav-link nav-dropdown-summary">Git Providers</summary>
+            <div class="nav-dropdown-menu">
+              <a class="nav-dropdown-link" href="providers.html">Overview</a>
+              <a class="nav-dropdown-link" href="providers/github.html">GitHub</a>
+              <a class="nav-dropdown-link" href="providers/gitlab.html">GitLab</a>
+              <a class="nav-dropdown-link" href="providers/bitbucket.html">Bitbucket</a>
+              <a class="nav-dropdown-link" href="providers/azure-repos.html">Azure Repos</a>
+              <a class="nav-dropdown-link" href="providers/gitea-forgejo.html">Gitea/Forgejo</a>
+            </div>
+          </details>
+        </nav>
+        <p class="eyebrow">Branching Strategy Selection</p>
+        <h1>Branching Strategy Decision Guide</h1>
+        <p class="hero-copy">
+          Use this page to pick a branching strategy based on release cadence, governance requirements,
+          emergency handling model, and rollback expectations.
+        </p>
+        <div class="hero-guide">
+          <p><strong>How to use this page:</strong> start with the matrix, then validate your choice against the scenario notes below.</p>
+        </div>
+      </section>
+
+      <section class="panel comparison">
+        <h2>Comparison Matrix</h2>
+        <p class="section-copy">Choose the strategy that matches your release rhythm and control model.</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Decision Dimension</th>
+                <th>Trunk-Based Development</th>
+                <th>GitHub Flow</th>
+                <th>Git Flow</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>Learning curve</th>
+                <td>Medium to high</td>
+                <td>Low</td>
+                <td>High</td>
+              </tr>
+              <tr>
+                <th>Release cadence</th>
+                <td>Continuous</td>
+                <td>Very high</td>
+                <td>Medium</td>
+              </tr>
+              <tr>
+                <th>Governance depth</th>
+                <td>Automation-centric</td>
+                <td>Light to medium</td>
+                <td>High</td>
+              </tr>
+              <tr>
+                <th>Emergency handling</th>
+                <td>Direct fix to trunk or micro branch</td>
+                <td>Fast hotfix branch + expedited PR</td>
+                <td>Dedicated hotfix branch from main</td>
+              </tr>
+              <tr>
+                <th>Rollback pattern</th>
+                <td>Optional runtime disable, then rollback PR to trunk; FlexDeploy restore optional</td>
+                <td>Rollback PR to main; FlexDeploy restore optional</td>
+                <td>Revert via hotfix and retag</td>
+              </tr>
+              <tr>
+                <th>Best team context</th>
+                <td>Mature DevOps teams with strong CI/CD</td>
+                <td>SaaS teams shipping continuously</td>
+                <td>Large teams with scheduled release trains</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel fundamentals">
+        <h2>Quick Selection Rules</h2>
+        <div class="fundamentals-grid">
+          <article class="fundamentals-card">
+            <h3>Pick Trunk-Based</h3>
+            <p>When your team can keep tests fast, batch size small, and release continuously with strong automation.</p>
+          </article>
+          <article class="fundamentals-card">
+            <h3>Pick GitHub Flow</h3>
+            <p>When most changes can ship from main quickly and PR policy is your primary governance gate.</p>
+          </article>
+          <article class="fundamentals-card">
+            <h3>Pick Git Flow</h3>
+            <p>When release trains, hardening windows, and formal approvals require structured long-lived lanes.</p>
+          </article>
+          <article class="fundamentals-card">
+            <h3>DevOps Alignment</h3>
+            <p>Use FlexDeploy to build once, track versions, and promote predictably regardless of selected strategy.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

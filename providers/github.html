@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GitHub Provider Deep Dive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body class="provider-detail-page">
+    <div class="bg-shape shape-one"></div>
+    <div class="bg-shape shape-two"></div>
+    <div class="bg-shape shape-three"></div>
+
+    <main class="layout">
+      <section class="panel hero">
+        <nav class="top-nav" aria-label="Site pages">
+          <a class="nav-link" href="../index.html">Branching Visualizer</a>
+          <a class="nav-link" href="../decision-guide.html">Decision Guide</a>
+          <a class="nav-link" href="../concepts.html">Git Concepts</a>
+          <a class="nav-link" href="../advanced-concepts.html">Advanced Git</a>
+          <details class="nav-dropdown">
+            <summary class="nav-link nav-dropdown-summary nav-link-active">Git Providers</summary>
+            <div class="nav-dropdown-menu">
+              <a class="nav-dropdown-link" href="../providers.html">Overview</a>
+              <a class="nav-dropdown-link nav-dropdown-link-active" href="github.html">GitHub</a>
+              <a class="nav-dropdown-link" href="gitlab.html">GitLab</a>
+              <a class="nav-dropdown-link" href="bitbucket.html">Bitbucket</a>
+              <a class="nav-dropdown-link" href="azure-repos.html">Azure Repos</a>
+              <a class="nav-dropdown-link" href="gitea-forgejo.html">Gitea/Forgejo</a>
+            </div>
+          </details>
+        </nav>
+        <p class="eyebrow">Provider Deep Dive</p>
+        <h1>GitHub Deep Dive</h1>
+        <p class="detail-hero-copy">
+          GitHub is a collaboration-focused Git platform with strong pull request workflows, rich ecosystem integrations, and flexible cloud-to-enterprise deployment options.
+        </p>
+        <div class="detail-hero-pills">
+          <span class="detail-pill">Hosting: Cloud + Enterprise Server</span>
+          <span class="detail-pill">Best Fit: Developer-first teams</span>
+          <span class="detail-pill">Governance: Medium to High</span>
+          <span class="detail-pill">Native CI/CD: GitHub Actions</span>
+        </div>
+        <a class="detail-back-link" href="../providers.html">Back to provider comparison</a>
+      </section>
+
+      <section class="panel">
+        <h2>At A Glance</h2>
+        <div class="detail-grid">
+          <article class="detail-card">
+            <h3>What It Is Strong At</h3>
+            <p>Fast code collaboration, open source visibility, clean developer experience, and broad marketplace integrations.</p>
+          </article>
+          <article class="detail-card">
+            <h3>Primary Risks</h3>
+            <p>Policy sprawl at scale and pipeline cost growth if Actions usage is not standardized.</p>
+          </article>
+          <article class="detail-card">
+            <h3>Branching Fit</h3>
+            <p>Excellent with Trunk-Based and GitHub Flow, good with GitFlow when branch protections are carefully configured.</p>
+          </article>
+          <article class="detail-card">
+            <h3>Migration Complexity</h3>
+            <p>Low to medium when moving from other major hosts; most tooling supports GitHub APIs and webhooks.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>DevOps Workflow By Scenario</h2>
+        <div class="scenario-detail-grid">
+          <article class="scenario-detail-card">
+            <h3>Standard Change</h3>
+            <p>Feature branch -> pull request -> required checks -> merge to main -> automated deployment.</p>
+            <ul class="detail-list">
+              <li>Use CODEOWNERS and required reviewers.</li>
+              <li>Run Actions pipeline on every PR update.</li>
+              <li>Auto-promote artifact after branch protection passes.</li>
+            </ul>
+          </article>
+          <article class="scenario-detail-card">
+            <h3>Emergency Change</h3>
+            <p>Hotfix branch from production commit with expedited PR policy and focused emergency checks.</p>
+            <ul class="detail-list">
+              <li>Apply incident label and on-call approver rule.</li>
+              <li>Run smoke and high-priority integration checks.</li>
+              <li>Deploy and validate with release markers in monitoring.</li>
+            </ul>
+          </article>
+          <article class="scenario-detail-card">
+            <h3>Rollback</h3>
+            <p>Revert bad commit in main and redeploy the new revert commit through the same safe path.</p>
+            <ul class="detail-list">
+              <li>Capture SHA from release run metadata.</li>
+              <li>Create explicit revert commit for auditability.</li>
+              <li>Add regression test before reintroducing change.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Capabilities And Governance</h2>
+        <div class="detail-grid">
+          <article class="detail-card">
+            <h3>Source Control And Review</h3>
+            <ul class="detail-list">
+              <li>Pull requests with required approvals and status checks.</li>
+              <li>Protected branches and merge restrictions.</li>
+              <li>Required signed commits and review dismissal policies.</li>
+            </ul>
+          </article>
+          <article class="detail-card">
+            <h3>CI/CD And Release</h3>
+            <ul class="detail-list">
+              <li>Actions workflows with reusable pipeline templates.</li>
+              <li>Environment protections and deployment approvals.</li>
+              <li>Packages and release assets for artifact delivery.</li>
+            </ul>
+          </article>
+          <article class="detail-card">
+            <h3>Security And Compliance</h3>
+            <ul class="detail-list">
+              <li>Code scanning, secret scanning, Dependabot automation.</li>
+              <li>Repository rulesets and policy enforcement options.</li>
+              <li>Audit logs for enterprise governance reporting.</li>
+            </ul>
+          </article>
+          <article class="detail-card">
+            <h3>Integration Ecosystem</h3>
+            <ul class="detail-list">
+              <li>Strong integrations with Jira, Slack, cloud providers, observability tools.</li>
+              <li>Large marketplace for workflow and security extensions.</li>
+              <li>Webhook and API model supports custom platform automation.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel provider-task-table">
+        <h2>Where Developers Go First</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Task</th>
+                <th>Main page or path</th>
+                <th>Why this page matters</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>Create repository</th>
+                <td>Profile or Org -> Repositories -> New</td>
+                <td>Starts project structure, visibility, and initial policy setup.</td>
+              </tr>
+              <tr>
+                <th>Open pull request</th>
+                <td>Repository -> Pull requests -> New pull request</td>
+                <td>Primary collaboration workflow for review and merge governance.</td>
+              </tr>
+              <tr>
+                <th>Configure CI/CD</th>
+                <td>Repository -> Actions (or `.github/workflows`)</td>
+                <td>Defines build, test, scan, and deploy automation.</td>
+              </tr>
+              <tr>
+                <th>Set branch controls</th>
+                <td>Repository -> Settings -> Branches / Rulesets</td>
+                <td>Enforces required checks, reviewers, and merge policy.</td>
+              </tr>
+              <tr>
+                <th>Manage pipeline secrets</th>
+                <td>Repository -> Settings -> Secrets and variables -> Actions</td>
+                <td>Stores credentials safely for workflows and deployments.</td>
+              </tr>
+              <tr>
+                <th>Review security findings</th>
+                <td>Repository -> Security tab</td>
+                <td>Tracks code scanning, secret alerts, and dependency risk.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel provider-checklist">
+        <h2>Day-1 Setup Checklist</h2>
+        <div class="checklist-grid">
+          <article class="checklist-card">
+            <h3>Before First Merge</h3>
+            <ul class="checklist-list">
+              <li>Protect `main` with required status checks.</li>
+              <li>Enable required pull request reviews.</li>
+              <li>Add CODEOWNERS for critical paths.</li>
+              <li>Create baseline Actions workflow for build and tests.</li>
+              <li>Configure environments for staging and production.</li>
+            </ul>
+          </article>
+          <article class="checklist-card">
+            <h3>Week-One Hardening</h3>
+            <ul class="checklist-list">
+              <li>Enable Dependabot alerts and updates.</li>
+              <li>Enable code scanning and secret scanning where available.</li>
+              <li>Set repository rulesets for naming and merge policy.</li>
+              <li>Standardize reusable workflows across repositories.</li>
+              <li>Connect release events to observability tooling.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel provider-pitfalls">
+        <h2>Common Pitfalls And Fixes</h2>
+        <div class="pitfall-grid">
+          <article class="pitfall-card">
+            <h3>Flaky checks blocking merges</h3>
+            <p class="pitfall-risk"><strong>Risk:</strong> teams bypass checks under delivery pressure.</p>
+            <p class="pitfall-fix"><strong>Fix:</strong> isolate flaky tests and keep required checks stable and minimal.</p>
+          </article>
+          <article class="pitfall-card">
+            <h3>Overly broad admin permissions</h3>
+            <p class="pitfall-risk"><strong>Risk:</strong> branch protection and approval controls get bypassed.</p>
+            <p class="pitfall-fix"><strong>Fix:</strong> use least-privilege roles and audit admin exceptions monthly.</p>
+          </article>
+          <article class="pitfall-card">
+            <h3>Workflow duplication across repos</h3>
+            <p class="pitfall-risk"><strong>Risk:</strong> inconsistent CI behavior and drift in release controls.</p>
+            <p class="pitfall-fix"><strong>Fix:</strong> move to reusable workflows and a shared governance baseline.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel provider-docs">
+        <h2>Documentation Links</h2>
+        <p>Official GitHub docs for deeper implementation details.</p>
+        <div class="provider-doc-grid">
+          <article class="provider-doc-card">
+            <h3>Getting Started And Repositories</h3>
+            <ul class="provider-doc-list">
+              <li><a href="https://docs.github.com/en/get-started/start-your-journey" target="_blank" rel="noreferrer">Start your journey on GitHub</a></li>
+              <li><a href="https://docs.github.com/en/repositories/creating-and-managing-repositories" target="_blank" rel="noreferrer">Create and manage repositories</a></li>
+            </ul>
+          </article>
+          <article class="provider-doc-card">
+            <h3>Pull Requests And Branch Rules</h3>
+            <ul class="provider-doc-list">
+              <li><a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests" target="_blank" rel="noreferrer">Collaborate with pull requests</a></li>
+              <li><a href="https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets" target="_blank" rel="noreferrer">Repository rulesets and branch controls</a></li>
+            </ul>
+          </article>
+          <article class="provider-doc-card">
+            <h3>CI/CD And Deployments</h3>
+            <ul class="provider-doc-list">
+              <li><a href="https://docs.github.com/en/actions" target="_blank" rel="noreferrer">GitHub Actions documentation</a></li>
+              <li><a href="https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment" target="_blank" rel="noreferrer">Deployment environments and approvals</a></li>
+            </ul>
+          </article>
+          <article class="provider-doc-card">
+            <h3>Security And Governance</h3>
+            <ul class="provider-doc-list">
+              <li><a href="https://docs.github.com/en/code-security" target="_blank" rel="noreferrer">Code security and supply chain guidance</a></li>
+              <li><a href="https://docs.github.com/en/enterprise-cloud@latest/admin" target="_blank" rel="noreferrer">Enterprise admin and audit controls</a></li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script src="../floating-simulator.js"></script>
+    <script src="../floating-conflict-simulator.js"></script>
+    <script src="../simulator.js"></script>
+    <script src="../conflict-simulator.js"></script>
+  </body>
+</html>
+
