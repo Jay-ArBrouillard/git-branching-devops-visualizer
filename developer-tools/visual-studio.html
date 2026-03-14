@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SourceTree Developer Tool Guide</title>
+    <title>Visual Studio IDE Git Guide</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -28,11 +28,11 @@
             <summary class="nav-link nav-dropdown-summary nav-link-active">Developer Tools</summary>
             <div class="nav-dropdown-menu">
               <a class="nav-dropdown-link" href="../developer-tools.html">Overview</a>
-              <a class="nav-dropdown-link nav-dropdown-link-active" href="sourcetree.html">SourceTree</a>
+              <a class="nav-dropdown-link" href="sourcetree.html">SourceTree</a>
               <a class="nav-dropdown-link" href="tortoisegit.html">TortoiseGit</a>
               <a class="nav-dropdown-link" href="github-desktop.html">GitHub Desktop</a>
               <a class="nav-dropdown-link" href="tower.html">Tower</a>
-              <a class="nav-dropdown-link" href="visual-studio.html">Visual Studio (IDE)</a>
+              <a class="nav-dropdown-link nav-dropdown-link-active" href="visual-studio.html">Visual Studio (IDE)</a>
               <a class="nav-dropdown-link" href="vscode.html">Visual Studio Code (IDE)</a>
               <a class="nav-dropdown-link" href="intellij-idea.html">IntelliJ IDEA</a>
               <a class="nav-dropdown-link" href="smartgit.html">SmartGit</a>
@@ -52,16 +52,16 @@
           </details>
         </nav>
         <p class="eyebrow">Developer Tool Deep Dive</p>
-        <h1>SourceTree</h1>
+        <h1>Visual Studio (IDE)</h1>
         <p class="detail-hero-copy">
-          SourceTree is a desktop Git client from Atlassian focused on visual branch history,
-          commit-level control, and repository operations without heavy CLI usage.
+          Visual Studio provides integrated Git, branch, and pull request workflows directly inside the IDE,
+          making it practical for enterprise teams that prefer all coding and Git actions in one tool.
         </p>
         <div class="detail-hero-pills">
-          <span class="detail-pill">Platform: Windows + macOS</span>
-          <span class="detail-pill">Best Fit: Mixed-skill teams</span>
-          <span class="detail-pill">Strength: Visual branch workflows</span>
-          <span class="detail-pill">Workflow: PR and branch-protection friendly</span>
+          <span class="detail-pill">Platform: Windows</span>
+          <span class="detail-pill">Best Fit: Enterprise .NET and mixed enterprise stacks</span>
+          <span class="detail-pill">Strength: IDE + Git + debugging in one workspace</span>
+          <span class="detail-pill">License: Community free, paid Pro/Enterprise plans</span>
         </div>
         <a class="detail-back-link" href="../developer-tools.html">Back to developer tools overview</a>
       </section>
@@ -71,19 +71,19 @@
         <div class="detail-grid">
           <article class="detail-card">
             <h3>Where It Excels</h3>
-            <p>Branch graph visibility, interactive staging, conflict inspection, and repository diagnostics.</p>
+            <p>Integrated branch management, commit review, and pull request workflow without leaving the IDE.</p>
           </article>
           <article class="detail-card">
             <h3>Primary Tradeoff</h3>
-            <p>Large UI surface area can feel heavy for developers who only need lightweight commit and sync tasks.</p>
+            <p>Heavier footprint and licensing complexity on paid tiers for teams that only need lightweight Git GUI.</p>
           </article>
           <article class="detail-card">
             <h3>Branching Strategy Fit</h3>
-            <p>Good fit across trunk-based, GitHub Flow, and Git Flow when PR policies remain enforced in the Git host.</p>
+            <p>Works well with trunk-based, GitHub Flow, and Git Flow when protected branch policy stays in the host.</p>
           </article>
           <article class="detail-card">
             <h3>DevOps Integration Fit</h3>
-            <p>Strong local companion while webhooks, approvals, and build-once promotion are handled by Git host + FlexDeploy.</p>
+            <p>Strong enterprise fit where Git actions remain local and FlexDeploy controls build/promote/rollback execution.</p>
           </article>
         </div>
       </section>
@@ -93,13 +93,13 @@
         <figure class="tool-shot-figure">
           <img
             class="tool-shot-image"
-            src="../assets/screenshots/tools/sourcetree-ui.png"
-            alt="SourceTree desktop user interface screenshot"
+            src="../assets/screenshots/tools/visual-studio-ui.png"
+            alt="Visual Studio IDE screenshot"
             loading="lazy"
           />
           <figcaption>
             Source screenshot:
-            <a href="https://www.sourcetreeapp.com/" target="_blank" rel="noreferrer">SourceTree product page</a>.
+            <a href="https://visualstudio.microsoft.com/vs/" target="_blank" rel="noreferrer">Visual Studio product page</a>.
           </figcaption>
         </figure>
       </section>
@@ -108,27 +108,27 @@
         <h2>Where Teams Use It In Practice</h2>
         <div class="scenario-detail-grid">
           <article class="scenario-detail-card">
-            <h3>Daily Feature Work</h3>
-            <p>Developers stage hunks, review diffs, and commit feature branches with clear visual feedback.</p>
+            <h3>Feature Branch Development</h3>
+            <p>Developers create branches, stage files, commit, and sync from inside the IDE during regular coding flow.</p>
             <ul class="detail-list">
-              <li>Selective staging for safer commits.</li>
-              <li>Local history view before PR handoff.</li>
+              <li>Reduced context switching between tools.</li>
+              <li>Good for solution-based enterprise projects.</li>
             </ul>
           </article>
           <article class="scenario-detail-card">
-            <h3>Release Stabilization</h3>
-            <p>Release leads inspect branch relationships and isolate late-release fixes with less merge confusion.</p>
+            <h3>PR-Centric Delivery</h3>
+            <p>Teams prepare and open pull requests while relying on host-side approvals and branch protections.</p>
             <ul class="detail-list">
-              <li>Visual merge-base awareness.</li>
-              <li>Easier cherry-pick and branch hygiene.</li>
+              <li>Supports review-first branch lifecycle.</li>
+              <li>Works with required checks and policies.</li>
             </ul>
           </article>
           <article class="scenario-detail-card">
-            <h3>Rollback Preparation</h3>
-            <p>Teams inspect commit lineage before generating a revert branch and opening a rollback PR.</p>
+            <h3>Release Incident Handling</h3>
+            <p>Developers prepare fix or rollback-history branches rapidly, while deployment rollback remains in FlexDeploy.</p>
             <ul class="detail-list">
-              <li>Trace commit ancestry before revert.</li>
-              <li>Keep rollback as PR-based Git history change.</li>
+              <li>Fast forward-fix branch creation.</li>
+              <li>Clear split between Git history and deployment controls.</li>
             </ul>
           </article>
         </div>
@@ -138,19 +138,19 @@
         <h2>Docs And References</h2>
         <div class="provider-doc-grid">
           <article class="provider-doc-card">
-            <h3>Official SourceTree Docs</h3>
+            <h3>Official Visual Studio Docs</h3>
             <ul class="provider-doc-list">
-              <li><a href="https://confluence.atlassian.com/get-started-with-sourcetree" target="_blank" rel="noreferrer">Get started with SourceTree</a></li>
-              <li><a href="https://support.atlassian.com/sourcetree/" target="_blank" rel="noreferrer">SourceTree support documentation</a></li>
-              <li><a href="https://www.sourcetreeapp.com/" target="_blank" rel="noreferrer">Product and download page</a></li>
+              <li><a href="https://visualstudio.microsoft.com/vs/" target="_blank" rel="noreferrer">Product and downloads</a></li>
+              <li><a href="https://learn.microsoft.com/en-us/visualstudio/version-control/git-with-visual-studio?view=vs-2022" target="_blank" rel="noreferrer">Git in Visual Studio</a></li>
+              <li><a href="https://visualstudio.microsoft.com/vs/pricing/" target="_blank" rel="noreferrer">Pricing and licensing</a></li>
             </ul>
           </article>
           <article class="provider-doc-card">
             <h3>Operational Guidance</h3>
             <ul class="provider-doc-list">
-              <li>Keep protected branch merges in Git host UI with required checks.</li>
-              <li>Use SourceTree for local quality and commit shaping, not policy bypass.</li>
-              <li>Document one standard branch naming convention in team onboarding.</li>
+              <li>Use IDE-integrated Git for speed, but keep merge governance and approvals in the Git host.</li>
+              <li>Document edition/licensing boundaries before team-wide standardization.</li>
+              <li>Keep FlexDeploy as system of record for promoted deployment versions and rollback deployment actions.</li>
             </ul>
           </article>
         </div>

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SourceTree Developer Tool Guide</title>
+    <title>Tower Developer Tool Guide</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -28,10 +28,10 @@
             <summary class="nav-link nav-dropdown-summary nav-link-active">Developer Tools</summary>
             <div class="nav-dropdown-menu">
               <a class="nav-dropdown-link" href="../developer-tools.html">Overview</a>
-              <a class="nav-dropdown-link nav-dropdown-link-active" href="sourcetree.html">SourceTree</a>
+              <a class="nav-dropdown-link" href="sourcetree.html">SourceTree</a>
               <a class="nav-dropdown-link" href="tortoisegit.html">TortoiseGit</a>
               <a class="nav-dropdown-link" href="github-desktop.html">GitHub Desktop</a>
-              <a class="nav-dropdown-link" href="tower.html">Tower</a>
+              <a class="nav-dropdown-link nav-dropdown-link-active" href="tower.html">Tower</a>
               <a class="nav-dropdown-link" href="visual-studio.html">Visual Studio (IDE)</a>
               <a class="nav-dropdown-link" href="vscode.html">Visual Studio Code (IDE)</a>
               <a class="nav-dropdown-link" href="intellij-idea.html">IntelliJ IDEA</a>
@@ -52,16 +52,16 @@
           </details>
         </nav>
         <p class="eyebrow">Developer Tool Deep Dive</p>
-        <h1>SourceTree</h1>
+        <h1>Tower</h1>
         <p class="detail-hero-copy">
-          SourceTree is a desktop Git client from Atlassian focused on visual branch history,
-          commit-level control, and repository operations without heavy CLI usage.
+          Tower is a commercial desktop Git client focused on advanced visual workflows, repository
+          control, and high-productivity operations for power users and release engineers.
         </p>
         <div class="detail-hero-pills">
           <span class="detail-pill">Platform: Windows + macOS</span>
-          <span class="detail-pill">Best Fit: Mixed-skill teams</span>
-          <span class="detail-pill">Strength: Visual branch workflows</span>
-          <span class="detail-pill">Workflow: PR and branch-protection friendly</span>
+          <span class="detail-pill">Best Fit: Advanced Git users</span>
+          <span class="detail-pill">Strength: Rich history + rebase workflows</span>
+          <span class="detail-pill">License: Paid, 30-day trial</span>
         </div>
         <a class="detail-back-link" href="../developer-tools.html">Back to developer tools overview</a>
       </section>
@@ -71,19 +71,19 @@
         <div class="detail-grid">
           <article class="detail-card">
             <h3>Where It Excels</h3>
-            <p>Branch graph visibility, interactive staging, conflict inspection, and repository diagnostics.</p>
+            <p>Powerful visual branch operations, fast commit history navigation, and advanced Git action support.</p>
           </article>
           <article class="detail-card">
             <h3>Primary Tradeoff</h3>
-            <p>Large UI surface area can feel heavy for developers who only need lightweight commit and sync tasks.</p>
+            <p>Paid licensing and larger feature surface than teams needing only lightweight commit + sync actions.</p>
           </article>
           <article class="detail-card">
             <h3>Branching Strategy Fit</h3>
-            <p>Good fit across trunk-based, GitHub Flow, and Git Flow when PR policies remain enforced in the Git host.</p>
+            <p>Strong across trunk-based and GitHub Flow when PR governance remains in the Git host platform.</p>
           </article>
           <article class="detail-card">
             <h3>DevOps Integration Fit</h3>
-            <p>Strong local companion while webhooks, approvals, and build-once promotion are handled by Git host + FlexDeploy.</p>
+            <p>Excellent local Git companion while webhook, approvals, and promotion controls stay in FlexDeploy and Git host.</p>
           </article>
         </div>
       </section>
@@ -93,13 +93,13 @@
         <figure class="tool-shot-figure">
           <img
             class="tool-shot-image"
-            src="../assets/screenshots/tools/sourcetree-ui.png"
-            alt="SourceTree desktop user interface screenshot"
+            src="../assets/screenshots/tools/tower-ui.png"
+            alt="Tower desktop Git client screenshot"
             loading="lazy"
           />
           <figcaption>
             Source screenshot:
-            <a href="https://www.sourcetreeapp.com/" target="_blank" rel="noreferrer">SourceTree product page</a>.
+            <a href="https://www.git-tower.com/" target="_blank" rel="noreferrer">Tower product page</a>.
           </figcaption>
         </figure>
       </section>
@@ -108,27 +108,27 @@
         <h2>Where Teams Use It In Practice</h2>
         <div class="scenario-detail-grid">
           <article class="scenario-detail-card">
-            <h3>Daily Feature Work</h3>
-            <p>Developers stage hunks, review diffs, and commit feature branches with clear visual feedback.</p>
+            <h3>Complex Branch Cleanup</h3>
+            <p>Release or platform teams use drag-and-drop and visual history controls for safer branch hygiene.</p>
             <ul class="detail-list">
-              <li>Selective staging for safer commits.</li>
-              <li>Local history view before PR handoff.</li>
+              <li>Fast interactive history operations.</li>
+              <li>High confidence before PR submission.</li>
             </ul>
           </article>
           <article class="scenario-detail-card">
-            <h3>Release Stabilization</h3>
-            <p>Release leads inspect branch relationships and isolate late-release fixes with less merge confusion.</p>
+            <h3>Daily PR Preparation</h3>
+            <p>Developers shape commits locally and push clean branch history for approval-centric delivery.</p>
             <ul class="detail-list">
-              <li>Visual merge-base awareness.</li>
-              <li>Easier cherry-pick and branch hygiene.</li>
+              <li>Selective staging and commit editing.</li>
+              <li>Clean handoff into protected branch merges.</li>
             </ul>
           </article>
           <article class="scenario-detail-card">
-            <h3>Rollback Preparation</h3>
-            <p>Teams inspect commit lineage before generating a revert branch and opening a rollback PR.</p>
+            <h3>Incident Follow-Up</h3>
+            <p>Teams inspect lineage quickly before opening rollback or forward-fix branches for reviewed PR execution.</p>
             <ul class="detail-list">
-              <li>Trace commit ancestry before revert.</li>
-              <li>Keep rollback as PR-based Git history change.</li>
+              <li>Visual traceability for root-cause commits.</li>
+              <li>Supports PR-first rollback history policies.</li>
             </ul>
           </article>
         </div>
@@ -138,19 +138,19 @@
         <h2>Docs And References</h2>
         <div class="provider-doc-grid">
           <article class="provider-doc-card">
-            <h3>Official SourceTree Docs</h3>
+            <h3>Official Tower Docs</h3>
             <ul class="provider-doc-list">
-              <li><a href="https://confluence.atlassian.com/get-started-with-sourcetree" target="_blank" rel="noreferrer">Get started with SourceTree</a></li>
-              <li><a href="https://support.atlassian.com/sourcetree/" target="_blank" rel="noreferrer">SourceTree support documentation</a></li>
-              <li><a href="https://www.sourcetreeapp.com/" target="_blank" rel="noreferrer">Product and download page</a></li>
+              <li><a href="https://www.git-tower.com/" target="_blank" rel="noreferrer">Product and download page</a></li>
+              <li><a href="https://www.git-tower.com/help" target="_blank" rel="noreferrer">Tower documentation</a></li>
+              <li><a href="https://www.git-tower.com/pricing/" target="_blank" rel="noreferrer">Pricing and plans</a></li>
             </ul>
           </article>
           <article class="provider-doc-card">
             <h3>Operational Guidance</h3>
             <ul class="provider-doc-list">
-              <li>Keep protected branch merges in Git host UI with required checks.</li>
-              <li>Use SourceTree for local quality and commit shaping, not policy bypass.</li>
-              <li>Document one standard branch naming convention in team onboarding.</li>
+              <li>Use Tower for local Git acceleration and keep governance in Git host branch protection rules.</li>
+              <li>Align Tower workflows to your selected branching model and PR approvals.</li>
+              <li>For rollback deployment speed, use FlexDeploy version restore and keep Git history updates reviewed.</li>
             </ul>
           </article>
         </div>

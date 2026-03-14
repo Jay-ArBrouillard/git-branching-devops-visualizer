@@ -31,6 +31,12 @@
               <a class="nav-dropdown-link" href="developer-tools/sourcetree.html">SourceTree</a>
               <a class="nav-dropdown-link" href="developer-tools/tortoisegit.html">TortoiseGit</a>
               <a class="nav-dropdown-link" href="developer-tools/github-desktop.html">GitHub Desktop</a>
+              <a class="nav-dropdown-link" href="developer-tools/tower.html">Tower</a>
+              <a class="nav-dropdown-link" href="developer-tools/visual-studio.html">Visual Studio (IDE)</a>
+              <a class="nav-dropdown-link" href="developer-tools/vscode.html">Visual Studio Code (IDE)</a>
+              <a class="nav-dropdown-link" href="developer-tools/intellij-idea.html">IntelliJ IDEA</a>
+              <a class="nav-dropdown-link" href="developer-tools/smartgit.html">SmartGit</a>
+              <a class="nav-dropdown-link" href="developer-tools/fork.html">Fork</a>
             </div>
           </details>
           <details class="nav-dropdown">
@@ -48,9 +54,9 @@
         <p class="eyebrow">Developer Productivity Guide</p>
         <h1>Git Developer Tools</h1>
         <p class="hero-copy">
-          SourceTree, TortoiseGit, and GitHub Desktop provide visual workflows on top of Git. Use this
-          section to match tool choice with team skill level, operating system constraints, and your
-          PR-driven DevOps model.
+          SourceTree, TortoiseGit, GitHub Desktop, Tower, Visual Studio, VS Code, IntelliJ IDEA,
+          SmartGit, and Fork provide different Git experience levels. Use this section to match tool choice
+          with team skill, platform constraints, and your PR-driven DevOps model.
         </p>
         <div class="hero-guide">
           <p><strong>How to use this page:</strong> choose one or two GUI clients, validate fit with your branching strategy, then standardize docs and onboarding around them.</p>
@@ -86,68 +92,149 @@
             <p>Atlassian desktop Git GUI with strong visual branch and commit tooling.</p>
             <span class="tool-link-cta">Open SourceTree guide</span>
           </a>
-          <a class="provider-link-card" href="developer-tools/tortoisegit.html">
-            <img class="tool-link-image" src="assets/screenshots/tools/tortoisegit-ui.png" alt="TortoiseGit commit window screenshot" loading="lazy" />
-            <h3>TortoiseGit</h3>
-            <p>Windows shell-integrated Git workflow with context menu operations.</p>
-            <span class="tool-link-cta">Open TortoiseGit guide</span>
-          </a>
           <a class="provider-link-card" href="developer-tools/github-desktop.html">
             <img class="tool-link-image" src="assets/screenshots/tools/github-desktop-ui.png" alt="GitHub Desktop application screenshot" loading="lazy" />
             <h3>GitHub Desktop</h3>
             <p>Simple desktop client focused on branch changes, commits, and pull request handoff.</p>
             <span class="tool-link-cta">Open GitHub Desktop guide</span>
           </a>
+          <a class="provider-link-card" href="developer-tools/tortoisegit.html">
+            <img class="tool-link-image" src="assets/screenshots/tools/tortoisegit-ui.png" alt="TortoiseGit commit window screenshot" loading="lazy" />
+            <h3>TortoiseGit</h3>
+            <p>Windows shell-integrated Git workflow with context menu operations.</p>
+            <span class="tool-link-cta">Open TortoiseGit guide</span>
+          </a>
+          <a class="provider-link-card" href="developer-tools/tower.html">
+            <img class="tool-link-image" src="assets/screenshots/tools/tower-ui.png" alt="Tower Git client screenshot" loading="lazy" />
+            <h3>Tower</h3>
+            <p>Commercial desktop Git client for power users and teams needing rich visual controls.</p>
+            <span class="tool-link-cta">Open Tower guide</span>
+          </a>
+          <a class="provider-link-card" href="developer-tools/smartgit.html">
+            <img class="tool-link-image" src="assets/screenshots/tools/smartgit-ui.png" alt="SmartGit application screenshot" loading="lazy" />
+            <h3>SmartGit</h3>
+            <p>Cross-platform Git GUI with enterprise-friendly workflows and advanced repository tooling.</p>
+            <span class="tool-link-cta">Open SmartGit guide</span>
+          </a>
+          <a class="provider-link-card" href="developer-tools/fork.html">
+            <img class="tool-link-image" src="assets/screenshots/tools/fork-ui.jpg" alt="Fork Git client screenshot" loading="lazy" />
+            <h3>Fork</h3>
+            <p>Fast commercial Git client with free evaluation and polished branch/commit UX.</p>
+            <span class="tool-link-cta">Open Fork guide</span>
+          </a>
+          <a class="provider-link-card" href="developer-tools/visual-studio.html">
+            <img class="tool-link-image" src="assets/screenshots/tools/visual-studio-ui.png" alt="Visual Studio IDE screenshot" loading="lazy" />
+            <h3>Visual Studio (IDE)</h3>
+            <p>Full IDE with built-in Git and pull request support for .NET and enterprise development.</p>
+            <span class="tool-link-cta">Open Visual Studio guide</span>
+          </a>
+          <a class="provider-link-card" href="developer-tools/vscode.html">
+            <img class="tool-link-image" src="assets/screenshots/tools/vscode-ui.png" alt="Visual Studio Code Source Control view screenshot" loading="lazy" />
+            <h3>Visual Studio Code (IDE)</h3>
+            <p>Lightweight editor with integrated Source Control and extension-based Git workflows.</p>
+            <span class="tool-link-cta">Open VS Code guide</span>
+          </a>
+          <a class="provider-link-card" href="developer-tools/intellij-idea.html">
+            <img class="tool-link-image tool-link-image-contain" src="assets/screenshots/tools/intellij-idea-ui.png" alt="IntelliJ IDEA full UI with Git Log tab open" loading="lazy" />
+            <h3>IntelliJ IDEA</h3>
+            <p>JetBrains IDE with deep refactoring and built-in Git workflows for JVM and polyglot teams.</p>
+            <span class="tool-link-cta">Open IntelliJ IDEA guide</span>
+          </a>
         </div>
       </section>
 
       <section class="panel comparison">
         <h2>Quick Comparison</h2>
-        <p class="section-copy">Use this matrix to shortlist a default GUI tool for your client teams.</p>
+        <p class="section-copy">Use this matrix to shortlist default tooling and set expectations on licensing cost.</p>
         <div class="table-wrap">
           <table>
             <thead>
               <tr>
-                <th>Dimension</th>
-                <th>SourceTree</th>
-                <th>TortoiseGit</th>
-                <th>GitHub Desktop</th>
+                <th>Tool</th>
+                <th>Category</th>
+                <th>Best platform fit</th>
+                <th>Free offering</th>
+                <th>Price (USD, March 2026)</th>
+                <th>Best usage model</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <th>Best platform fit</th>
-                <td>Windows and macOS mixed teams</td>
-                <td>Windows-heavy teams</td>
-                <td>Cross-platform teams using GitHub</td>
+                <th>SourceTree</th>
+                <td>Git client</td>
+                <td>Windows and macOS teams</td>
+                <td>Yes</td>
+                <td>$0</td>
+                <td>Mixed-skill teams needing visual Git operations</td>
               </tr>
               <tr>
-                <th>Branch visualization depth</th>
-                <td>High</td>
-                <td>Medium</td>
-                <td>Medium</td>
+                <th>TortoiseGit</th>
+                <td>Git client</td>
+                <td>Windows-centric teams</td>
+                <td>Yes (open source)</td>
+                <td>$0</td>
+                <td>Explorer-based enterprise workflows</td>
               </tr>
               <tr>
-                <th>Learning curve</th>
-                <td>Medium</td>
-                <td>Medium</td>
-                <td>Low</td>
+                <th>GitHub Desktop</th>
+                <td>Git client</td>
+                <td>Windows and macOS teams</td>
+                <td>Yes (open source)</td>
+                <td>$0</td>
+                <td>Low-friction PR workflows, especially on GitHub</td>
               </tr>
               <tr>
-                <th>PR-centric workflow support</th>
-                <td>Good</td>
-                <td>Good with Git host web UI</td>
-                <td>Strong for GitHub pull requests</td>
+                <th>Tower</th>
+                <td>Git client</td>
+                <td>Windows and macOS power users</td>
+                <td>No (30-day trial)</td>
+                <td>Basic: $69/user/year, Pro: $99/user/year</td>
+                <td>Advanced Git users and release engineers</td>
               </tr>
               <tr>
-                <th>Best usage model</th>
-                <td>Power users and release engineers</td>
-                <td>Enterprise Windows operators</td>
-                <td>Developers newer to Git</td>
+                <th>SmartGit</th>
+                <td>Git client</td>
+                <td>Windows, macOS, Linux teams</td>
+                <td>Yes for non-commercial use</td>
+                <td>Commercial pricing varies by license type and options</td>
+                <td>Enterprise teams needing cross-platform consistency</td>
+              </tr>
+              <tr>
+                <th>Fork</th>
+                <td>Git client</td>
+                <td>Windows and macOS teams</td>
+                <td>Free evaluation</td>
+                <td>$59.99 one-time per user</td>
+                <td>Teams wanting fast UI with low recurring cost</td>
+              </tr>
+              <tr>
+                <th>Visual Studio (IDE)</th>
+                <td>IDE with Git</td>
+                <td>Windows enterprise development</td>
+                <td>Community edition</td>
+                <td>Community: $0, Pro monthly: $45/user/mo, Enterprise monthly: $250/user/mo</td>
+                <td>Full IDE + Git workflow in one toolchain</td>
+              </tr>
+              <tr>
+                <th>Visual Studio Code (IDE)</th>
+                <td>Editor/IDE with Git</td>
+                <td>Windows, macOS, Linux teams</td>
+                <td>Yes (open source editor)</td>
+                <td>$0</td>
+                <td>Code-first teams using extensions and terminal workflows</td>
+              </tr>
+              <tr>
+                <th>IntelliJ IDEA</th>
+                <td>IDE with Git</td>
+                <td>Windows, macOS, Linux teams</td>
+                <td>Yes (free core functionality)</td>
+                <td>Ultimate: Personal $199/year ($19.90/mo) or Commercial $719/year ($71.90/mo)</td>
+                <td>Java/Kotlin and polyglot teams needing deep IDE + Git integration</td>
               </tr>
             </tbody>
           </table>
         </div>
+        <p class="section-copy">Pricing and licensing can change. Validate with each vendor before procurement.</p>
       </section>
 
       <section class="panel provider-docs">
@@ -175,6 +262,54 @@
               <li><a href="https://desktop.github.com/" target="_blank" rel="noreferrer">GitHub Desktop product page</a></li>
               <li><a href="https://docs.github.com/en/desktop" target="_blank" rel="noreferrer">GitHub Desktop documentation</a></li>
               <li><a href="https://github.com/desktop/desktop" target="_blank" rel="noreferrer">Open source repository</a></li>
+            </ul>
+          </article>
+          <article class="provider-doc-card">
+            <h3>Tower</h3>
+            <ul class="provider-doc-list">
+              <li><a href="https://www.git-tower.com/" target="_blank" rel="noreferrer">Tower product page</a></li>
+              <li><a href="https://www.git-tower.com/help" target="_blank" rel="noreferrer">Tower documentation</a></li>
+              <li><a href="https://www.git-tower.com/pricing/" target="_blank" rel="noreferrer">Tower pricing</a></li>
+            </ul>
+          </article>
+          <article class="provider-doc-card">
+            <h3>Visual Studio (IDE)</h3>
+            <ul class="provider-doc-list">
+              <li><a href="https://visualstudio.microsoft.com/vs/" target="_blank" rel="noreferrer">Visual Studio product page</a></li>
+              <li><a href="https://learn.microsoft.com/en-us/visualstudio/version-control/git-with-visual-studio?view=vs-2022" target="_blank" rel="noreferrer">Git in Visual Studio docs</a></li>
+              <li><a href="https://visualstudio.microsoft.com/vs/pricing/" target="_blank" rel="noreferrer">Visual Studio pricing</a></li>
+            </ul>
+          </article>
+          <article class="provider-doc-card">
+            <h3>Visual Studio Code (IDE)</h3>
+            <ul class="provider-doc-list">
+              <li><a href="https://code.visualstudio.com/" target="_blank" rel="noreferrer">VS Code product page</a></li>
+              <li><a href="https://code.visualstudio.com/docs/sourcecontrol/overview" target="_blank" rel="noreferrer">VS Code source control docs</a></li>
+              <li><a href="https://code.visualstudio.com/Download" target="_blank" rel="noreferrer">VS Code download</a></li>
+            </ul>
+          </article>
+          <article class="provider-doc-card">
+            <h3>IntelliJ IDEA</h3>
+            <ul class="provider-doc-list">
+              <li><a href="https://www.jetbrains.com/idea/" target="_blank" rel="noreferrer">IntelliJ IDEA product page</a></li>
+              <li><a href="https://www.jetbrains.com/help/idea/version-control-integration.html" target="_blank" rel="noreferrer">IntelliJ version control docs</a></li>
+              <li><a href="https://www.jetbrains.com/idea/buy/" target="_blank" rel="noreferrer">IntelliJ IDEA pricing</a></li>
+            </ul>
+          </article>
+          <article class="provider-doc-card">
+            <h3>SmartGit</h3>
+            <ul class="provider-doc-list">
+              <li><a href="https://www.smartgit.dev/" target="_blank" rel="noreferrer">SmartGit product page</a></li>
+              <li><a href="https://docs.syntevo.com/SmartGit/Latest/Manual/" target="_blank" rel="noreferrer">SmartGit manual</a></li>
+              <li><a href="https://www.smartgit.dev/pricing/" target="_blank" rel="noreferrer">SmartGit pricing</a></li>
+            </ul>
+          </article>
+          <article class="provider-doc-card">
+            <h3>Fork</h3>
+            <ul class="provider-doc-list">
+              <li><a href="https://fork.dev/" target="_blank" rel="noreferrer">Fork product page</a></li>
+              <li><a href="https://fork.dev/faq" target="_blank" rel="noreferrer">Fork FAQ</a></li>
+              <li><a href="https://fork.dev/buy" target="_blank" rel="noreferrer">Fork pricing and license</a></li>
             </ul>
           </article>
           <article class="provider-doc-card">

@@ -21,7 +21,7 @@ Interactive static site for teaching Git branching strategy decisions and DevOps
   - Git concepts
   - Advanced Git workflows
   - Git provider guides
-  - Git developer tool guides (SourceTree, TortoiseGit, GitHub Desktop)
+  - Git developer tool guides (SourceTree, TortoiseGit, GitHub Desktop, Tower, Visual Studio, VS Code, IntelliJ IDEA, SmartGit, Fork)
   - Decision guide matrix
   - Client workshop flow and consensus recorder
 

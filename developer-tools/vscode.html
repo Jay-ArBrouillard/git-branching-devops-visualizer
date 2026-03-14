@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SourceTree Developer Tool Guide</title>
+    <title>Visual Studio Code IDE Git Guide</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -28,12 +28,12 @@
             <summary class="nav-link nav-dropdown-summary nav-link-active">Developer Tools</summary>
             <div class="nav-dropdown-menu">
               <a class="nav-dropdown-link" href="../developer-tools.html">Overview</a>
-              <a class="nav-dropdown-link nav-dropdown-link-active" href="sourcetree.html">SourceTree</a>
+              <a class="nav-dropdown-link" href="sourcetree.html">SourceTree</a>
               <a class="nav-dropdown-link" href="tortoisegit.html">TortoiseGit</a>
               <a class="nav-dropdown-link" href="github-desktop.html">GitHub Desktop</a>
               <a class="nav-dropdown-link" href="tower.html">Tower</a>
               <a class="nav-dropdown-link" href="visual-studio.html">Visual Studio (IDE)</a>
-              <a class="nav-dropdown-link" href="vscode.html">Visual Studio Code (IDE)</a>
+              <a class="nav-dropdown-link nav-dropdown-link-active" href="vscode.html">Visual Studio Code (IDE)</a>
               <a class="nav-dropdown-link" href="intellij-idea.html">IntelliJ IDEA</a>
               <a class="nav-dropdown-link" href="smartgit.html">SmartGit</a>
               <a class="nav-dropdown-link" href="fork.html">Fork</a>
@@ -52,16 +52,16 @@
           </details>
         </nav>
         <p class="eyebrow">Developer Tool Deep Dive</p>
-        <h1>SourceTree</h1>
+        <h1>Visual Studio Code (IDE)</h1>
         <p class="detail-hero-copy">
-          SourceTree is a desktop Git client from Atlassian focused on visual branch history,
-          commit-level control, and repository operations without heavy CLI usage.
+          VS Code combines lightweight editing with integrated Source Control and terminal workflows,
+          giving teams a flexible Git experience that scales from beginner to advanced usage.
         </p>
         <div class="detail-hero-pills">
-          <span class="detail-pill">Platform: Windows + macOS</span>
-          <span class="detail-pill">Best Fit: Mixed-skill teams</span>
-          <span class="detail-pill">Strength: Visual branch workflows</span>
-          <span class="detail-pill">Workflow: PR and branch-protection friendly</span>
+          <span class="detail-pill">Platform: Windows + macOS + Linux</span>
+          <span class="detail-pill">Best Fit: Polyglot teams and extension-first workflows</span>
+          <span class="detail-pill">Strength: Lightweight editor + integrated Git</span>
+          <span class="detail-pill">License: Free and open source editor</span>
         </div>
         <a class="detail-back-link" href="../developer-tools.html">Back to developer tools overview</a>
       </section>
@@ -71,19 +71,19 @@
         <div class="detail-grid">
           <article class="detail-card">
             <h3>Where It Excels</h3>
-            <p>Branch graph visibility, interactive staging, conflict inspection, and repository diagnostics.</p>
+            <p>Fast commit and branch actions, integrated diff view, and extension ecosystem for host-specific workflows.</p>
           </article>
           <article class="detail-card">
             <h3>Primary Tradeoff</h3>
-            <p>Large UI surface area can feel heavy for developers who only need lightweight commit and sync tasks.</p>
+            <p>Some advanced history operations still require CLI or external tooling for heavy Git surgery tasks.</p>
           </article>
           <article class="detail-card">
             <h3>Branching Strategy Fit</h3>
-            <p>Good fit across trunk-based, GitHub Flow, and Git Flow when PR policies remain enforced in the Git host.</p>
+            <p>Strong fit for trunk-based and GitHub Flow teams favoring short-lived branches and PR delivery.</p>
           </article>
           <article class="detail-card">
             <h3>DevOps Integration Fit</h3>
-            <p>Strong local companion while webhooks, approvals, and build-once promotion are handled by Git host + FlexDeploy.</p>
+            <p>Works well with webhook-triggered FlexDeploy pipelines where policy remains centralized in host settings.</p>
           </article>
         </div>
       </section>
@@ -93,13 +93,13 @@
         <figure class="tool-shot-figure">
           <img
             class="tool-shot-image"
-            src="../assets/screenshots/tools/sourcetree-ui.png"
-            alt="SourceTree desktop user interface screenshot"
+            src="../assets/screenshots/tools/vscode-ui.png"
+            alt="Visual Studio Code source control screenshot"
             loading="lazy"
           />
           <figcaption>
             Source screenshot:
-            <a href="https://www.sourcetreeapp.com/" target="_blank" rel="noreferrer">SourceTree product page</a>.
+            <a href="https://code.visualstudio.com/docs/sourcecontrol/overview" target="_blank" rel="noreferrer">VS Code Source Control overview docs</a>.
           </figcaption>
         </figure>
       </section>
@@ -109,26 +109,26 @@
         <div class="scenario-detail-grid">
           <article class="scenario-detail-card">
             <h3>Daily Feature Work</h3>
-            <p>Developers stage hunks, review diffs, and commit feature branches with clear visual feedback.</p>
+            <p>Developers commit incrementally, inspect diffs, and switch branches from within editor context.</p>
             <ul class="detail-list">
-              <li>Selective staging for safer commits.</li>
-              <li>Local history view before PR handoff.</li>
+              <li>Low friction for frequent commit habits.</li>
+              <li>Good blend of UI and terminal control.</li>
             </ul>
           </article>
           <article class="scenario-detail-card">
-            <h3>Release Stabilization</h3>
-            <p>Release leads inspect branch relationships and isolate late-release fixes with less merge confusion.</p>
+            <h3>PR Handoff</h3>
+            <p>Teams prepare clean branch state locally, then open pull requests in the Git host with required checks.</p>
             <ul class="detail-list">
-              <li>Visual merge-base awareness.</li>
-              <li>Easier cherry-pick and branch hygiene.</li>
+              <li>Simple handoff into approval workflows.</li>
+              <li>Supports host-side policy enforcement.</li>
             </ul>
           </article>
           <article class="scenario-detail-card">
-            <h3>Rollback Preparation</h3>
-            <p>Teams inspect commit lineage before generating a revert branch and opening a rollback PR.</p>
+            <h3>Rollback History Updates</h3>
+            <p>Developers prepare revert or forward-fix branches while keeping deployment rollback execution in FlexDeploy.</p>
             <ul class="detail-list">
-              <li>Trace commit ancestry before revert.</li>
-              <li>Keep rollback as PR-based Git history change.</li>
+              <li>PR-first rollback history model support.</li>
+              <li>Keeps Git and deployment responsibilities separated.</li>
             </ul>
           </article>
         </div>
@@ -138,19 +138,19 @@
         <h2>Docs And References</h2>
         <div class="provider-doc-grid">
           <article class="provider-doc-card">
-            <h3>Official SourceTree Docs</h3>
+            <h3>Official VS Code Docs</h3>
             <ul class="provider-doc-list">
-              <li><a href="https://confluence.atlassian.com/get-started-with-sourcetree" target="_blank" rel="noreferrer">Get started with SourceTree</a></li>
-              <li><a href="https://support.atlassian.com/sourcetree/" target="_blank" rel="noreferrer">SourceTree support documentation</a></li>
-              <li><a href="https://www.sourcetreeapp.com/" target="_blank" rel="noreferrer">Product and download page</a></li>
+              <li><a href="https://code.visualstudio.com/" target="_blank" rel="noreferrer">Product and downloads</a></li>
+              <li><a href="https://code.visualstudio.com/docs/sourcecontrol/overview" target="_blank" rel="noreferrer">Source Control overview</a></li>
+              <li><a href="https://code.visualstudio.com/docs/sourcecontrol/github" target="_blank" rel="noreferrer">GitHub source control integration</a></li>
             </ul>
           </article>
           <article class="provider-doc-card">
             <h3>Operational Guidance</h3>
             <ul class="provider-doc-list">
-              <li>Keep protected branch merges in Git host UI with required checks.</li>
-              <li>Use SourceTree for local quality and commit shaping, not policy bypass.</li>
-              <li>Document one standard branch naming convention in team onboarding.</li>
+              <li>Set a standard extension baseline so teams have consistent Git UX and PR helper tooling.</li>
+              <li>Keep merge and approval enforcement in Git host branch protection, not local editor settings.</li>
+              <li>Use FlexDeploy for artifact promotion and rollback deployment, not local IDE automation.</li>
             </ul>
           </article>
         </div>

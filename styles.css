@@ -1598,6 +1598,10 @@ tbody tr:nth-child(even) {
   background: rgba(233, 242, 250, 0.82);
 }
 
+.tool-link-image-contain {
+  object-fit: contain;
+}
+
 .tool-link-cta {
   width: fit-content;
   border-radius: 999px;
