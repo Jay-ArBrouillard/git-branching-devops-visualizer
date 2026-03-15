@@ -29,8 +29,8 @@
               <a class="nav-dropdown-link" href="branches.html">3) Branches</a>
               <a class="nav-dropdown-link" href="head.html">4) HEAD</a>
               <a class="nav-dropdown-link" href="three-areas.html">5) Working Tree + Staging</a>
-              <a class="nav-dropdown-link" href="merge-rebase.html">6) Merge + Rebase</a>
-              <a class="nav-dropdown-link nav-dropdown-link-active" href="undo-recovery.html">7) Undo + Recovery</a>
+              <a class="nav-dropdown-link nav-dropdown-link-active" href="undo-recovery.html">6) Undo + Recovery</a>
+              <a class="nav-dropdown-link" href="merge-rebase.html">7) Merge + Rebase</a>
               <a class="nav-dropdown-link" href="collaboration-devops.html">8) Collaboration + DevOps</a>
             </div>
           </details>
@@ -51,29 +51,187 @@
             </div>
           </details>
         </nav>
-        <p class="eyebrow">Core Git 7/8</p>
+        <p class="eyebrow">Core Git 6/8</p>
         <h1>Undo And Recovery</h1>
         <p class="detail-hero-copy">
           Recover fast without damaging shared history. Choose the command based on what layer you
           need to fix: use <code>restore</code> for file-level undo, <code>revert</code> for shared
           history-safe rollback, and <code>reset</code> only when rewriting private local history is
-          acceptable.
+          acceptable. Prefer the least destructive option first: restore file changes, revert
+          shared commits, reset only private local history, use reflog for rescue, and let
+          FlexDeploy handle tracked version restore when deployment recovery is the real need.
         </p>
         <a class="detail-back-link" href="../concepts.html">Back to Git Concepts overview</a>
       </section>
 
-      <section class="panel">
-        <h2>Recovery Order Of Preference</h2>
-        <div class="diagram-sequence">
-          <span class="diagram-sequence-pill">restore file changes</span>
-          <span class="diagram-sequence-pill">revert shared commit</span>
-          <span class="diagram-sequence-pill">reset private branch</span>
-          <span class="diagram-sequence-pill">reflog for rescue</span>
-          <span class="diagram-sequence-pill">FlexDeploy version restore</span>
-        </div>
-      </section>
-
       <section class="panel diagram-story">
+        <article class="diagram-story-card">
+          <div class="diagram-story-head">
+            <h2 class="diagram-story-title">Reset To A Specific Commit</h2>
+            <span class="diagram-story-tag">Target By SHA</span>
+          </div>
+          <p class="diagram-story-note">
+            Use a specific commit hash when you want to name the exact commit that <code>HEAD</code>
+            and the branch should move to. The reset mode still decides what happens to your staged
+            and unstaged local changes afterward.
+          </p>
+          <div class="diagram-history-controls" role="group" aria-label="Reset mode comparison using a commit hash">
+            <button type="button" class="diagram-history-btn" data-reset-hash-mode-play aria-pressed="false">Play</button>
+            <button type="button" class="diagram-history-btn is-active" data-reset-hash-mode-target="0" aria-pressed="true">--soft</button>
+            <button type="button" class="diagram-history-btn" data-reset-hash-mode-target="1" aria-pressed="false">--mixed</button>
+            <button type="button" class="diagram-history-btn" data-reset-hash-mode-target="2" aria-pressed="false">--hard</button>
+          </div>
+          <div class="diagram-canvas">
+            <svg viewBox="0 0 980 370" role="img" aria-label="Comparison of reset soft, mixed, and hard outcomes after moving HEAD to a specific commit hash">
+              <defs>
+                <marker id="ur-reset-arrow-blue" viewBox="0 0 10 10" refX="8.4" refY="5" markerWidth="6.4" markerHeight="6.4" orient="auto">
+                  <path d="M0 0 L10 5 L0 10 z" fill="#587ca1"></path>
+                </marker>
+                <marker id="ur-reset-arrow-green" viewBox="0 0 10 10" refX="8.4" refY="5" markerWidth="6.4" markerHeight="6.4" orient="auto">
+                  <path d="M0 0 L10 5 L0 10 z" fill="#2f9f78"></path>
+                </marker>
+                <marker id="ur-reset-arrow-red" viewBox="0 0 10 10" refX="8.4" refY="5" markerWidth="6.4" markerHeight="6.4" orient="auto">
+                  <path d="M0 0 L10 5 L0 10 z" fill="#d95b46"></path>
+                </marker>
+              </defs>
+
+              <rect x="28" y="24" width="350" height="62" rx="12" ry="12" fill="#23395d" stroke="#587ca1" stroke-width="2.2"></rect>
+              <text x="48" y="46" fill="#c9d7e6" font-family="'IBM Plex Sans', sans-serif" font-size="11" font-weight="700" letter-spacing="0.08em">
+                COMMAND RUN
+              </text>
+              <text id="resetHashModeCommand" x="48" y="68" fill="#ffffff" font-family="'IBM Plex Mono', Consolas, monospace" font-size="16" font-weight="600">
+                &gt; git reset --soft b2c3
+              </text>
+
+              <g fill="none" stroke="#587ca1" stroke-width="3.2" marker-end="url(#ur-reset-arrow-blue)">
+                <path d="M288 132 L238 132"></path>
+                <path d="M408 132 L358 132"></path>
+                <path d="M528 132 L478 132"></path>
+              </g>
+              <g fill="#ffffff" stroke="#587ca1" stroke-width="3">
+                <circle cx="212" cy="132" r="20"></circle>
+                <circle cx="332" cy="132" r="20" fill="#ffffff" stroke="#d97715"></circle>
+                <circle cx="452" cy="132" r="20"></circle>
+                <circle cx="572" cy="132" r="20"></circle>
+              </g>
+              <g fill="#355a86" font-family="'IBM Plex Mono', Consolas, monospace" font-size="13" font-weight="700" text-anchor="middle">
+                <text x="212" y="137">a1b2</text>
+                <text x="332" y="137">b2c3</text>
+                <text x="452" y="137">c3d4</text>
+                <text x="572" y="137">d4e5</text>
+              </g>
+              <text x="452" y="166" text-anchor="middle" fill="#d95b46" font-family="'IBM Plex Sans', sans-serif" font-size="13" font-weight="700">
+                orphaned
+              </text>
+              <text x="572" y="166" text-anchor="middle" fill="#d95b46" font-family="'IBM Plex Sans', sans-serif" font-size="13" font-weight="700">
+                orphaned
+              </text>
+              <rect x="280" y="170" width="104" height="28" rx="8" ry="8" fill="#fff6e8" stroke="#f0a648" stroke-width="2"></rect>
+              <text id="resetHashModeHeadTag" x="332" y="189" text-anchor="middle" fill="#b96d13" font-family="'Chakra Petch', sans-serif" font-size="16" font-weight="700">
+                main
+              </text>
+              <path d="M332 198 L332 210" fill="none" stroke="#587ca1" stroke-width="2" stroke-dasharray="4 4"></path>
+              <path d="M332 260 C321 260 313 251 313 239 C313 224 332 210 332 210 C332 210 351 224 351 239 C351 251 343 260 332 260 Z" fill="#f08a24" stroke="#587ca1" stroke-width="2.4"></path>
+              <circle cx="332" cy="239" r="7" fill="#fff6e8" stroke="#587ca1" stroke-width="1.8"></circle>
+              <text x="332" y="284" text-anchor="middle" fill="#f08a24" font-family="'Chakra Petch', sans-serif" font-size="18" font-weight="700">
+                HEAD
+              </text>
+              <text x="654" y="138" fill="#58718d" font-family="'IBM Plex Sans', sans-serif" font-size="14" font-weight="700">
+                reset moves HEAD + branch to commit b2c3
+              </text>
+              <text id="resetHashModeDefaultNote" x="392" y="62" fill="#7b90a6" font-family="'IBM Plex Sans', sans-serif" font-size="13" font-weight="600" style="display: none">
+                default form: git reset = git reset --mixed
+              </text>
+
+              <text id="resetHashModeSummaryText" x="490" y="310" text-anchor="middle" fill="#325476" font-family="'IBM Plex Sans', sans-serif" font-size="17" font-weight="600">
+                --soft: move HEAD only, keep changes staged and on disk.
+              </text>
+              <text id="resetHashModeDetailText" x="490" y="338" text-anchor="middle" fill="#7b90a6" font-family="'IBM Plex Sans', sans-serif" font-size="14" font-weight="600">
+                Explicit hash form: reset directly to commit c3d4.
+              </text>
+            </svg>
+          </div>
+        </article>
+
+        <article class="diagram-story-card">
+          <div class="diagram-story-head">
+            <h2 class="diagram-story-title">Reset Relative To HEAD</h2>
+            <span class="diagram-story-tag">Soft / Mixed / Hard</span>
+          </div>
+          <p class="diagram-story-note">
+            Use a relative reference like <code>HEAD~1</code> when you want to move back from the
+            current commit by position instead of naming a hash directly. The reset mode still
+            decides what happens to your staged and unstaged local changes afterward.
+          </p>
+          <div class="diagram-history-controls" role="group" aria-label="Reset mode comparison">
+            <button type="button" class="diagram-history-btn" data-reset-mode-play aria-pressed="false">Play</button>
+            <button type="button" class="diagram-history-btn is-active" data-reset-mode-target="0" aria-pressed="true">--soft</button>
+            <button type="button" class="diagram-history-btn" data-reset-mode-target="1" aria-pressed="false">--mixed</button>
+            <button type="button" class="diagram-history-btn" data-reset-mode-target="2" aria-pressed="false">--hard</button>
+          </div>
+          <div class="diagram-canvas">
+            <svg viewBox="0 0 980 370" role="img" aria-label="Comparison of reset soft, mixed, and hard outcomes after moving HEAD back one commit">
+              <defs>
+                <marker id="ur-reset-hash-arrow-blue" viewBox="0 0 10 10" refX="8.4" refY="5" markerWidth="6.4" markerHeight="6.4" orient="auto">
+                  <path d="M0 0 L10 5 L0 10 z" fill="#587ca1"></path>
+                </marker>
+              </defs>
+
+              <rect x="28" y="24" width="320" height="62" rx="12" ry="12" fill="#23395d" stroke="#587ca1" stroke-width="2.2"></rect>
+              <text x="48" y="46" fill="#c9d7e6" font-family="'IBM Plex Sans', sans-serif" font-size="11" font-weight="700" letter-spacing="0.08em">
+                COMMAND RUN
+              </text>
+              <text id="resetModeCommand" x="48" y="68" fill="#ffffff" font-family="'IBM Plex Mono', Consolas, monospace" font-size="16" font-weight="600">
+                &gt; git reset --soft HEAD~1
+              </text>
+
+              <g fill="none" stroke="#587ca1" stroke-width="3.2" marker-end="url(#ur-reset-hash-arrow-blue)">
+                <path d="M288 132 L238 132"></path>
+                <path d="M408 132 L358 132"></path>
+                <path d="M528 132 L478 132"></path>
+              </g>
+              <g fill="#ffffff" stroke="#587ca1" stroke-width="3">
+                <circle cx="212" cy="132" r="20"></circle>
+                <circle cx="332" cy="132" r="20"></circle>
+                <circle cx="452" cy="132" r="20" fill="#ffffff" stroke="#d97715"></circle>
+                <circle cx="572" cy="132" r="20"></circle>
+              </g>
+              <g fill="#355a86" font-family="'IBM Plex Mono', Consolas, monospace" font-size="13" font-weight="700" text-anchor="middle">
+                <text x="212" y="137">a1b2</text>
+                <text x="332" y="137">b2c3</text>
+                <text x="452" y="137">c3d4</text>
+                <text x="572" y="137">d4e5</text>
+              </g>
+              <text x="572" y="166" text-anchor="middle" fill="#d95b46" font-family="'IBM Plex Sans', sans-serif" font-size="13" font-weight="700">
+                orphaned
+              </text>
+              <rect x="400" y="170" width="104" height="28" rx="8" ry="8" fill="#fff6e8" stroke="#f0a648" stroke-width="2"></rect>
+              <text id="resetModeHeadTag" x="452" y="189" text-anchor="middle" fill="#b96d13" font-family="'Chakra Petch', sans-serif" font-size="16" font-weight="700">
+                main
+              </text>
+              <path d="M452 198 L452 210" fill="none" stroke="#587ca1" stroke-width="2" stroke-dasharray="4 4"></path>
+              <path d="M452 260 C441 260 433 251 433 239 C433 224 452 210 452 210 C452 210 471 224 471 239 C471 251 463 260 452 260 Z" fill="#f08a24" stroke="#587ca1" stroke-width="2.4"></path>
+              <circle cx="452" cy="239" r="7" fill="#fff6e8" stroke="#587ca1" stroke-width="1.8"></circle>
+              <text x="452" y="284" text-anchor="middle" fill="#f08a24" font-family="'Chakra Petch', sans-serif" font-size="18" font-weight="700">
+                HEAD
+              </text>
+              <text x="654" y="138" fill="#58718d" font-family="'IBM Plex Sans', sans-serif" font-size="14" font-weight="700">
+                reset moves HEAD + branch back one commit
+              </text>
+              <text id="resetModeDefaultNote" x="392" y="62" fill="#7b90a6" font-family="'IBM Plex Sans', sans-serif" font-size="13" font-weight="600" style="display: none">
+                default form: git reset = git reset --mixed
+              </text>
+
+              <text id="resetModeSummaryText" x="490" y="310" text-anchor="middle" fill="#325476" font-family="'IBM Plex Sans', sans-serif" font-size="17" font-weight="600">
+                --soft: move HEAD only, keep changes staged and on disk.
+              </text>
+              <text id="resetModeDetailText" x="490" y="338" text-anchor="middle" fill="#7b90a6" font-family="'IBM Plex Sans', sans-serif" font-size="14" font-weight="600">
+                Use on private local history only.
+              </text>
+            </svg>
+          </div>
+        </article>
+
         <article class="diagram-story-card">
           <div class="diagram-story-head">
             <h2 class="diagram-story-title">Restore: File-Level Undo</h2>
@@ -229,17 +387,17 @@
       </section>
 
       <section class="panel concept-page-nav" aria-label="Concept page navigation">
-        <a class="concept-page-nav-link concept-page-nav-prev" href="merge-rebase.html">
+        <a class="concept-page-nav-link concept-page-nav-prev" href="three-areas.html">
           <span class="concept-page-nav-kicker">Previous</span>
-          <span class="concept-page-nav-title">Merge + Rebase</span>
+          <span class="concept-page-nav-title">Working Tree + Staging</span>
         </a>
         <a class="concept-page-nav-link concept-page-nav-overview" href="../concepts.html">
           <span class="concept-page-nav-kicker">All Concepts</span>
           <span class="concept-page-nav-title">Back To Overview</span>
         </a>
-        <a class="concept-page-nav-link concept-page-nav-next" href="collaboration-devops.html">
+        <a class="concept-page-nav-link concept-page-nav-next" href="merge-rebase.html">
           <span class="concept-page-nav-kicker">Next</span>
-          <span class="concept-page-nav-title">Collaboration + DevOps</span>
+          <span class="concept-page-nav-title">Merge + Rebase</span>
         </a>
       </section>
     </main>
@@ -248,5 +406,275 @@
     <script src="../floating-conflict-simulator.js"></script>
     <script src="../simulator.js"></script>
     <script src="../conflict-simulator.js"></script>
+    <script>
+      (() => {
+        const modeButtons = Array.from(document.querySelectorAll("[data-reset-mode-target]"));
+        const playButton = document.querySelector("[data-reset-mode-play]");
+        const command = document.getElementById("resetModeCommand");
+        const headTag = document.getElementById("resetModeHeadTag");
+        const summary = document.getElementById("resetModeSummaryText");
+        const detail = document.getElementById("resetModeDetailText");
+        const defaultNote = document.getElementById("resetModeDefaultNote");
+
+        if (
+          !modeButtons.length ||
+          !command ||
+          !headTag ||
+          !summary ||
+          !detail ||
+          !defaultNote
+        ) {
+          return;
+        }
+
+        const states = [
+          {
+            command: "> git reset --soft HEAD~1",
+            headTag: "main",
+            summary: "--soft: move HEAD only, keep changes staged and on disk.",
+            detail: "Use on private local history only."
+          },
+          {
+            command: "> git reset --mixed HEAD~1",
+            headTag: "main",
+            summary: "--mixed: move HEAD, clear the index, keep changes on disk.",
+            detail: "Default reset mode: changes remain, but they are now unstaged."
+          },
+          {
+            command: "> git reset --hard HEAD~1",
+            headTag: "main",
+            summary: "--hard: move HEAD and discard local staged and unstaged changes.",
+            detail: "Destructive: working tree and index are both rewritten to match the target commit."
+          }
+        ];
+
+        const stepDelayMs = 1800;
+        let currentIndex = 0;
+        let playing = false;
+        let timerId = null;
+
+        function clearTimer() {
+          if (timerId !== null) {
+            window.clearTimeout(timerId);
+            timerId = null;
+          }
+        }
+
+        function renderPlayButton() {
+          if (!playButton) {
+            return;
+          }
+          const atEnd = currentIndex >= states.length - 1;
+          playButton.textContent = playing ? "Pause" : atEnd ? "Replay" : "Play";
+          playButton.setAttribute("aria-pressed", String(playing));
+          playButton.classList.toggle("is-active", playing);
+        }
+
+        function applyArrow(pathElement, color, dash, marker) {
+          pathElement.setAttribute("stroke", color);
+          if (dash) {
+            pathElement.setAttribute("stroke-dasharray", dash);
+          } else {
+            pathElement.removeAttribute("stroke-dasharray");
+          }
+          if (marker) {
+            pathElement.setAttribute("marker-end", marker);
+          } else {
+            pathElement.removeAttribute("marker-end");
+          }
+        }
+
+        function setState(index) {
+          const state = states[index];
+          if (!state) {
+            return;
+          }
+          currentIndex = index;
+
+          command.textContent = state.command;
+          headTag.textContent = state.headTag;
+          summary.textContent = state.summary;
+          detail.textContent = state.detail;
+          defaultNote.style.display = index === 1 ? "inline" : "none";
+
+          modeButtons.forEach((button, buttonIndex) => {
+            const active = buttonIndex === index;
+            button.classList.toggle("is-active", active);
+            button.setAttribute("aria-pressed", String(active));
+          });
+
+          renderPlayButton();
+        }
+
+        function pausePlayback() {
+          playing = false;
+          clearTimer();
+          renderPlayButton();
+        }
+
+        function queueAdvance() {
+          clearTimer();
+          if (!playing) {
+            return;
+          }
+          if (currentIndex >= states.length - 1) {
+            pausePlayback();
+            return;
+          }
+          timerId = window.setTimeout(() => {
+            setState(currentIndex + 1);
+            queueAdvance();
+          }, stepDelayMs);
+        }
+
+        modeButtons.forEach((button, index) => {
+          button.addEventListener("click", () => {
+            pausePlayback();
+            setState(index);
+          });
+        });
+
+        if (playButton) {
+          playButton.addEventListener("click", () => {
+            if (playing) {
+              pausePlayback();
+              return;
+            }
+            if (currentIndex >= states.length - 1) {
+              setState(0);
+            }
+            playing = true;
+            renderPlayButton();
+            queueAdvance();
+          });
+        }
+
+        setState(0);
+      })();
+
+      (() => {
+        const modeButtons = Array.from(document.querySelectorAll("[data-reset-hash-mode-target]"));
+        const playButton = document.querySelector("[data-reset-hash-mode-play]");
+        const command = document.getElementById("resetHashModeCommand");
+        const headTag = document.getElementById("resetHashModeHeadTag");
+        const summary = document.getElementById("resetHashModeSummaryText");
+        const detail = document.getElementById("resetHashModeDetailText");
+        const defaultNote = document.getElementById("resetHashModeDefaultNote");
+
+        if (!modeButtons.length || !command || !headTag || !summary || !detail || !defaultNote) {
+          return;
+        }
+
+        const states = [
+          {
+            command: "> git reset --soft b2c3",
+            headTag: "main",
+            summary: "--soft: move HEAD only, keep changes staged and on disk.",
+            detail: "Explicit hash form: reset directly to commit b2c3."
+          },
+          {
+            command: "> git reset --mixed b2c3",
+            headTag: "main",
+            summary: "--mixed: move HEAD, clear the index, keep changes on disk.",
+            detail: "Same effect as relative reset, but the target commit is named directly."
+          },
+          {
+            command: "> git reset --hard b2c3",
+            headTag: "main",
+            summary: "--hard: move HEAD and discard local staged and unstaged changes.",
+            detail: "Destructive: reset everything to exactly match commit b2c3."
+          }
+        ];
+
+        const stepDelayMs = 1800;
+        let currentIndex = 0;
+        let playing = false;
+        let timerId = null;
+
+        function clearTimer() {
+          if (timerId !== null) {
+            window.clearTimeout(timerId);
+            timerId = null;
+          }
+        }
+
+        function renderPlayButton() {
+          if (!playButton) {
+            return;
+          }
+          const atEnd = currentIndex >= states.length - 1;
+          playButton.textContent = playing ? "Pause" : atEnd ? "Replay" : "Play";
+          playButton.setAttribute("aria-pressed", String(playing));
+          playButton.classList.toggle("is-active", playing);
+        }
+
+        function setState(index) {
+          const state = states[index];
+          if (!state) {
+            return;
+          }
+          currentIndex = index;
+
+          command.textContent = state.command;
+          headTag.textContent = state.headTag;
+          summary.textContent = state.summary;
+          detail.textContent = state.detail;
+          defaultNote.style.display = index === 1 ? "inline" : "none";
+
+          modeButtons.forEach((button, buttonIndex) => {
+            const active = buttonIndex === index;
+            button.classList.toggle("is-active", active);
+            button.setAttribute("aria-pressed", String(active));
+          });
+
+          renderPlayButton();
+        }
+
+        function pausePlayback() {
+          playing = false;
+          clearTimer();
+          renderPlayButton();
+        }
+
+        function queueAdvance() {
+          clearTimer();
+          if (!playing) {
+            return;
+          }
+          if (currentIndex >= states.length - 1) {
+            pausePlayback();
+            return;
+          }
+          timerId = window.setTimeout(() => {
+            setState(currentIndex + 1);
+            queueAdvance();
+          }, stepDelayMs);
+        }
+
+        modeButtons.forEach((button, index) => {
+          button.addEventListener("click", () => {
+            pausePlayback();
+            setState(index);
+          });
+        });
+
+        if (playButton) {
+          playButton.addEventListener("click", () => {
+            if (playing) {
+              pausePlayback();
+              return;
+            }
+            if (currentIndex >= states.length - 1) {
+              setState(0);
+            }
+            playing = true;
+            renderPlayButton();
+            queueAdvance();
+          });
+        }
+
+        setState(0);
+      })();
+    </script>
   </body>
 </html>

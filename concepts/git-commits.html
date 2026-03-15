@@ -29,8 +29,8 @@
               <a class="nav-dropdown-link" href="branches.html">3) Branches</a>
               <a class="nav-dropdown-link" href="head.html">4) HEAD</a>
               <a class="nav-dropdown-link" href="three-areas.html">5) Working Tree + Staging</a>
-              <a class="nav-dropdown-link" href="merge-rebase.html">6) Merge + Rebase</a>
-              <a class="nav-dropdown-link" href="undo-recovery.html">7) Undo + Recovery</a>
+              <a class="nav-dropdown-link" href="undo-recovery.html">6) Undo + Recovery</a>
+              <a class="nav-dropdown-link" href="merge-rebase.html">7) Merge + Rebase</a>
               <a class="nav-dropdown-link" href="collaboration-devops.html">8) Collaboration + DevOps</a>
             </div>
           </details>
@@ -379,6 +379,16 @@
                   Instant!
                 </text>
               </g>
+
+              <g>
+                <rect x="612" y="258" width="292" height="62" rx="12" ry="12" fill="#23395d" stroke="#587ca1" stroke-width="2.2"></rect>
+                <text x="632" y="280" fill="#c9d7e6" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="11" font-weight="700" letter-spacing="0.08em">
+                  COMMAND RUN
+                </text>
+                <text id="gitJumpCommandInline" x="632" y="302" fill="#ffffff" font-family="IBM Plex Mono, Consolas, monospace" font-size="16" font-weight="600">
+                  &gt; git checkout a1b2
+                </text>
+              </g>
             </svg>
           </div>
           <div class="diagram-command-row">
@@ -520,6 +530,7 @@
         const versionBadge = document.getElementById("gitJumpVersionBadge");
         const commandVersion = document.getElementById("gitJumpCommandVersion");
         const commandHash = document.getElementById("gitJumpCommandHash");
+        const commandInline = document.getElementById("gitJumpCommandInline");
 
         if (
           !jumpButtons.length ||
@@ -533,7 +544,8 @@
           !headArrow ||
           !versionBadge ||
           !commandVersion ||
-          !commandHash
+          !commandHash ||
+          !commandInline
         ) {
           return;
         }
@@ -631,6 +643,7 @@
           versionBadge.textContent = state.version;
           commandVersion.textContent = `git switch --detach ${state.version}`;
           commandHash.textContent = `git checkout ${state.hash}`;
+          commandInline.textContent = `> git checkout ${state.hash}`;
           renderPlayButton();
         }
 
