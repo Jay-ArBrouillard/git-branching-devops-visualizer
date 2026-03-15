@@ -75,6 +75,11 @@ There is no backend and no build pipeline. The site is intended to work as a Git
 ## Content Guidelines
 
 - Keep Git explanations technically correct and beginner-readable.
+- Avoid redundant explanations across hero copy, pills, sequence sections, section notes, in-diagram text, and command rows.
+- If the hero description already explains the main idea, remove adjacent pills or sequence sections that only repeat it.
+- Use section notes for the primary explanation and keep in-diagram text short, supportive, and non-repetitive.
+- Command rows should show the action being taken, not restate the same teaching point in prose.
+- When both page copy and a diagram explain the same concept, make one the primary explanation and the other a concise reinforcement.
 - If explaining Git internals:
   - distinguish commit hash, tree/snapshot reference, and parent reference(s)
   - avoid implying all commits always have exactly one parent

@@ -105,12 +105,17 @@ body {
 .hero {
   display: grid;
   gap: 0.9rem;
+  position: relative;
+  z-index: 40;
+  overflow: visible;
 }
 
 .top-nav {
   display: flex;
   flex-wrap: wrap;
   gap: 0.48rem;
+  position: relative;
+  z-index: 60;
 }
 
 .nav-link {
@@ -2954,6 +2959,16 @@ tbody tr:nth-child(even) {
   height: auto;
   display: block;
   overflow: visible;
+}
+
+.diagram-canvas-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.diagram-canvas-scroll svg {
+  width: 1080px;
+  max-width: none;
 }
 
 .diagram-legend {

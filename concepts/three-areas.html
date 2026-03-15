@@ -54,70 +54,203 @@
         <p class="eyebrow">Core Git 5/8</p>
         <h1>Working Tree, Staging, Repository</h1>
         <p class="detail-hero-copy">
-          Git work happens in three layers. Most confusion is solved by identifying which layer changed.
+          Git work happens across three areas: the working directory where you edit files, the
+          staging index where you choose what goes into the next commit, and the repository where
+          committed history lives. Typical flow is edit, stage selected changes, commit a snapshot,
+          and repeat in small increments. Most confusion is solved by identifying which area
+          changed.
         </p>
-        <div class="detail-hero-pills">
-          <span class="detail-pill" id="working-directory">Working directory</span>
-          <span class="detail-pill" id="staging-area">Staging index</span>
-          <span class="detail-pill">Committed history</span>
-        </div>
         <a class="detail-back-link" href="../concepts.html">Back to Git Concepts overview</a>
-      </section>
-
-      <section class="panel">
-        <h2>Three Layers Sequence</h2>
-        <div class="diagram-sequence">
-          <span class="diagram-sequence-pill">Edit file</span>
-          <span class="diagram-sequence-pill">Stage selected changes</span>
-          <span class="diagram-sequence-pill">Commit snapshot</span>
-          <span class="diagram-sequence-pill">Repeat in small increments</span>
-        </div>
       </section>
 
       <section class="panel diagram-story">
         <article class="diagram-story-card">
           <div class="diagram-story-head">
-            <h2 class="diagram-story-title">State Flow Across Layers</h2>
-            <span class="diagram-story-tag">Mental Model</span>
+            <h2 class="diagram-story-title">The Three Git Areas At A Glance</h2>
+            <span class="diagram-story-tag">Quick View</span>
           </div>
+          <p class="diagram-story-note">
+            Before looking at the command-by-command walkthrough, this is the simplest mental
+            model: files start in your working tree, selected changes move into staging, and
+            commits save that staged snapshot into repository history.
+          </p>
           <div class="diagram-canvas">
-            <svg viewBox="0 0 980 260" role="img" aria-label="Flow from working directory to index to repository">
+            <svg viewBox="0 0 980 380" role="img" aria-label="Working tree to staging index to repository overview">
               <defs>
-                <marker id="ta-arrow-1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#2f5f95"></path>
+                <marker id="three-areas-overview-arrow" viewBox="0 0 10 10" refX="8.6" refY="5" markerWidth="6.4" markerHeight="6.4" orient="auto">
+                  <path d="M0 0 L10 5 L0 10 z" fill="#587ca1"></path>
                 </marker>
-                <marker id="ta-arrow-2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#2f9f78"></path>
+                <marker id="three-areas-overview-arrow-green" viewBox="0 0 10 10" refX="8.6" refY="5" markerWidth="6.4" markerHeight="6.4" orient="auto">
+                  <path d="M0 0 L10 5 L0 10 z" fill="#2f9f78"></path>
+                </marker>
+                <marker id="three-areas-overview-arrow-orange" viewBox="0 0 10 10" refX="8.6" refY="5" markerWidth="6.4" markerHeight="6.4" orient="auto">
+                  <path d="M0 0 L10 5 L0 10 z" fill="#f08a24"></path>
                 </marker>
               </defs>
 
-              <rect class="git-panel" x="58" y="48" width="265" height="156" rx="16" ry="16"></rect>
-              <text class="git-label" x="86" y="84">Working Directory</text>
-              <text class="git-note" x="86" y="113">modified files on disk</text>
-              <text class="git-small" x="86" y="144">M src/api.js</text>
-              <text class="git-small" x="86" y="166">M src/ui.js</text>
+              <rect x="46" y="78" width="230" height="88" rx="10" ry="10" fill="#f8fbff" stroke="#6f93b9" stroke-width="2.2"></rect>
+              <text x="161" y="102" text-anchor="middle" fill="#213a59" font-family="'Chakra Petch', sans-serif" font-size="23" font-weight="700">
+                Working Tree
+              </text>
 
-              <rect class="git-panel" x="356" y="48" width="265" height="156" rx="16" ry="16"></rect>
-              <text class="git-label" x="428" y="84">Index (Staging)</text>
-              <text class="git-note" x="384" y="113">selected changes for next commit</text>
-              <text class="git-small" x="384" y="144">A src/api.js (partial)</text>
+              <rect x="374" y="78" width="230" height="88" rx="10" ry="10" fill="#f7fcf9" stroke="#73b59a" stroke-width="2.2"></rect>
+              <text x="489" y="102" text-anchor="middle" fill="#1f4e42" font-family="'Chakra Petch', sans-serif" font-size="23" font-weight="700">
+                Staging Area
+              </text>
 
-              <rect class="git-panel" x="654" y="48" width="265" height="156" rx="16" ry="16"></rect>
-              <text class="git-label" x="723" y="84">Repository</text>
-              <text class="git-note" x="688" y="113">committed snapshots</text>
-              <text class="git-small" x="688" y="144">commit 9fab23</text>
+              <rect x="702" y="78" width="230" height="88" rx="10" ry="10" fill="#fffaf3" stroke="#e1b16b" stroke-width="2.2"></rect>
+              <text x="817" y="98" text-anchor="middle" fill="#8e5d1d" font-family="'Chakra Petch', sans-serif" font-size="22" font-weight="700">
+                Local Repository
+              </text>
+              <text x="817" y="125" text-anchor="middle" fill="#8e5d1d" font-family="'IBM Plex Sans', sans-serif" font-size="13" font-weight="700">
+                (.git directory)
+              </text>
 
-              <path class="git-arrow" d="M329 125 L347 125" marker-end="url(#ta-arrow-1)"></path>
-              <text class="git-note" x="287" y="106">add</text>
+              <path d="M162 166 L162 314" fill="none" stroke="#8aa4bf" stroke-width="2.4"></path>
+              <path d="M489 166 L489 314" fill="none" stroke="#8aa4bf" stroke-width="2.4"></path>
+              <path d="M817 166 L817 314" fill="none" stroke="#8aa4bf" stroke-width="2.4"></path>
 
-              <path class="git-arrow-feature" d="M627 125 L646 125" marker-end="url(#ta-arrow-2)"></path>
-              <text class="git-note" x="585" y="106">commit</text>
+              <path d="M162 220 L489 220" fill="none" stroke="#587ca1" stroke-width="3.2" marker-end="url(#three-areas-overview-arrow)"></path>
+              <text x="323" y="210" text-anchor="middle" fill="#58718d" font-family="'IBM Plex Sans', sans-serif" font-size="13" font-weight="700">
+                git add
+              </text>
+
+              <path d="M489 254 L817 254" fill="none" stroke="#2f9f78" stroke-width="3.2" marker-end="url(#three-areas-overview-arrow-green)"></path>
+              <text x="651" y="244" text-anchor="middle" fill="#2c7d68" font-family="'IBM Plex Sans', sans-serif" font-size="13" font-weight="700">
+                git commit
+              </text>
+
+              <path d="M817 288 L162 288" fill="none" stroke="#f08a24" stroke-width="3.2" marker-end="url(#three-areas-overview-arrow-orange)"></path>
+              <text x="489" y="278" text-anchor="middle" fill="#b96d13" font-family="'IBM Plex Sans', sans-serif" font-size="13" font-weight="700">
+                git restore
+              </text>
+
+              <text x="490" y="344" text-anchor="middle" fill="#4b698b" font-family="'IBM Plex Sans', sans-serif" font-size="15" font-weight="600">
+                Edit in the working tree, stage selected changes, commit into history, or restore files back from the repository.
+              </text>
             </svg>
           </div>
-          <div class="diagram-command-row">
-            <div class="step-command diagram-command">git status</div>
-            <div class="step-command diagram-command">git add -p</div>
-            <div class="step-command diagram-command">git commit -m "message"</div>
+        </article>
+
+        <article class="diagram-story-card">
+          <div class="diagram-story-head">
+            <h2 class="diagram-story-title">Flow Across The Three Areas</h2>
+            <span class="diagram-story-tag">Mental Model</span>
+          </div>
+          <p class="diagram-story-note">
+            The same three areas stay in place the whole time. What changes is which area Git is
+            reading from or writing to: <code>git status</code> compares them, <code>git add</code>
+            copies selected changes into the index, and <code>git commit</code> writes the staged
+            snapshot into repository history.
+          </p>
+          <div class="diagram-history-controls" role="group" aria-label="Three areas flow step">
+            <button type="button" class="diagram-history-btn" data-three-areas-play aria-pressed="false">Play</button>
+            <button type="button" class="diagram-history-btn is-active" data-three-areas-target="0" aria-pressed="true">Status</button>
+            <button type="button" class="diagram-history-btn" data-three-areas-target="1" aria-pressed="false">Add</button>
+            <button type="button" class="diagram-history-btn" data-three-areas-target="2" aria-pressed="false">Commit</button>
+          </div>
+          <div class="diagram-canvas diagram-canvas-scroll">
+            <svg viewBox="0 0 1140 410" role="img" aria-label="Status, add, and commit across the three Git areas: working tree, staging index, and repository">
+              <defs>
+                <marker id="three-areas-arrow-blue" viewBox="0 0 10 10" refX="8.4" refY="5" markerWidth="6.4" markerHeight="6.4" orient="auto">
+                  <path d="M0 0 L10 5 L0 10 z" fill="#587ca1"></path>
+                </marker>
+                <marker id="three-areas-arrow-green" viewBox="0 0 10 10" refX="8.4" refY="5" markerWidth="6.4" markerHeight="6.4" orient="auto">
+                  <path d="M0 0 L10 5 L0 10 z" fill="#2f9f78"></path>
+                </marker>
+              </defs>
+
+              <rect x="30" y="22" width="380" height="62" rx="12" ry="12" fill="#23395d" stroke="#587ca1" stroke-width="2.2"></rect>
+              <text x="50" y="44" fill="#c9d7e6" font-family="'IBM Plex Sans', sans-serif" font-size="11" font-weight="700" letter-spacing="0.08em">
+                COMMAND RUN
+              </text>
+              <text id="threeAreasCommand" x="50" y="66" fill="#ffffff" font-family="'IBM Plex Mono', Consolas, monospace" font-size="16" font-weight="600">
+                &gt; git status
+              </text>
+
+              <rect x="40" y="112" width="300" height="228" rx="18" ry="18" fill="#ffffff" stroke="#7aa0c5" stroke-width="2.4"></rect>
+              <rect x="56" y="128" width="122" height="28" rx="14" ry="14" fill="#edf4fb" stroke="#8eb0cf" stroke-width="1.6"></rect>
+              <text x="117" y="147" text-anchor="middle" fill="#325476" font-family="'IBM Plex Sans', sans-serif" font-size="12" font-weight="700" letter-spacing="0.06em">
+                WORKING TREE
+              </text>
+              <text x="68" y="183" fill="#203754" font-family="'Chakra Petch', sans-serif" font-size="22" font-weight="700">
+                Files On Disk
+              </text>
+              <text x="68" y="208" fill="#58718d" font-family="'IBM Plex Sans', sans-serif" font-size="14" font-weight="600">
+                what you edited locally
+              </text>
+              <text id="threeAreasWorkingLine1" x="68" y="242" fill="#325476" font-family="'IBM Plex Mono', Consolas, monospace" font-size="15" font-weight="600">
+                M src/webhook.js
+              </text>
+              <text id="threeAreasWorkingLine2" x="68" y="267" fill="#325476" font-family="'IBM Plex Mono', Consolas, monospace" font-size="15" font-weight="600">
+                M src/ui.js
+              </text>
+              <text id="threeAreasWorkingLine3" x="68" y="291" fill="#325476" font-family="'IBM Plex Mono', Consolas, monospace" font-size="14" font-weight="600">
+              </text>
+              <text x="68" y="317" fill="#7b90a6" font-family="'IBM Plex Sans', sans-serif" font-size="13" font-weight="600">
+                both edits still live only in the working tree
+              </text>
+
+              <rect x="420" y="112" width="300" height="228" rx="18" ry="18" fill="#ffffff" stroke="#7aa0c5" stroke-width="2.4"></rect>
+              <rect x="436" y="128" width="120" height="28" rx="14" ry="14" fill="#eef8f4" stroke="#84c8aa" stroke-width="1.6"></rect>
+              <text x="496" y="147" text-anchor="middle" fill="#276957" font-family="'IBM Plex Sans', sans-serif" font-size="12" font-weight="700" letter-spacing="0.06em">
+                STAGING INDEX
+              </text>
+              <text x="448" y="183" fill="#203754" font-family="'Chakra Petch', sans-serif" font-size="22" font-weight="700">
+                Next Commit Snapshot
+              </text>
+              <text x="448" y="208" fill="#58718d" font-family="'IBM Plex Sans', sans-serif" font-size="14" font-weight="600">
+                what Git will package next
+              </text>
+              <text id="threeAreasIndexLine1" x="448" y="242" fill="#2f9f78" font-family="'IBM Plex Mono', Consolas, monospace" font-size="15" font-weight="600">
+                (empty)
+              </text>
+              <text id="threeAreasIndexLine2" x="448" y="267" fill="#7b90a6" font-family="'IBM Plex Mono', Consolas, monospace" font-size="15" font-weight="600">
+                
+              </text>
+              <text id="threeAreasIndexNote" x="448" y="291" fill="#7b90a6" font-family="'IBM Plex Sans', sans-serif" font-size="13" font-weight="600">
+                nothing staged yet
+              </text>
+              <text id="threeAreasIndexNote2" x="448" y="313" fill="#7b90a6" font-family="'IBM Plex Sans', sans-serif" font-size="13" font-weight="600">
+              </text>
+
+              <rect x="824" y="112" width="300" height="228" rx="18" ry="18" fill="#ffffff" stroke="#7aa0c5" stroke-width="2.4"></rect>
+              <rect x="834" y="128" width="138" height="28" rx="14" ry="14" fill="#fff5e8" stroke="#f0be7a" stroke-width="1.6"></rect>
+              <text x="903" y="147" text-anchor="middle" fill="#a66a1f" font-family="'IBM Plex Sans', sans-serif" font-size="10.5" font-weight="700" letter-spacing="0.04em">
+                LOCAL REPOSITORY
+              </text>
+              <text x="852" y="183" fill="#203754" font-family="'Chakra Petch', sans-serif" font-size="22" font-weight="700">
+                Saved History
+              </text>
+              <text x="852" y="208" fill="#58718d" font-family="'IBM Plex Sans', sans-serif" font-size="14" font-weight="600">
+                committed snapshots only
+              </text>
+              <text id="threeAreasRepoLine1" x="852" y="242" fill="#325476" font-family="'IBM Plex Mono', Consolas, monospace" font-size="15" font-weight="600">
+                commit 9fab23
+              </text>
+              <text id="threeAreasRepoLine2" x="852" y="267" fill="#7b90a6" font-family="'IBM Plex Mono', Consolas, monospace" font-size="15" font-weight="600">
+                last saved release snapshot
+              </text>
+              <text id="threeAreasRepoNote" x="852" y="291" fill="#7b90a6" font-family="'IBM Plex Sans', sans-serif" font-size="13" font-weight="600">
+                repository has not changed yet
+              </text>
+              <text id="threeAreasRepoNote2" x="852" y="313" fill="#7b90a6" font-family="'IBM Plex Sans', sans-serif" font-size="13" font-weight="600">
+              </text>
+
+              <path id="threeAreasArrowLeft" d="M352 208 L412 208" fill="none" stroke="#587ca1" stroke-width="3.4" stroke-dasharray="7 7"></path>
+              <text id="threeAreasArrowLeftLabel" x="386" y="184" text-anchor="middle" fill="#58718d" font-family="'IBM Plex Sans', sans-serif" font-size="12.5" font-weight="700">
+                compare
+              </text>
+
+              <path id="threeAreasArrowRight" d="M732 208 L816 208" fill="none" stroke="#587ca1" stroke-width="3.4" stroke-dasharray="7 7"></path>
+              <text id="threeAreasArrowRightLabel" x="774" y="184" text-anchor="middle" fill="#58718d" font-family="'IBM Plex Sans', sans-serif" font-size="12" font-weight="700">
+                compare
+              </text>
+
+              <text id="threeAreasStateCaption" x="570" y="376" text-anchor="middle" fill="#4b698b" font-family="'IBM Plex Sans', sans-serif" font-size="15" font-weight="600">
+                git status compares working tree, index, and repository so you can see what changed where.
+              </text>
+            </svg>
           </div>
         </article>
 
@@ -148,26 +281,6 @@
           </div>
         </article>
 
-        <article class="diagram-story-card">
-          <div class="diagram-story-head">
-            <h2 class="diagram-story-title">Status Output Is A Layer Debugger</h2>
-            <span class="diagram-story-tag">Troubleshooting</span>
-          </div>
-          <div class="diagram-canvas">
-            <svg viewBox="0 0 980 220" role="img" aria-label="Git status showing staged and unstaged changes">
-              <rect class="git-panel" x="70" y="40" width="840" height="140" rx="16" ry="16"></rect>
-              <text class="git-label" x="98" y="76">$ git status</text>
-              <text class="git-small" x="98" y="103">Changes to be committed:   modified: src/webhook.js</text>
-              <text class="git-small" x="98" y="126">Changes not staged:        modified: src/ui.js</text>
-              <text class="git-small" x="98" y="149">Untracked files:           docs/notes.md</text>
-            </svg>
-          </div>
-          <div class="diagram-command-row">
-            <div class="step-command diagram-command">git status</div>
-            <div class="step-command diagram-command">git restore --staged src/webhook.js</div>
-            <div class="step-command diagram-command">git restore src/ui.js</div>
-          </div>
-        </article>
       </section>
 
       <section class="panel concept-page-nav" aria-label="Concept page navigation">
@@ -190,5 +303,220 @@
     <script src="../floating-conflict-simulator.js"></script>
     <script src="../simulator.js"></script>
     <script src="../conflict-simulator.js"></script>
+    <script>
+      (() => {
+        const states = [
+          {
+            command: "> git status",
+            workingLine1: "M src/webhook.js",
+            workingLine2: "M src/ui.js",
+            workingLine3: "",
+            indexLine1: "(empty)",
+            indexLine2: "",
+            indexNote: "nothing staged yet",
+            indexNote2: "",
+            repoLine1: "commit 9fab23",
+            repoLine2: "last saved release snapshot",
+            repoNote: "repository has not changed yet",
+            repoNote2: "",
+            leftStroke: "#587ca1",
+            leftDash: "7 7",
+            leftMarker: "",
+            leftLabel: "compare",
+            rightStroke: "#587ca1",
+            rightDash: "7 7",
+            rightMarker: "",
+            rightLabel: "compare",
+            caption:
+              "git status compares working tree, index, and repository so you can see what changed where.",
+            summary: "Reads differences across all three areas."
+          },
+          {
+            command: "> git add src/webhook.js",
+            workingLine1: "M src/webhook.js",
+            workingLine2: "M src/ui.js",
+            workingLine3: "",
+            indexLine1: "A src/webhook.js",
+            indexLine2: "(ui.js still unstaged)",
+            indexNote: "selected change copied into the index",
+            indexNote2: "",
+            repoLine1: "commit 9fab23",
+            repoLine2: "last saved release snapshot",
+            repoNote: "repository still has the old commit",
+            repoNote2: "",
+            leftStroke: "#2f9f78",
+            leftDash: "",
+            leftMarker: "url(#three-areas-arrow-green)",
+            leftLabel: "git add",
+            rightStroke: "#587ca1",
+            rightDash: "7 7",
+            rightMarker: "",
+            rightLabel: "not committed yet",
+            caption:
+              "git add copies selected content from the working tree into the staging index without changing repository history.",
+            summary: "Moves selected changes from the working tree into the index."
+          },
+          {
+            command: '> git commit -m "fix: webhook parser"',
+            workingLine1: "M src/ui.js",
+            workingLine2: "webhook.js now matches",
+            workingLine3: "committed version",
+            indexLine1: "(clean)",
+            indexLine2: "",
+            indexNote: "staged snapshot was written",
+            indexNote2: "and index is now clear",
+            repoLine1: "commit c4d5e6",
+            repoLine2: "includes src/webhook.js fix",
+            repoNote: "new snapshot saved in repository history",
+            repoNote2: "",
+            leftStroke: "#587ca1",
+            leftDash: "7 7",
+            leftMarker: "",
+            leftLabel: "still unstaged",
+            rightStroke: "#2f9f78",
+            rightDash: "",
+            rightMarker: "url(#three-areas-arrow-green)",
+            rightLabel: "git commit",
+            caption:
+              "git commit writes the staged snapshot into repository history. Unstaged work like ui.js can still remain in the working tree.",
+            summary: "Writes the staged snapshot into repository history."
+          }
+        ];
+
+        const stepButtons = Array.from(document.querySelectorAll("[data-three-areas-target]"));
+        const playButton = document.querySelector("[data-three-areas-play]");
+        const command = document.getElementById("threeAreasCommand");
+        const workingLine1 = document.getElementById("threeAreasWorkingLine1");
+        const workingLine2 = document.getElementById("threeAreasWorkingLine2");
+        const workingLine3 = document.getElementById("threeAreasWorkingLine3");
+        const indexLine1 = document.getElementById("threeAreasIndexLine1");
+        const indexLine2 = document.getElementById("threeAreasIndexLine2");
+        const indexNote = document.getElementById("threeAreasIndexNote");
+        const indexNote2 = document.getElementById("threeAreasIndexNote2");
+        const repoLine1 = document.getElementById("threeAreasRepoLine1");
+        const repoLine2 = document.getElementById("threeAreasRepoLine2");
+        const repoNote = document.getElementById("threeAreasRepoNote");
+        const repoNote2 = document.getElementById("threeAreasRepoNote2");
+        const leftArrow = document.getElementById("threeAreasArrowLeft");
+        const rightArrow = document.getElementById("threeAreasArrowRight");
+        const leftArrowLabel = document.getElementById("threeAreasArrowLeftLabel");
+        const rightArrowLabel = document.getElementById("threeAreasArrowRightLabel");
+        const caption = document.getElementById("threeAreasStateCaption");
+        const stepDelayMs = 1800;
+        let currentStateIndex = 0;
+        let playing = false;
+        let timerId = null;
+
+        function clearTimer() {
+          if (timerId !== null) {
+            window.clearTimeout(timerId);
+            timerId = null;
+          }
+        }
+
+        function renderPlayButton() {
+          if (!playButton) {
+            return;
+          }
+          const atEnd = currentStateIndex >= states.length - 1;
+          playButton.textContent = playing ? "Pause" : atEnd ? "Replay" : "Play";
+          playButton.setAttribute("aria-pressed", String(playing));
+          playButton.classList.toggle("is-active", playing);
+        }
+
+        function applyArrow(pathElement, color, dash, marker) {
+          pathElement.setAttribute("stroke", color);
+          if (dash) {
+            pathElement.setAttribute("stroke-dasharray", dash);
+          } else {
+            pathElement.removeAttribute("stroke-dasharray");
+          }
+          if (marker) {
+            pathElement.setAttribute("marker-end", marker);
+          } else {
+            pathElement.removeAttribute("marker-end");
+          }
+        }
+
+        function setState(index) {
+          const state = states[index];
+          if (!state) {
+            return;
+          }
+          currentStateIndex = index;
+
+          command.textContent = state.command;
+          workingLine1.textContent = state.workingLine1;
+          workingLine2.textContent = state.workingLine2;
+          workingLine3.textContent = state.workingLine3;
+          indexLine1.textContent = state.indexLine1;
+          indexLine2.textContent = state.indexLine2;
+          indexNote.textContent = state.indexNote;
+          indexNote2.textContent = state.indexNote2;
+          repoLine1.textContent = state.repoLine1;
+          repoLine2.textContent = state.repoLine2;
+          repoNote.textContent = state.repoNote;
+          repoNote2.textContent = state.repoNote2;
+          leftArrowLabel.textContent = state.leftLabel;
+          rightArrowLabel.textContent = state.rightLabel;
+          caption.textContent = state.caption;
+          applyArrow(leftArrow, state.leftStroke, state.leftDash, state.leftMarker);
+          applyArrow(rightArrow, state.rightStroke, state.rightDash, state.rightMarker);
+
+          stepButtons.forEach((button, buttonIndex) => {
+            const active = buttonIndex === index;
+            button.classList.toggle("is-active", active);
+            button.setAttribute("aria-pressed", String(active));
+          });
+
+          renderPlayButton();
+        }
+
+        function pausePlayback() {
+          playing = false;
+          clearTimer();
+          renderPlayButton();
+        }
+
+        function queueAdvance() {
+          clearTimer();
+          if (!playing) {
+            return;
+          }
+          if (currentStateIndex >= states.length - 1) {
+            pausePlayback();
+            return;
+          }
+          timerId = window.setTimeout(() => {
+            setState(currentStateIndex + 1);
+            queueAdvance();
+          }, stepDelayMs);
+        }
+
+        stepButtons.forEach((button, index) => {
+          button.addEventListener("click", () => {
+            pausePlayback();
+            setState(index);
+          });
+        });
+
+        if (playButton) {
+          playButton.addEventListener("click", () => {
+            if (playing) {
+              pausePlayback();
+              return;
+            }
+            if (currentStateIndex >= states.length - 1) {
+              setState(0);
+            }
+            playing = true;
+            renderPlayButton();
+            queueAdvance();
+          });
+        }
+
+        setState(0);
+      })();
+    </script>
   </body>
 </html>
