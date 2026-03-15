@@ -72,6 +72,7 @@
                 <th>Decision Dimension</th>
                 <th>Trunk-Based Development</th>
                 <th>GitHub Flow</th>
+                <th>Release Flow</th>
                 <th>Git Flow</th>
               </tr>
             </thead>
@@ -80,36 +81,42 @@
                 <th>Learning curve</th>
                 <td>Medium to high</td>
                 <td>Low</td>
+                <td>Medium</td>
                 <td>High</td>
               </tr>
               <tr>
                 <th>Release cadence</th>
                 <td>Continuous</td>
                 <td>Very high</td>
+                <td>High</td>
                 <td>Medium</td>
               </tr>
               <tr>
                 <th>Governance depth</th>
                 <td>Automation-centric</td>
                 <td>Light to medium</td>
+                <td>Medium to high</td>
                 <td>High</td>
               </tr>
               <tr>
                 <th>Emergency handling</th>
                 <td>Direct fix to trunk or micro branch</td>
                 <td>Fast hotfix branch + expedited PR</td>
+                <td>Hotfix into active release, then sync main</td>
                 <td>Dedicated hotfix branch from main</td>
               </tr>
               <tr>
                 <th>Rollback pattern</th>
                 <td>Optional runtime disable, then rollback PR to trunk; FlexDeploy restore optional</td>
                 <td>Rollback PR to main; FlexDeploy restore optional</td>
+                <td>Rollback on release branch, then sync main</td>
                 <td>Revert via hotfix and retag</td>
               </tr>
               <tr>
                 <th>Best team context</th>
                 <td>Mature DevOps teams with strong CI/CD</td>
                 <td>SaaS teams shipping continuously</td>
+                <td>Teams with slow approvals and shared QA/UAT</td>
                 <td>Large teams with scheduled release trains</td>
               </tr>
             </tbody>
@@ -127,6 +134,10 @@
           <article class="fundamentals-card">
             <h3>Pick GitHub Flow</h3>
             <p>When most changes can ship from main quickly and PR policy is your primary governance gate.</p>
+          </article>
+          <article class="fundamentals-card">
+            <h3>Pick Release Flow</h3>
+            <p>When main can integrate continuously, but shared QA, staging, or delayed approvals need a governed release branch.</p>
           </article>
           <article class="fundamentals-card">
             <h3>Pick Git Flow</h3>
@@ -185,6 +196,7 @@
                 <select id="consensusStrategy" name="strategy">
                   <option value="Trunk-Based Development">Trunk-Based Development</option>
                   <option value="GitHub Flow">GitHub Flow</option>
+                  <option value="Release Flow">Release Flow</option>
                   <option value="Git Flow">Git Flow</option>
                 </select>
               </label>

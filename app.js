@@ -39,7 +39,7 @@ const STRATEGIES = {
       {
         stage: "CD Delivery",
         tool: "Argo CD / Actions Deploy",
-        detail: "Merged commits on main trigger deployment to target environment."
+        detail: "Merged commits on main trigger the release build and downstream deployment flow."
       },
       {
         stage: "Operate",
@@ -76,7 +76,7 @@ const STRATEGIES = {
           {
             lane: "feature",
             note: "Validate",
-            action: "Commit and push increments; CI validates every push.",
+            action: "Commit and push increments; feature-branch CI runs validation builds on every push.",
             command: "git add . && git commit -m \"feat: order discount\" && git push -u origin feature/order-discount"
           },
           {
@@ -88,14 +88,14 @@ const STRATEGIES = {
           {
             lane: "main",
             note: "Release",
-            action: "Deploy from main and monitor health metrics.",
-            command: "Deploy commit from main through CD pipeline"
+            action: "Build the release artifact from main, then deploy and monitor health metrics.",
+            command: "Build and deploy merged main commit through CD pipeline"
           }
         ],
         devops: [
           "CI trigger: every PR update runs full test and security suite.",
           "Policy: branch protection blocks merge until checks and approvals complete.",
-          "CD: merge to main auto-deploys to staging then production with observability checks."
+          "CD: merge to main builds the release artifact once, then promotes it through staging and production with observability checks."
         ]
       },
       emergency: {
@@ -118,7 +118,7 @@ const STRATEGIES = {
           {
             lane: "hotfix",
             note: "Patch + tests",
-            action: "Implement patch and run focused regression tests.",
+            action: "Implement patch and run focused regression tests on the hotfix branch.",
             command: "git commit -am \"fix: payment timeout\" && git push -u origin hotfix/payment-timeout"
           },
           {
@@ -130,8 +130,8 @@ const STRATEGIES = {
           {
             lane: "main",
             note: "Deploy now",
-            action: "Deploy immediately and track incident dashboards.",
-            command: "Promote hotfix build to production"
+            action: "Build the release artifact from merged main, deploy immediately, and track incident dashboards.",
+            command: "Promote main-branch hotfix artifact to production"
           }
         ],
         devops: [
@@ -142,7 +142,7 @@ const STRATEGIES = {
       },
       rollback: {
         title: "Rollback",
-        summary: "Regression response by reverting through an approved rollback PR into main to restore known-good behavior quickly.",
+        summary: "Regression response by reverting through an approved rollback PR into main so the release artifact is rebuilt from protected main and restored quickly.",
         caption: "Rollback branch + PR to main, then redeploy.",
         steps: [
           {
@@ -167,7 +167,7 @@ const STRATEGIES = {
           {
             lane: "main",
             note: "Redeploy",
-            action: "CD promotes the approved rollback merge commit to restore stable behavior.",
+            action: "CD rebuilds the release artifact from the approved rollback merge on main, then restores stable behavior.",
             command: "Deploy latest green main commit"
           },
           {
@@ -178,9 +178,216 @@ const STRATEGIES = {
           }
         ],
         devops: [
-          "Rollback path is deterministic because production always follows main.",
+          "Rollback path is deterministic because production always follows artifacts rebuilt from main.",
           "Audit trail stays clean: rollback PR and merge commit are explicit and traceable.",
           "Post-incident action: add regression test to pipeline before re-introducing change."
+        ]
+      }
+    }
+  },
+  releaseFlow: {
+    label: "Release Flow",
+    tagline: "main integrates changes, release branches carry governed QA, staging, and production promotion.",
+    bestFor:
+      "Best for: teams that merge regularly to main but need release branches for slower approvals or shared QA/UAT sign-off.",
+    gate: "Release gate: cut release/* from main, build once there, then promote with approvals.",
+    lanes: [
+      { id: "main", label: "main", color: "#1f4c77" },
+      { id: "feature", label: "feature/*", color: "#557eaa" },
+      { id: "release", label: "release/*", color: "#b27829" },
+      { id: "hotfix", label: "hotfix/*", color: "#c04f3f" }
+    ],
+    pros: [
+      "Clear separation between integration on main and governed release promotion on release branches.",
+      "Supports build once, promote same artifact across shared QA, staging, and production.",
+      "Fits teams where release approvals or QA sign-off take days."
+    ],
+    cons: [
+      "More branch coordination than GitHub Flow.",
+      "Requires discipline to sync release fixes back to main.",
+      "main can move ahead of the currently shipping release branch."
+    ],
+    toolchain: [
+      {
+        stage: "Work Intake",
+        tool: "Jira / Azure Boards",
+        detail: "Features merge to main, while release tickets and approvals map to release branches."
+      },
+      {
+        stage: "Review Gate",
+        tool: "Pull Requests + Branch Protection",
+        detail: "PR rules protect both main and active release branches."
+      },
+      {
+        stage: "CI Validation",
+        tool: "GitHub Actions / Jenkins",
+        detail: "Feature branches validate quickly; release branches run heavier suites before promotion."
+      },
+      {
+        stage: "Release Mgmt",
+        tool: "Release Branches + Tags",
+        detail: "release/* branches or release tags drive immutable artifact records."
+      },
+      {
+        stage: "Operate",
+        tool: "FlexDeploy + ITSM + Monitoring",
+        detail: "Approvals, deployment windows, and audit evidence follow the release branch artifact."
+      }
+    ],
+    comparison: {
+      learningCurve: "Medium",
+      releaseCadence: "High",
+      governance: "Medium to high",
+      emergency: "Hotfix into active release, then sync main",
+      rollback: "Rollback on release branch, then sync main",
+      teamFit: "Teams with slow approvals and shared QA/UAT"
+    },
+    scenarios: {
+      standard: {
+        title: "Standard Change",
+        summary:
+          "Feature work merges to main under normal PR policy, then a release branch is cut from main so shared QA, staging, and production can all promote the same artifact version.",
+        caption: "feature -> main -> release -> QA/staging/prod.",
+        steps: [
+          {
+            lane: "main",
+            note: "Sync main",
+            action: "Start from the current integration baseline on main.",
+            command: "git checkout main && git pull"
+          },
+          {
+            lane: "feature",
+            note: "Feature branch",
+            action: "Create a short-lived feature branch for the change.",
+            command: "git checkout -b feature/order-discount"
+          },
+          {
+            lane: "feature",
+            note: "Validate",
+            action: "Commit and push incremental work; feature-branch CI validates the change.",
+            command: "git add . && git commit -m \"feat: order discount\" && git push -u origin feature/order-discount"
+          },
+          {
+            lane: "main",
+            note: "Merge to main",
+            action: "Merge approved PR into protected main once checks pass.",
+            command: "Open PR: feature/order-discount -> main"
+          },
+          {
+            lane: "release",
+            note: "Cut release",
+            action: "Create a release branch from the merged main commit for shared QA and staging sign-off.",
+            command: "git checkout main && git pull && git checkout -b release/2026.03 && git push -u origin release/2026.03"
+          },
+          {
+            lane: "release",
+            note: "Tag + promote",
+            action: "Tag the approved release branch and promote that same artifact through QA, staging, and production.",
+            command: "git checkout release/2026.03 && git tag rel-2026.03.0 && git push origin release/2026.03 --follow-tags"
+          },
+          {
+            lane: "main",
+            note: "Sync fixes",
+            action: "Cherry-pick or merge any release-branch-only fixes back to main so integration history stays aligned.",
+            command: "git checkout main && git cherry-pick <release-fix-sha>"
+          }
+        ],
+        devops: [
+          "Feature branches run validation builds only; formal release builds start from release/*.",
+          "Shared QA and staging validate the release branch artifact, not a feature branch build.",
+          "FlexDeploy promotes one release-branch artifact across environments, even if production approval takes days."
+        ]
+      },
+      emergency: {
+        title: "Emergency Change",
+        summary:
+          "Urgent production fixes start from the active release branch or production tag, then the fix is synchronized back to main after the emergency deploy.",
+        caption: "active release -> hotfix -> release deploy -> sync main.",
+        steps: [
+          {
+            lane: "release",
+            note: "Active release",
+            action: "Start from the currently shipping release branch or production tag.",
+            command: "git checkout release/2026.03 && git pull"
+          },
+          {
+            lane: "hotfix",
+            note: "Hotfix branch",
+            action: "Create a hotfix branch from the active release baseline.",
+            command: "git checkout -b hotfix/2026.03.1 release/2026.03"
+          },
+          {
+            lane: "hotfix",
+            note: "Patch + test",
+            action: "Implement the fix and run focused regression checks.",
+            command: "git commit -am \"fix: payment timeout\" && git push -u origin hotfix/2026.03.1"
+          },
+          {
+            lane: "release",
+            note: "Merge to release",
+            action: "Merge the approved hotfix into the active release branch so the release artifact stays authoritative.",
+            command: "Open PR: hotfix/2026.03.1 -> release/2026.03"
+          },
+          {
+            lane: "release",
+            note: "Tag + deploy",
+            action: "Tag the patched release branch and promote that patch artifact to production.",
+            command: "git checkout release/2026.03 && git tag rel-2026.03.1 && git push origin release/2026.03 --follow-tags"
+          },
+          {
+            lane: "main",
+            note: "Sync main",
+            action: "Cherry-pick or merge the hotfix back to main so future releases include it.",
+            command: "git checkout main && git cherry-pick <hotfix-sha>"
+          }
+        ],
+        devops: [
+          "Emergency release builds come from the active release or hotfix branch, not from a feature branch.",
+          "The same hotfix artifact is validated once and promoted through the governed release path.",
+          "Source alignment back to main is mandatory after the emergency release."
+        ]
+      },
+      rollback: {
+        title: "Rollback",
+        summary:
+          "Rollback reverts the bad change on the active release branch, redeploys the rebuilt release artifact, then synchronizes that rollback back to main.",
+        caption: "release rollback branch -> release deploy -> sync main.",
+        steps: [
+          {
+            lane: "release",
+            note: "Identify release",
+            action: "Locate the active release branch or tag that contains the bad change.",
+            command: "git checkout release/2026.03 && git pull"
+          },
+          {
+            lane: "hotfix",
+            note: "Rollback branch",
+            action: "Create a rollback branch from the active release branch and revert the bad commit.",
+            command: "git checkout -b rollback/2026.03.2 release/2026.03 && git revert <bad-sha> && git push -u origin rollback/2026.03.2"
+          },
+          {
+            lane: "release",
+            note: "Rollback PR",
+            action: "Open rollback PR to the protected release branch and run required checks.",
+            command: "Open PR: rollback/2026.03.2 -> release/2026.03"
+          },
+          {
+            lane: "release",
+            note: "Retag + deploy",
+            action: "Retag the corrected release branch and redeploy that rebuilt release artifact.",
+            command: "git checkout release/2026.03 && git tag rel-2026.03.2 && git push origin release/2026.03 --follow-tags"
+          },
+          {
+            lane: "main",
+            note: "Sync main",
+            action: "Cherry-pick or merge the rollback correction back to main so the next release stays aligned.",
+            command: "git checkout main && git cherry-pick <rollback-sha>"
+          }
+        ],
+        devops: [
+          "Fast environment recovery can still happen first by redeploying a tracked good version in FlexDeploy.",
+          "Authoritative Git rollback happens on the active release branch, because that branch owns the promoted artifact.",
+          "Main must be synchronized after rollback so the next release does not reintroduce the reverted change."
         ]
       }
     }
@@ -286,9 +493,9 @@ const STRATEGIES = {
           }
         ],
         devops: [
-          "CI split: quick checks on feature branches, expanded suites on release branches.",
+          "CI split: quick validation builds on feature branches, expanded suites on release branches.",
           "Release pipeline can include manual approval, security sign-off, and performance gate.",
-          "Artifact versioning is tied to main tags for auditable deployments."
+          "Artifact versioning is tied to release branches or main tags so deployments never come directly from feature branches."
         ]
       },
       emergency: {
@@ -317,7 +524,7 @@ const STRATEGIES = {
           {
             lane: "main",
             note: "Release patch",
-            action: "Merge hotfix into main, tag patch release, deploy.",
+            action: "Merge hotfix into main, tag patch release, build the release artifact, and deploy.",
             command: "Open PR: hotfix/2.4.1 -> main, merge, then tag v2.4.1 from main"
           },
           {
@@ -329,7 +536,7 @@ const STRATEGIES = {
         ],
         devops: [
           "Hotfix pipeline is optimized for speed but still enforces smoke and security checks.",
-          "Patch tag creates clear incident release artifact and audit trace.",
+          "Patch tag creates the auditable release artifact from main and preserves incident traceability.",
           "Dual-merge automation helps prevent missing hotfixes in develop."
         ]
       },
@@ -380,7 +587,7 @@ const STRATEGIES = {
   trunkBased: {
     label: "Trunk-Based Development",
     tagline:
-      "Very short-lived branches merged rapidly into protected trunk, with strong automation and optional release controls like feature flags.",
+      "Very short-lived branches merged rapidly into protected trunk, with validation on short-lived branches and release builds produced only after merge to protected trunk, plus optional release controls like feature flags.",
     bestFor: "Best for: high-velocity platforms practicing continuous delivery and progressive rollout.",
     gate: "Release gate: trunk health, automated tests, and optional runtime release controls (for example feature flags).",
     lanes: [
@@ -417,7 +624,7 @@ const STRATEGIES = {
       {
         stage: "CD Delivery",
         tool: "Progressive Delivery",
-        detail: "Trunk deploys continuously with canary and optional feature-flag rollout."
+        detail: "Trunk builds the release artifact continuously, then deploys it with canary and optional feature-flag rollout."
       },
       {
         stage: "Operate",
@@ -436,7 +643,7 @@ const STRATEGIES = {
     scenarios: {
       standard: {
         title: "Standard Change",
-        summary: "Small changes merge to trunk quickly, then roll out progressively using optional runtime controls where available.",
+        summary: "Small changes validate on short-lived branches, merge to trunk quickly, then build once from trunk and roll out progressively using optional runtime controls where available.",
         caption: "small branch, same-day merge, progressive release.",
         steps: [
           {
@@ -460,8 +667,8 @@ const STRATEGIES = {
           {
             lane: "flag",
             note: "Flag off",
-            action: "If supported, deploy dark and keep runtime control disabled by default.",
-            command: "Optional: deploy main artifact with feature flag/control set OFF"
+            action: "If supported, deploy the trunk-built artifact dark and keep runtime control disabled by default.",
+            command: "Optional: deploy trunk artifact with feature flag/control set OFF"
           },
           {
             lane: "flag",
@@ -471,7 +678,7 @@ const STRATEGIES = {
           }
         ],
         devops: [
-          "CI is optimized for sub-10-minute feedback to keep trunk moving.",
+          "CI is optimized for sub-10-minute feedback on short-lived branches so trunk stays releasable.",
           "Feature flags can decouple deployment from release decisions when available.",
           "Progressive delivery uses canary metrics to control blast radius."
         ]
@@ -479,7 +686,7 @@ const STRATEGIES = {
       emergency: {
         title: "Emergency Change",
         summary:
-          "Critical production incident handled with micro-branch, expedited PR merge to trunk, and rapid redeploy.",
+          "Critical production incident handled with micro-branch validation, expedited PR merge to trunk, and rapid redeploy of the new trunk artifact.",
         caption:
           "micro-branch hotfix -> expedited PR to trunk -> redeploy, with optional runtime containment when available.",
         steps: [
@@ -505,7 +712,7 @@ const STRATEGIES = {
           {
             lane: "trunk",
             note: "Redeploy",
-            action: "Auto-deploy updated trunk artifact to production.",
+            action: "Auto-deploy the updated artifact built from merged trunk to production.",
             command: "Promote latest trunk artifact through CD"
           },
           {
@@ -563,7 +770,7 @@ const STRATEGIES = {
         ],
         devops: [
           "Fastest blast-radius reduction can come from runtime-control disable when supported.",
-          "Phase 1 service recovery can happen first in FlexDeploy by redeploying a tracked good version; phase 2 source-of-truth recovery is the explicit revert PR to trunk.",
+          "Phase 1 service recovery can happen first by redeploying a tracked good version; phase 2 source-of-truth recovery is the explicit revert PR to trunk, which rebuilds the canonical trunk artifact.",
           "Observability gates confirm rollback success before re-enabling feature."
         ]
       }
@@ -577,17 +784,17 @@ const SCENARIO_LABELS = {
   rollback: "Rollback"
 };
 
-const STRATEGY_ORDER = ["trunkBased", "githubFlow", "gitFlow"];
+const STRATEGY_ORDER = ["trunkBased", "githubFlow", "releaseFlow", "gitFlow"];
 const ROLLBACK_MODE_ORDER = ["pr", "automation"];
 const ROLLBACK_MODES = {
   pr: {
     label: "Git History via PR (Default)",
-    summary: "Rollback branch plus approved PR merge to protected main/trunk."
+    summary: "Rollback branch plus approved PR merge to the protected release branch or main/trunk."
   },
   automation: {
     label: "Git History via Automation (Exception)",
     summary:
-      "Break-glass only: trusted automation identity performs rollback commit on protected main/trunk with explicit approval, time-bound exception, and audit trail."
+      "Break-glass only: trusted automation identity performs rollback commit on the protected release branch or main/trunk with explicit approval, time-bound exception, and audit trail."
   }
 };
 
@@ -596,15 +803,15 @@ const FLEXDEPLOY_PLAYBOOK = {
     summary:
       "Best when trunk stays releasable and FlexDeploy owns downstream promotion, release windows, and production approval.",
     positioning:
-      "Keep code review and branch protection in the Git host. Use FlexDeploy after merge for build once, approve once, and promote the same artifact everywhere.",
+      "Keep code review and branch protection in the Git host. Use feature branches only for validation builds. After merge, let FlexDeploy build once from trunk or main, approve once, and promote the same artifact everywhere.",
     trigger: "Trigger: merge to trunk/main",
     reviewGate: "Review: PR + required checks",
     prodGate: "Prod gate: Approval Gate or change ticket",
     flow: [
-      "Developer opens a short-lived pull request into trunk or main.",
+      "Developer opens a short-lived pull request into trunk or main after feature-branch validation builds pass.",
       "Git host enforces required reviews, status checks, and branch protection before merge.",
       "The approved merge emits a push webhook to a FlexDeploy Incoming Webhook.",
-      "FlexDeploy builds once and records the releaseable artifact or snapshot against the merged commit SHA.",
+      "FlexDeploy builds once from the merged trunk/main commit and records the releaseable artifact or snapshot against that SHA.",
       "Lower environments can promote automatically from the same built artifact.",
       "Production pauses at an Approval Gate or External Approval Gate, then deploys and sends notifications."
     ],
@@ -633,7 +840,7 @@ const FLEXDEPLOY_PLAYBOOK = {
     webhook: [
       "Configure a FlexDeploy Incoming Webhook for the merge-to-main event from GitHub, Bitbucket, or Azure Repos.",
       "Use the webhook function to capture branch, repository, and commit SHA from the payload.",
-      "Trigger the build immediately after merge so the release artifact matches the reviewed commit."
+      "Trigger the release build immediately after merge so the artifact matches the reviewed trunk/main commit, not the feature branch."
     ],
     review: [
       "Do not use FlexDeploy to compensate for weak trunk hygiene; keep direct pushes blocked on the production branch.",
@@ -658,17 +865,17 @@ const FLEXDEPLOY_PLAYBOOK = {
   },
   githubFlow: {
     summary:
-      "Strong fit when GitHub owns pull-request governance and FlexDeploy owns artifact promotion after merge to main.",
+      "Strong fit when GitHub owns pull-request governance, feature branches only run validation builds, and FlexDeploy owns release build plus artifact promotion after merge to main.",
     positioning:
       "GitHub should remain the review gate with CODEOWNERS, rulesets, and status checks. FlexDeploy starts after the approved merge and becomes the release-control layer.",
     trigger: "Trigger: PR merge to main",
     reviewGate: "Review: PR approvals + branch rules",
     prodGate: "Prod gate: GitHub env reviewer or FlexDeploy gate",
     flow: [
-      "Developer pushes a feature branch and opens a pull request to main.",
+      "Developer pushes a feature branch, runs validation builds there, and opens a pull request to main.",
       "GitHub enforces CODEOWNERS, required reviewers, and status checks before merge.",
       "Merge to main emits the push webhook that starts FlexDeploy automation.",
-      "FlexDeploy builds or imports the artifact tied to that main commit SHA.",
+      "FlexDeploy builds or imports the release artifact tied to that merged main commit SHA.",
       "Deployment pipeline promotes the same artifact through staging and other non-prod environments.",
       "Production waits for the chosen final gate, then FlexDeploy deploys and publishes release notifications."
     ],
@@ -702,7 +909,7 @@ const FLEXDEPLOY_PLAYBOOK = {
     review: [
       "Use GitHub rulesets, branch protection, and CODEOWNERS for the source-control gate.",
       "Keep feature branches short-lived so webhook-triggered deployments reflect small reviewed changes.",
-      "Avoid direct deploys from feature branches if the team says production follows main."
+      "Avoid direct deploys from feature branches; if production follows main, release artifacts must also come from main."
     ],
     approvals: [
       "Decide whether GitHub environment reviewers or FlexDeploy Approval Gates own the final manual approval.",
@@ -710,7 +917,7 @@ const FLEXDEPLOY_PLAYBOOK = {
       "For emergency hotfixes, document the expedited PR policy and the matching reduced release quorum."
     ],
     release: [
-      "Build after merge to main and promote the same artifact through all environments.",
+      "Build after merge to main and promote that same main-built artifact through all environments.",
       "Use FlexDeploy to coordinate deployment windows, dependencies, and cross-system promotion.",
       "Keep GitHub focused on source control; keep FlexDeploy focused on governed release movement."
     ],
@@ -718,6 +925,70 @@ const FLEXDEPLOY_PLAYBOOK = {
       "Publish deployment outcomes through outgoing webhooks or chat notifications.",
       "Keep release evidence tied to commit SHA, approver, and target environment.",
       "Rollback is merge of an approved revert PR to main (or approved automation exception commit), while FlexDeploy can rapidly restore a tracked deployment version if needed."
+    ]
+  },
+  releaseFlow: {
+    summary:
+      "Best fit when main integrates continuously but release/* branches own governed build, QA/staging sign-off, and production promotion.",
+    positioning:
+      "Keep PR review on feature -> main. When a change set is ready for shared QA, staging, or slower approval cycles, cut a release branch from main. FlexDeploy then builds once from release/* or a release tag and promotes that same artifact.",
+    trigger: "Trigger: release/* push or release tag",
+    reviewGate: "Review: PRs into main and release/*",
+    prodGate: "Prod gate: Approval Gate, CAB, or change ticket",
+    flow: [
+      "Developer merges approved feature branches into main under normal review policy.",
+      "A release branch is cut from main when the team is ready for governed QA, staging, and production promotion.",
+      "release/* or release tag events trigger FlexDeploy via webhook.",
+      "FlexDeploy builds once from the release branch or tag and records the release artifact against that release line.",
+      "Shared QA and staging validate the same artifact while approvals proceed.",
+      "Production promotes that approved release artifact without rebuilding from a different branch."
+    ],
+    stages: [
+      {
+        title: "Release Branch Event",
+        detail: "release/* creation, update, or tag event becomes the governed release trigger."
+      },
+      {
+        title: "Webhook Routing",
+        detail: "FlexDeploy routes release branch or tag payloads into the correct pipeline and version metadata."
+      },
+      {
+        title: "Build Once",
+        detail: "Create one immutable release artifact from release/* or the release tag."
+      },
+      {
+        title: "Shared Validation",
+        detail: "QA and staging validate the same release artifact while approvals or release windows are pending."
+      },
+      {
+        title: "Production Approval",
+        detail: "Approval Gates or external change approvals stop production until the release branch is authorized."
+      }
+    ],
+    webhook: [
+      "Trigger FlexDeploy from release/* creation, update, or release tag events rather than from feature branches.",
+      "Carry release branch name, source main SHA, and version hint into the webhook payload.",
+      "Do not rebuild from feature branches once shared QA/staging sign-off starts."
+    ],
+    review: [
+      "Keep feature -> main PRs small and reviewed under normal policy.",
+      "Protect both main and the active release/* branch; fixes into release/* should still be reviewable.",
+      "Shared QA and staging should validate the release branch artifact, not a feature branch build."
+    ],
+    approvals: [
+      "Use FlexDeploy Approval Gate or External Approval Gate when release managers, CAB, or ITSM ownership is required.",
+      "Keep one authoritative production approval owner for the active release branch.",
+      "Document how release fixes, hotfixes, and rollback sync back to main after production."
+    ],
+    release: [
+      "Build once from release/* or the release tag and promote that same artifact through QA, staging, UAT, and production.",
+      "If a fix lands on the active release branch, rebuild once from that updated release line and continue promotion from the new version.",
+      "Keep main as the integration source, but let release/* own the governed deployment path."
+    ],
+    observe: [
+      "Track artifact version, release branch name, source main SHA, approver, and target environment.",
+      "Publish release-cut, approval-wait, and deploy outcomes through outgoing webhooks or chat notifications.",
+      "Rollback can restore a tracked deployment version immediately, then revert or cherry-pick the source correction on release/* and sync main."
     ]
   },
   gitFlow: {
@@ -774,7 +1045,7 @@ const FLEXDEPLOY_PLAYBOOK = {
       "Keep audit evidence attached to release branch or tag metadata."
     ],
     release: [
-      "Build once from the release branch or tagged main commit and promote that artifact.",
+      "Use feature and develop branches for validation only, then build once from the release branch or tagged main commit and promote that artifact.",
       "Use FlexDeploy to manage release windows, environment ordering, and dependent application rollout.",
       "Treat hotfixes as the same governed pipeline with a smaller validation profile."
     ],
@@ -998,7 +1269,7 @@ function getScenarioForDisplay(strategyId, scenarioId, scenario, rollbackMode = 
   const view = {
     ...scenario,
     summary:
-      `${scenario.summary} In this exception mode, only break-glass approved automation may commit rollback changes to protected main/trunk, with explicit approver and audit evidence. ` +
+      `${scenario.summary} In this exception mode, only break-glass approved automation may commit rollback changes to the protected release branch or main/trunk, with explicit approver and audit evidence. ` +
       "Flowchart shows phase 1 service recovery in FlexDeploy (restore tracked version), then phase 2 source-of-truth recovery in Git history via automation commit.",
     steps: scenario.steps.map((step) => ({ ...step }))
   };
@@ -1063,6 +1334,26 @@ function getScenarioForDisplay(strategyId, scenarioId, scenario, rollbackMode = 
         command: "Run release checks on bot rollback SHA"
       };
     }
+  } else if (strategyId === "releaseFlow") {
+    if (view.steps[1]) {
+      view.steps[1] = {
+        ...view.steps[1],
+        lane: "release",
+        note: "Automation rollback",
+        action:
+          "Authorize break-glass trusted automation to create rollback commit on the protected release branch with incident approver and audit record.",
+        command: "Automation job: revert <bad-sha> on release/2026.03 (service account)"
+      };
+    }
+    if (view.steps[2]) {
+      view.steps[2] = {
+        ...view.steps[2],
+        lane: "release",
+        note: "Validate bot commit",
+        action: "Run release validation checks on the automation rollback commit before retagging and deploy.",
+        command: "Run release checks on bot rollback SHA"
+      };
+    }
   }
 
   return view;
@@ -1119,6 +1410,10 @@ function renderFlexDeployIntegration() {
   const rollbackFlowNote = isRollbackScenario
     ? " Phase 1 is service recovery in FlexDeploy by restoring a tracked version. Phase 2 is source-of-truth recovery in Git history via rollback PR or approved break-glass automation revert."
     : "";
+  const primaryPreviewFlowNote =
+    strategyId === "githubFlow" && scenarioId === "standard"
+      ? " Optional pre-merge preview deploy is shown as validation only; release build and promotion still start after merge to main."
+      : "";
 
   elements.flexdeployStrategyName.textContent = `${strategyLabel} With FlexDeploy`;
   elements.flexdeploySummary.textContent = integration.summary;
@@ -1127,8 +1422,8 @@ function renderFlexDeployIntegration() {
   elements.flexdeployReviewGate.textContent = integration.reviewGate;
   elements.flexdeployProdGate.textContent = integration.prodGate;
   elements.flexdeployDiagramCaption.textContent = showCompare
-    ? `${strategyLabel} (${scenarioLabelWithMode}): primary flow. Comparison mode shows ${STRATEGIES[state.compareStrategyId].label} in parallel.${rollbackFlowNote}`
-    : `${strategyLabel} (${scenarioLabelWithMode}): synced to selected strategy and scenario. Hover each step for details.${rollbackFlowNote}`;
+    ? `${strategyLabel} (${scenarioLabelWithMode}): primary flow. Comparison mode shows ${STRATEGIES[state.compareStrategyId].label} in parallel.${rollbackFlowNote}${primaryPreviewFlowNote}`
+    : `${strategyLabel} (${scenarioLabelWithMode}): synced to selected strategy and scenario. Hover each step for details.${rollbackFlowNote}${primaryPreviewFlowNote}`;
 
   renderFlexdeployDiagram(integration, strategyId, scenarioId, state.rollbackMode, {
     svg: elements.flexdeployDiagram,
@@ -1145,10 +1440,14 @@ function renderFlexDeployIntegration() {
     const compareStrategyId = state.compareStrategyId;
     const compareIntegration = FLEXDEPLOY_PLAYBOOK[compareStrategyId];
     const compareLabel = STRATEGIES[compareStrategyId].label;
+    const comparePreviewFlowNote =
+      compareStrategyId === "githubFlow" && scenarioId === "standard"
+        ? " Optional pre-merge preview deploy is shown as validation only; release build and promotion still start after merge to main."
+        : "";
 
     elements.flexdeployCompareCard.hidden = false;
     if (elements.flexdeployCompareCaption) {
-      elements.flexdeployCompareCaption.textContent = `${compareLabel} (${scenarioLabelWithMode}): side-by-side scenario flow.${rollbackFlowNote}`;
+      elements.flexdeployCompareCaption.textContent = `${compareLabel} (${scenarioLabelWithMode}): side-by-side scenario flow.${rollbackFlowNote}${comparePreviewFlowNote}`;
     }
 
     renderFlexdeployDiagram(compareIntegration, compareStrategyId, scenarioId, state.rollbackMode, {
@@ -1231,14 +1530,14 @@ function renderScenario(strategy, scenario) {
     {
       modeId: "pr",
       title: ROLLBACK_MODES.pr.label,
-      summary: "Rollback branch + approved PR merge to protected main/trunk after FlexDeploy version restore.",
+      summary: "Rollback branch + approved PR merge to the protected release branch or main/trunk after FlexDeploy version restore.",
       scenario: getScenarioForDisplay(state.strategyId, "rollback", scenario, "pr")
     },
     {
       modeId: "automation",
       title: ROLLBACK_MODES.automation.label,
       summary:
-        "Break-glass trusted automation commit to protected main/trunk under explicit exception policy after FlexDeploy version restore.",
+        "Break-glass trusted automation commit to the protected release branch or main/trunk under explicit exception policy after FlexDeploy version restore.",
       scenario: getScenarioForDisplay(state.strategyId, "rollback", scenario, "automation")
     }
   ];
@@ -1448,7 +1747,6 @@ function renderFlexdeployDiagram(integration, strategyId, scenarioId, rollbackMo
   svg.textContent = "";
 
   const width = 980;
-  const height = 1080;
   const strategyLabel = STRATEGIES[strategyId].label;
   const prodGate = stripFlexPrefix(integration.prodGate, "Prod gate: ");
   const buildStage = integration.stages.find((stage) => /artifact|build|release candidate/i.test(stage.title));
@@ -1474,6 +1772,7 @@ function renderFlexdeployDiagram(integration, strategyId, scenarioId, rollbackMo
     width: nodeWidth,
     height: nodeHeight
   }));
+  const height = Math.max(1080, startY + (flowNodes.length - 1) * (nodeHeight + nodeGap) + nodeHeight + 70);
 
   svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
   svg.setAttribute("preserveAspectRatio", "xMinYMin meet");
@@ -1528,7 +1827,15 @@ function renderFlexdeployDiagram(integration, strategyId, scenarioId, rollbackMo
   bindFlexdeployDiagramTooltips(svg, tooltipTargets);
 }
 
-function buildStrategyFlowNodes({ strategyId, scenarioId, rollbackMode, integration, prodGate, buildStage, rollbackTip }) {
+function buildStrategyFlowNodes({
+  strategyId,
+  scenarioId,
+  rollbackMode,
+  integration,
+  prodGate,
+  buildStage,
+  rollbackTip
+}) {
   const note = (...parts) => {
     const lines = [];
     const seen = new Set();
@@ -1584,10 +1891,14 @@ function buildStrategyFlowNodes({ strategyId, scenarioId, rollbackMode, integrat
       {
         title: "Build Once",
         short: "Build Once",
-        detail: "One immutable artifact or snapshot.",
+        detail: "Build once from merged trunk/main.",
         system: "ARTIFACT TRACEABILITY",
         tone: "build",
-        tooltip: note(buildStage?.detail, integration.release[0])
+        tooltip: note(
+          "FlexDeploy builds once from the merged trunk/main commit, not from the feature branch.",
+          buildStage?.detail,
+          integration.release[0]
+        )
       },
       {
         title: "QA Validation",
@@ -1612,6 +1923,7 @@ function buildStrategyFlowNodes({ strategyId, scenarioId, rollbackMode, integrat
         detail: "Promote approved artifact to production.",
         system: "FINAL RELEASE GATE",
         tone: "gate",
+        iconTone: "deploy",
         tooltip: note(integration.release[1], integration.approvals[2], rollbackTip)
       }
     ],
@@ -1622,6 +1934,7 @@ function buildStrategyFlowNodes({ strategyId, scenarioId, rollbackMode, integrat
         detail: "GitHub PR approvals and checks pass.",
         system: "GITHUB CONTROL",
         tone: "source",
+        platform: "git",
         tooltip: note(integration.trigger, integration.review[0], integration.review[1])
       },
       {
@@ -1635,10 +1948,14 @@ function buildStrategyFlowNodes({ strategyId, scenarioId, rollbackMode, integrat
       {
         title: "Build Once",
         short: "Build Once",
-        detail: "Artifact mapped to merged main SHA.",
+        detail: "Build once from merged main.",
         system: "ARTIFACT TRACEABILITY",
         tone: "build",
-        tooltip: note(buildStage?.detail, integration.release[0])
+        tooltip: note(
+          "FlexDeploy builds once from the merged main commit, not from the feature branch.",
+          buildStage?.detail,
+          integration.release[0]
+        )
       },
       {
         title: "Staging Validation",
@@ -1663,7 +1980,64 @@ function buildStrategyFlowNodes({ strategyId, scenarioId, rollbackMode, integrat
         detail: "Promote approved artifact to production.",
         system: "FINAL RELEASE GATE",
         tone: "gate",
+        iconTone: "deploy",
         tooltip: note(integration.release[2], integration.approvals[2], rollbackTip)
+      }
+    ],
+    releaseFlow: [
+      {
+        title: "Release Branch Event",
+        short: "Release Event",
+        detail: "release/* cut from main starts governed flow.",
+        system: "RELEASE CONTROL",
+        tone: "source",
+        tooltip: note(integration.trigger, integration.review[0], integration.review[2])
+      },
+      {
+        title: "Webhook Routing",
+        short: "Webhook",
+        detail: "release/* or tag event routes to FlexDeploy.",
+        system: "WEBHOOK TRIGGER",
+        tone: "webhook",
+        tooltip: note(integration.webhook[0], integration.webhook[1], integration.webhook[2])
+      },
+      {
+        title: "Build Once",
+        short: "Build Once",
+        detail: "Build once from release/* or release tag.",
+        system: "ARTIFACT TRACEABILITY",
+        tone: "build",
+        tooltip: note(
+          "FlexDeploy builds the governed release artifact from release/* or a release tag, not from feature branches.",
+          buildStage?.detail,
+          integration.release[0]
+        )
+      },
+      {
+        title: "QA/Staging Validation",
+        short: "QA/Staging",
+        detail: "Validate shared release artifact in QA and staging.",
+        system: "QUALITY VALIDATION",
+        tone: "build",
+        iconTone: "qa",
+        tooltip: note(integration.release[1], integration.review[2])
+      },
+      {
+        title: "Release Approval",
+        short: "Approval",
+        detail: `Final gate: ${prodGate}.`,
+        system: "RELEASE CONTROL",
+        tone: "gate",
+        tooltip: note(integration.approvals[0], integration.approvals[1], integration.approvals[2])
+      },
+      {
+        title: "Production Deploy",
+        short: "Production",
+        detail: "Promote approved release artifact to production.",
+        system: "FINAL RELEASE GATE",
+        tone: "gate",
+        iconTone: "deploy",
+        tooltip: note(integration.observe[0], integration.observe[1], rollbackTip)
       }
     ],
     gitFlow: [
@@ -1686,10 +2060,14 @@ function buildStrategyFlowNodes({ strategyId, scenarioId, rollbackMode, integrat
       {
         title: "Release Candidate Build",
         short: "RC Build",
-        detail: "Build and track hardened release candidate.",
+        detail: "Build once from release/* or tagged main.",
         system: "ARTIFACT TRACEABILITY",
         tone: "build",
-        tooltip: note(buildStage?.detail, integration.release[0])
+        tooltip: note(
+          "FlexDeploy builds the release candidate from the release branch or tagged main event, not from feature branches.",
+          buildStage?.detail,
+          integration.release[0]
+        )
       },
       {
         title: "UAT Validation",
@@ -1714,12 +2092,30 @@ function buildStrategyFlowNodes({ strategyId, scenarioId, rollbackMode, integrat
         detail: "Promote approved release candidate.",
         system: "FINAL RELEASE GATE",
         tone: "gate",
+        iconTone: "deploy",
         tooltip: note(integration.observe[1], integration.observe[2], rollbackTip)
       }
     ]
   };
 
   const nodes = (byStrategy[strategyId] || byStrategy.trunkBased).map((node) => ({ ...node }));
+
+  if (strategyId === "githubFlow" && scenarioId === "standard") {
+    nodes.unshift({
+      title: "Optional Preview Deploy",
+      short: "Preview",
+      detail: "Optional feature-branch deploy to preview or validation env.",
+      system: "PRE-MERGE VALIDATION",
+      tone: "build",
+      iconTone: "deploy",
+      platform: "flexdeploy",
+      tooltip: note(
+        "Optional pre-merge deployment from the feature branch for preview, UX review, or early QA validation.",
+        "Do not treat this preview build as the release artifact.",
+        "Release build and downstream promotion still begin only after the PR merges to main."
+      )
+    });
+  }
 
   if (scenarioId === "emergency") {
     const emergencyByStrategy = {
@@ -1741,9 +2137,12 @@ function buildStrategyFlowNodes({ strategyId, scenarioId, rollbackMode, integrat
         {
           title: "Emergency Build Once",
           short: "Hotfix Build",
-          detail: "Build one hotfix artifact from the approved emergency commit.",
+          detail: "Build once from merged trunk/main hotfix.",
           system: "ARTIFACT TRACEABILITY",
-          tooltip: note("Single emergency artifact promoted across all environments.", integration.release[0])
+          tooltip: note(
+            "Single emergency artifact is built from the merged trunk/main hotfix commit and promoted across all environments.",
+            integration.release[0]
+          )
         },
         {
           title: "Smoke Validation",
@@ -1764,6 +2163,7 @@ function buildStrategyFlowNodes({ strategyId, scenarioId, rollbackMode, integrat
           short: "Hotfix Deploy",
           detail: "Promote approved hotfix artifact and monitor recovery.",
           system: "PRODUCTION RESTORE",
+          iconTone: "deploy",
           tooltip: note(integration.release[1], integration.observe[0], rollbackTip)
         }
       ],
@@ -1785,9 +2185,12 @@ function buildStrategyFlowNodes({ strategyId, scenarioId, rollbackMode, integrat
         {
           title: "Emergency Build Once",
           short: "Hotfix Build",
-          detail: "Build one emergency artifact from the approved hotfix SHA.",
+          detail: "Build once from merged main hotfix.",
           system: "ARTIFACT TRACEABILITY",
-          tooltip: note("Emergency artifact remains immutable across staging and production.", integration.release[0])
+          tooltip: note(
+            "Emergency artifact is built from the merged main hotfix commit and remains immutable across staging and production.",
+            integration.release[0]
+          )
         },
         {
           title: "Staging Smoke Validation",
@@ -1808,7 +2211,56 @@ function buildStrategyFlowNodes({ strategyId, scenarioId, rollbackMode, integrat
           short: "Hotfix Deploy",
           detail: "Promote approved hotfix artifact and monitor incident recovery.",
           system: "PRODUCTION RESTORE",
+          iconTone: "deploy",
           tooltip: note(integration.release[2], integration.observe[0], rollbackTip)
+        }
+      ],
+      releaseFlow: [
+        {
+          title: "Hotfix/Release Event",
+          short: "Hotfix Event",
+          detail: "hotfix/* from active release starts emergency path.",
+          system: "INCIDENT CONTROL",
+          tooltip: note(integration.trigger, integration.review[1], integration.review[2])
+        },
+        {
+          title: "Webhook Routing",
+          short: "Webhook",
+          detail: "Hotfix or release event routes to emergency release pipeline.",
+          system: "INCIDENT TRIGGER",
+          tooltip: note(integration.webhook[0], integration.webhook[1], integration.webhook[2])
+        },
+        {
+          title: "Emergency Build Once",
+          short: "Hotfix Build",
+          detail: "Build once from hotfix/* or active release/*.",
+          system: "ARTIFACT TRACEABILITY",
+          tooltip: note(
+            "Emergency artifact is built from the active release line or hotfix branch, then promoted unchanged.",
+            integration.release[0]
+          )
+        },
+        {
+          title: "QA/Staging Smoke",
+          short: "Smoke QA",
+          detail: "Run focused smoke and regression checks on the release-line artifact.",
+          system: "QUALITY VALIDATION",
+          tooltip: note(integration.release[1], "Emergency validation stays narrow but governed.")
+        },
+        {
+          title: "Emergency Approval",
+          short: "Emergency Gate",
+          detail: `Expedited gate: ${prodGate}.`,
+          system: "INCIDENT RELEASE CONTROL",
+          tooltip: note(integration.approvals[0], "Emergency approval still follows the active release branch path.")
+        },
+        {
+          title: "Production Hotfix Deploy",
+          short: "Hotfix Deploy",
+          detail: "Promote approved release-line hotfix artifact to production.",
+          system: "PRODUCTION RESTORE",
+          iconTone: "deploy",
+          tooltip: note(integration.observe[0], integration.observe[1], rollbackTip)
         }
       ],
       gitFlow: [
@@ -1829,9 +2281,13 @@ function buildStrategyFlowNodes({ strategyId, scenarioId, rollbackMode, integrat
         {
           title: "Hotfix Candidate Build",
           short: "Hotfix Build",
-          detail: "Build one patch artifact from hotfix branch.",
+          detail: "Build once from hotfix/* branch.",
           system: "ARTIFACT TRACEABILITY",
-          tooltip: note(integration.release[0], "Patch candidate remains immutable during promotion.")
+          tooltip: note(
+            "Patch artifact is built from the hotfix branch that feeds the controlled Git Flow release path.",
+            integration.release[0],
+            "Patch candidate remains immutable during promotion."
+          )
         },
         {
           title: "UAT Smoke Validation",
@@ -1852,6 +2308,7 @@ function buildStrategyFlowNodes({ strategyId, scenarioId, rollbackMode, integrat
           short: "Hotfix Deploy",
           detail: "Promote approved patch artifact to production.",
           system: "PRODUCTION RESTORE",
+          iconTone: "deploy",
           tooltip: note(integration.observe[1], integration.observe[2], rollbackTip)
         }
       ]
@@ -1975,6 +2432,65 @@ function buildStrategyFlowNodes({ strategyId, scenarioId, rollbackMode, integrat
           tooltip: note(
             "Environment recovery already happened in FlexDeploy in Phase 1.",
             "This final step aligns Git source history only."
+          )
+        }
+      ],
+      releaseFlow: [
+        {
+          title: "Regression Detected",
+          short: "Regression",
+          detail: "Release telemetry or QA finds a faulty promoted version.",
+          system: "INCIDENT DETECTION",
+          tooltip: note("Identify the active release branch, version, and failing commit.", rollbackTip)
+        },
+        {
+          title: "FlexDeploy Version Restore",
+          short: "Version Restore",
+          detail: "Deploy previously successful tracked version in FlexDeploy for immediate recovery.",
+          system: "FLEXDEPLOY RECOVERY",
+          tone: "gate",
+          iconTone: "build",
+          tooltip: note(
+            "Phase 1: FlexDeploy restores a tracked good release version immediately.",
+            "Git history rollback on the release branch follows as a separate governed step."
+          )
+        },
+        {
+          title: "Rollback Release Branch",
+          short: "Rollback Branch",
+          detail: "Create rollback branch from active release/* and revert the bad commit.",
+          system: "GIT HISTORY CHANGE",
+          tone: "source",
+          tooltip: note(
+            "Phase 2: begin Git history rollback on the branch that owns the promoted artifact.",
+            "This keeps the release line reviewable and auditable."
+          )
+        },
+        {
+          title: "Rollback PR Checks",
+          short: "PR Checks",
+          detail: "Open rollback PR to release/* and run required checks.",
+          system: "GIT REVIEW GATE",
+          tooltip: note(integration.review[1], integration.review[2])
+        },
+        {
+          title: "Rollback PR Approval",
+          short: "PR Approval",
+          detail: `Approve and merge rollback PR to protected release/* (${prodGate}).`,
+          system: "PROTECTED BRANCH POLICY",
+          tone: "gate",
+          tooltip: note(integration.approvals[0], integration.approvals[1])
+        },
+        {
+          title: "Git History Aligned",
+          short: "History Sync",
+          detail: "Release rollback is synchronized back to main for the next release cycle.",
+          system: "GIT HISTORY ALIGNMENT",
+          tone: "source",
+          iconTone: "sync",
+          tooltip: note(
+            "Environment recovery already happened in FlexDeploy in Phase 1.",
+            "Final sync keeps main and the release line aligned."
           )
         }
       ],
@@ -2124,6 +2640,48 @@ function buildStrategyFlowNodes({ strategyId, scenarioId, rollbackMode, integrat
             tooltip: note(
               "Environment recovery already happened in FlexDeploy in Phase 1.",
               integration.release[2]
+            )
+          }
+        ],
+        releaseFlow: [
+          null,
+          null,
+          {
+            title: "Automation Revert Commit",
+            short: "Bot Revert",
+            detail: "Trusted automation commits revert on protected release/* under exception policy.",
+            system: "AUTOMATION HISTORY CHANGE",
+            tone: "source",
+            tooltip: note(
+              "Phase 2: Git history rollback via trusted automation after FlexDeploy recovery.",
+              "Release branch stays protected for humans."
+            )
+          },
+          {
+            title: "Post-Revert Validation",
+            short: "Post-Revert QA",
+            detail: "Run release validation checks on bot rollback commit.",
+            system: "QUALITY VALIDATION",
+            tooltip: note("Validation confirms the bot rollback before retagging and deploy.", integration.review[2])
+          },
+          {
+            title: "Exception Approval Record",
+            short: "Exception Audit",
+            detail: `Record approver, incident, and bot identity (${prodGate}).`,
+            system: "EXCEPTION CONTROL",
+            tone: "gate",
+            tooltip: note(integration.approvals[0], "Restrict bypass rights to trusted automation on the active release branch only.")
+          },
+          {
+            title: "Git History Aligned",
+            short: "History Sync",
+            detail: "Bot rollback commit on release/* is synchronized back to main.",
+            system: "GIT HISTORY ALIGNMENT",
+            tone: "source",
+            iconTone: "sync",
+            tooltip: note(
+              "Environment recovery already happened in FlexDeploy in Phase 1.",
+              "Final sync keeps future main-based releases aligned with the rollback."
             )
           }
         ],
@@ -2515,6 +3073,8 @@ function drawFlexIcon(svg, tone, cx, cy) {
     drawFlexExternalIcon(group, "assets/icons/webhook.svg", cx - 10, cy - 10, 20);
   } else if (tone === "build") {
     drawFlexExternalIcon(group, "assets/icons/build-wrench.svg", cx - 10, cy - 10, 20);
+  } else if (tone === "deploy") {
+    drawFlexExternalIcon(group, "assets/icons/deploy-icon.png", cx - 10, cy - 10, 20, "flex-icon-image flex-icon-image-white");
   } else if (tone === "qa") {
     drawFlexExternalIcon(group, "assets/icons/qa-flask.svg", cx - 10, cy - 10, 20);
   } else if (tone === "gate") {

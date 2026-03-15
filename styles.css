@@ -686,6 +686,11 @@ p {
   pointer-events: none;
 }
 
+#flexdeployDiagram .flex-icon-image-white,
+#flexdeployCompareDiagram .flex-icon-image-white {
+  filter: brightness(0) invert(1);
+}
+
 #flexdeployDiagram .flex-tooltip-target,
 #flexdeployCompareDiagram .flex-tooltip-target {
   cursor: help;
