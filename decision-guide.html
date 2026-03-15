@@ -20,7 +20,20 @@
     <main class="layout">
       <section class="panel hero">
         <nav class="top-nav" aria-label="Site pages">
-          <a class="nav-link" href="concepts.html">Git Concepts</a>
+          <details class="nav-dropdown">
+            <summary class="nav-link nav-dropdown-summary">Git Concepts</summary>
+            <div class="nav-dropdown-menu">
+              <a class="nav-dropdown-link" href="concepts.html">Overview</a>
+              <a class="nav-dropdown-link" href="concepts/git-commits.html">1) Git + Commits</a>
+              <a class="nav-dropdown-link" href="concepts/dag-history.html">2) DAG + History Graph</a>
+              <a class="nav-dropdown-link" href="concepts/branches.html">3) Branches</a>
+              <a class="nav-dropdown-link" href="concepts/head.html">4) HEAD</a>
+              <a class="nav-dropdown-link" href="concepts/three-areas.html">5) Working Tree + Staging</a>
+              <a class="nav-dropdown-link" href="concepts/undo-recovery.html">6) Undo + Recovery</a>
+              <a class="nav-dropdown-link" href="concepts/merge-rebase.html">7) Merge + Rebase</a>
+              <a class="nav-dropdown-link" href="concepts/collaboration-devops.html">8) Collaboration + DevOps</a>
+            </div>
+          </details>
           <a class="nav-link" href="git-setup.html">Git Setup</a>
           <a class="nav-link" href="index.html">Branching Visualizer</a>
           <a class="nav-link nav-link-active" href="decision-guide.html">Decision Guide</a>
