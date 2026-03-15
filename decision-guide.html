@@ -65,6 +65,9 @@
       <section class="panel comparison">
         <h2>Comparison Matrix</h2>
         <p class="section-copy">Choose the strategy that matches your release rhythm and control model.</p>
+        <p class="section-copy matrix-help-copy">
+          Use the <span class="matrix-help-copy-icon">?</span> controls beside each decision dimension for a quick definition.
+        </p>
         <div class="table-wrap">
           <table>
             <thead>
@@ -78,42 +81,165 @@
             </thead>
             <tbody>
               <tr>
-                <th>Learning curve</th>
+                <th>
+                  <div class="matrix-heading-cell">
+                    <span>Learning curve</span>
+                    <details class="matrix-help-details">
+                      <summary aria-label="Explain Learning curve">?</summary>
+                      <div class="matrix-help-inline">How difficult the branching model is to learn, explain, and use correctly day to day.</div>
+                    </details>
+                  </div>
+                </th>
                 <td>Medium to high</td>
                 <td>Low</td>
                 <td>Medium</td>
                 <td>High</td>
               </tr>
               <tr>
-                <th>Release cadence</th>
+                <th>
+                  <div class="matrix-heading-cell">
+                    <span>Release cadence</span>
+                    <details class="matrix-help-details">
+                      <summary aria-label="Explain Release cadence">?</summary>
+                      <div class="matrix-help-inline">How frequently the model naturally supports releasing to production.</div>
+                    </details>
+                  </div>
+                </th>
                 <td>Continuous</td>
                 <td>Very high</td>
                 <td>High</td>
                 <td>Medium</td>
               </tr>
               <tr>
-                <th>Governance depth</th>
+                <th>
+                  <div class="matrix-heading-cell">
+                    <span>Governance depth</span>
+                    <details class="matrix-help-details">
+                      <summary aria-label="Explain Governance depth">?</summary>
+                      <div class="matrix-help-inline">How much formal control, review, approval, and release structure the model usually expects.</div>
+                    </details>
+                  </div>
+                </th>
                 <td>Automation-centric</td>
                 <td>Light to medium</td>
                 <td>Medium to high</td>
                 <td>High</td>
               </tr>
               <tr>
-                <th>Emergency handling</th>
+                <th>
+                  <div class="matrix-heading-cell">
+                    <span>Testing automation level</span>
+                    <details class="matrix-help-details">
+                      <summary aria-label="Explain Testing automation level">?</summary>
+                      <div class="matrix-help-inline">How strong and reliable automated build, test, and validation pipelines need to be for the strategy to work well.</div>
+                    </details>
+                  </div>
+                </th>
+                <td>Very high required</td>
+                <td>High recommended</td>
+                <td>Medium to high</td>
+                <td>Medium to high</td>
+              </tr>
+              <tr>
+                <th>
+                  <div class="matrix-heading-cell">
+                    <span>Team maturity / Git discipline</span>
+                    <details class="matrix-help-details">
+                      <summary aria-label="Explain Team maturity and Git discipline">?</summary>
+                      <div class="matrix-help-inline">How much the team can consistently keep branches short-lived, reviews clean, and rollback or recovery practices disciplined.</div>
+                    </details>
+                  </div>
+                </th>
+                <td>High</td>
+                <td>Medium</td>
+                <td>Medium to high</td>
+                <td>Medium to high</td>
+              </tr>
+              <tr>
+                <th>
+                  <div class="matrix-heading-cell">
+                    <span>Shared QA / UAT dependency</span>
+                    <details class="matrix-help-details">
+                      <summary aria-label="Explain Shared QA and UAT dependency">?</summary>
+                      <div class="matrix-help-inline">How much the strategy assumes shared QA, UAT, or staging environments are part of the formal release path.</div>
+                    </details>
+                  </div>
+                </th>
+                <td>Low</td>
+                <td>Low to medium</td>
+                <td>High</td>
+                <td>High</td>
+              </tr>
+              <tr>
+                <th>
+                  <div class="matrix-heading-cell">
+                    <span>Approval latency tolerance</span>
+                    <details class="matrix-help-details">
+                      <summary aria-label="Explain Approval latency tolerance">?</summary>
+                      <div class="matrix-help-inline">How well the strategy handles release approvals or sign-offs that may take hours or days.</div>
+                    </details>
+                  </div>
+                </th>
+                <td>Low</td>
+                <td>Low</td>
+                <td>High</td>
+                <td>High</td>
+              </tr>
+              <tr>
+                <th>
+                  <div class="matrix-heading-cell">
+                    <span>Artifact integrity requirement</span>
+                    <details class="matrix-help-details">
+                      <summary aria-label="Explain Artifact integrity requirement">?</summary>
+                      <div class="matrix-help-inline">How strongly the model depends on building once and promoting the exact same artifact through QA, staging, and production.</div>
+                    </details>
+                  </div>
+                </th>
+                <td>High</td>
+                <td>High after merge</td>
+                <td>Very high</td>
+                <td>Very high</td>
+              </tr>
+              <tr>
+                <th>
+                  <div class="matrix-heading-cell">
+                    <span>Emergency handling</span>
+                    <details class="matrix-help-details">
+                      <summary aria-label="Explain Emergency handling">?</summary>
+                      <div class="matrix-help-inline">How urgent production fixes are typically created, reviewed, merged, and deployed under the strategy.</div>
+                    </details>
+                  </div>
+                </th>
                 <td>Direct fix to trunk or micro branch</td>
                 <td>Fast hotfix branch + expedited PR</td>
                 <td>Hotfix into active release, then sync main</td>
                 <td>Dedicated hotfix branch from main</td>
               </tr>
               <tr>
-                <th>Rollback pattern</th>
+                <th>
+                  <div class="matrix-heading-cell">
+                    <span>Rollback pattern</span>
+                    <details class="matrix-help-details">
+                      <summary aria-label="Explain Rollback pattern">?</summary>
+                      <div class="matrix-help-inline">How the strategy usually restores production behavior and how Git history is corrected afterward.</div>
+                    </details>
+                  </div>
+                </th>
                 <td>Optional runtime disable, then rollback PR to trunk; FlexDeploy restore optional</td>
                 <td>Rollback PR to main; FlexDeploy restore optional</td>
                 <td>Rollback on release branch, then sync main</td>
                 <td>Revert via hotfix and retag</td>
               </tr>
               <tr>
-                <th>Best team context</th>
+                <th>
+                  <div class="matrix-heading-cell">
+                    <span>Best team context</span>
+                    <details class="matrix-help-details">
+                      <summary aria-label="Explain Best team context">?</summary>
+                      <div class="matrix-help-inline">The type of organization, release model, and delivery environment where the strategy is usually the best fit.</div>
+                    </details>
+                  </div>
+                </th>
                 <td>Mature DevOps teams with strong CI/CD</td>
                 <td>SaaS teams shipping continuously</td>
                 <td>Teams with slow approvals and shared QA/UAT</td>

@@ -7,6 +7,7 @@ Interactive static site for teaching Git branching strategy decisions and DevOps
 - Branching strategy comparison for:
   - Trunk-Based Development
   - GitHub Flow
+  - Release Flow
   - Git Flow
 - Scenario simulator for:
   - Standard change

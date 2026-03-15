@@ -190,7 +190,7 @@ const STRATEGIES = {
     tagline: "main integrates changes, release branches carry governed QA, staging, and production promotion.",
     bestFor:
       "Best for: teams that merge regularly to main but need release branches for slower approvals or shared QA/UAT sign-off.",
-    gate: "Release gate: cut release/* from main, build once there, then promote with approvals.",
+    gate: "Release gate: merge to protected release/*, build once there, then promote with approvals.",
     lanes: [
       { id: "main", label: "main", color: "#1f4c77" },
       { id: "feature", label: "feature/*", color: "#557eaa" },
@@ -226,7 +226,7 @@ const STRATEGIES = {
       {
         stage: "Release Mgmt",
         tool: "Release Branches + Tags",
-        detail: "release/* branches or release tags drive immutable artifact records."
+        detail: "Protected release/* branches drive immutable artifact records, with tags used as version labels."
       },
       {
         stage: "Operate",
@@ -342,7 +342,7 @@ const STRATEGIES = {
           }
         ],
         devops: [
-          "Emergency release builds come from the active release or hotfix branch, not from a feature branch.",
+          "Emergency release builds come from the patched active release/* branch after hotfix PR merge, not directly from the hotfix branch.",
           "The same hotfix artifact is validated once and promoted through the governed release path.",
           "Source alignment back to main is mandatory after the emergency release."
         ]
@@ -931,30 +931,30 @@ const FLEXDEPLOY_PLAYBOOK = {
     summary:
       "Best fit when main integrates continuously but release/* branches own governed build, QA/staging sign-off, and production promotion.",
     positioning:
-      "Keep PR review on feature -> main. When a change set is ready for shared QA, staging, or slower approval cycles, cut a release branch from main. FlexDeploy then builds once from release/* or a release tag and promotes that same artifact.",
-    trigger: "Trigger: release/* push or release tag",
+      "Keep PR review on feature -> main. When a change set is ready for shared QA, staging, or slower approval cycles, cut a release branch from main. FlexDeploy then builds once from the protected release/* commit, optionally stamped with a release tag, and promotes that same artifact.",
+    trigger: "Trigger: protected release/* update after approved merge",
     reviewGate: "Review: PRs into main and release/*",
     prodGate: "Prod gate: Approval Gate, CAB, or change ticket",
     flow: [
       "Developer merges approved feature branches into main under normal review policy.",
       "A release branch is cut from main when the team is ready for governed QA, staging, and production promotion.",
-      "release/* or release tag events trigger FlexDeploy via webhook.",
-      "FlexDeploy builds once from the release branch or tag and records the release artifact against that release line.",
+      "Protected release/* updates trigger FlexDeploy via webhook.",
+      "FlexDeploy builds once from the protected release/* commit and records the release artifact against that release line.",
       "Shared QA and staging validate the same artifact while approvals proceed.",
       "Production promotes that approved release artifact without rebuilding from a different branch."
     ],
     stages: [
       {
         title: "Release Branch Event",
-        detail: "release/* creation, update, or tag event becomes the governed release trigger."
+        detail: "Protected release/* creation or approved update becomes the governed release trigger."
       },
       {
         title: "Webhook Routing",
-        detail: "FlexDeploy routes release branch or tag payloads into the correct pipeline and version metadata."
+        detail: "FlexDeploy routes protected release/* payloads plus optional version-tag metadata into the correct pipeline."
       },
       {
         title: "Build Once",
-        detail: "Create one immutable release artifact from release/* or the release tag."
+        detail: "Create one immutable release artifact from the protected release/* commit."
       },
       {
         title: "Shared Validation",
@@ -966,8 +966,8 @@ const FLEXDEPLOY_PLAYBOOK = {
       }
     ],
     webhook: [
-      "Trigger FlexDeploy from release/* creation, update, or release tag events rather than from feature branches.",
-      "Carry release branch name, source main SHA, and version hint into the webhook payload.",
+      "Trigger FlexDeploy from protected release/* updates rather than from feature branches.",
+      "Carry release branch name, source main SHA, and optional release tag/version hint into the webhook payload.",
       "Do not rebuild from feature branches once shared QA/staging sign-off starts."
     ],
     review: [
@@ -981,7 +981,7 @@ const FLEXDEPLOY_PLAYBOOK = {
       "Document how release fixes, hotfixes, and rollback sync back to main after production."
     ],
     release: [
-      "Build once from release/* or the release tag and promote that same artifact through QA, staging, UAT, and production.",
+      "Build once from the protected release/* commit and promote that same artifact through QA, staging, UAT, and production.",
       "If a fix lands on the active release branch, rebuild once from that updated release line and continue promotion from the new version.",
       "Keep main as the integration source, but let release/* own the governed deployment path."
     ],
@@ -1988,7 +1988,7 @@ function buildStrategyFlowNodes({
       {
         title: "Release Branch Event",
         short: "Release Event",
-        detail: "release/* cut from main starts governed flow.",
+        detail: "Protected release/* cut from main or approved release update starts governed flow.",
         system: "RELEASE CONTROL",
         tone: "source",
         tooltip: note(integration.trigger, integration.review[0], integration.review[2])
@@ -1996,7 +1996,7 @@ function buildStrategyFlowNodes({
       {
         title: "Webhook Routing",
         short: "Webhook",
-        detail: "release/* or tag event routes to FlexDeploy.",
+        detail: "Protected release/* update routes to FlexDeploy.",
         system: "WEBHOOK TRIGGER",
         tone: "webhook",
         tooltip: note(integration.webhook[0], integration.webhook[1], integration.webhook[2])
@@ -2004,11 +2004,11 @@ function buildStrategyFlowNodes({
       {
         title: "Build Once",
         short: "Build Once",
-        detail: "Build once from release/* or release tag.",
+        detail: "Build once from protected release/* commit.",
         system: "ARTIFACT TRACEABILITY",
         tone: "build",
         tooltip: note(
-          "FlexDeploy builds the governed release artifact from release/* or a release tag, not from feature branches.",
+          "FlexDeploy builds the governed release artifact from the protected release/* commit; tags only annotate the released version.",
           buildStage?.detail,
           integration.release[0]
         )
@@ -2219,24 +2219,24 @@ function buildStrategyFlowNodes({
         {
           title: "Hotfix/Release Event",
           short: "Hotfix Event",
-          detail: "hotfix/* from active release starts emergency path.",
+          detail: "Approved hotfix merge into active release/* starts emergency path.",
           system: "INCIDENT CONTROL",
           tooltip: note(integration.trigger, integration.review[1], integration.review[2])
         },
         {
           title: "Webhook Routing",
           short: "Webhook",
-          detail: "Hotfix or release event routes to emergency release pipeline.",
+          detail: "Merged release/* hotfix event routes to emergency release pipeline.",
           system: "INCIDENT TRIGGER",
           tooltip: note(integration.webhook[0], integration.webhook[1], integration.webhook[2])
         },
         {
           title: "Emergency Build Once",
           short: "Hotfix Build",
-          detail: "Build once from hotfix/* or active release/*.",
+          detail: "Build once from patched active release/*.",
           system: "ARTIFACT TRACEABILITY",
           tooltip: note(
-            "Emergency artifact is built from the active release line or hotfix branch, then promoted unchanged.",
+            "Emergency artifact is built from the active release/* commit after the hotfix PR merges, then promoted unchanged.",
             integration.release[0]
           )
         },
