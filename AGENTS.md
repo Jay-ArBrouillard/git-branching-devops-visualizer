@@ -27,6 +27,7 @@ There is no backend and no build pipeline. The site is intended to work as a Git
 - `index.html`: homepage / branching visualizer
 - `app.js`: main branching visualizer, scenario logic, FlexDeploy flowchart logic
 - `decision-guide.html` + `decision-guide.js`: strategy comparison and workshop guidance
+- `workflow-builder.html` + `workflow-builder.js`: guided workshop flow modeling, import/export, and preview
 - `concepts.html`: Git concepts landing page
 - `concepts/*.html`: Git learning subpages
 - `developer-tools.html` and `developer-tools/*.html`: Git client / IDE guidance
@@ -103,6 +104,7 @@ There is no backend and no build pipeline. The site is intended to work as a Git
 - Reuse existing patterns in:
   - `app.js`
   - `decision-guide.js`
+  - `workflow-builder.js`
   - `concepts.js`
   - `providers.js`
   - `simulator.js`

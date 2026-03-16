@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Workflow Builder</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="workflow-builder-page">
+    <div class="bg-shape shape-one"></div>
+    <div class="bg-shape shape-two"></div>
+    <div class="bg-shape shape-three"></div>
+
+    <main class="layout">
+      <section class="panel hero">
+        <nav class="top-nav" aria-label="Site pages">
+          <details class="nav-dropdown">
+            <summary class="nav-link nav-dropdown-summary">Git Concepts</summary>
+            <div class="nav-dropdown-menu">
+              <a class="nav-dropdown-link" href="concepts.html">Overview</a>
+              <a class="nav-dropdown-link" href="concepts/git-commits.html">1) Git + Commits</a>
+              <a class="nav-dropdown-link" href="concepts/dag-history.html">2) DAG + History Graph</a>
+              <a class="nav-dropdown-link" href="concepts/branches.html">3) Branches</a>
+              <a class="nav-dropdown-link" href="concepts/head.html">4) HEAD</a>
+              <a class="nav-dropdown-link" href="concepts/three-areas.html">5) Working Tree + Staging</a>
+              <a class="nav-dropdown-link" href="concepts/undo-recovery.html">6) Undo + Recovery</a>
+              <a class="nav-dropdown-link" href="concepts/merge-rebase.html">7) Merge + Rebase</a>
+              <a class="nav-dropdown-link" href="concepts/collaboration-devops.html">8) Collaboration + DevOps</a>
+            </div>
+          </details>
+          <a class="nav-link" href="git-setup.html">Git Setup</a>
+          <a class="nav-link" href="index.html">Branching Visualizer</a>
+          <a class="nav-link" href="decision-guide.html">Decision Guide</a>
+          <a class="nav-link nav-link-active" href="workflow-builder.html">Workflow Builder</a>
+          <a class="nav-link" href="advanced-concepts.html">Advanced Git</a>
+          <a class="nav-link" href="developer-tools.html">Developer Tools</a>
+          <details class="nav-dropdown">
+            <summary class="nav-link nav-dropdown-summary">Git Providers</summary>
+            <div class="nav-dropdown-menu">
+              <a class="nav-dropdown-link" href="providers.html">Overview</a>
+              <a class="nav-dropdown-link" href="providers/github.html">GitHub</a>
+              <a class="nav-dropdown-link" href="providers/gitlab.html">GitLab</a>
+              <a class="nav-dropdown-link" href="providers/bitbucket.html">Bitbucket</a>
+              <a class="nav-dropdown-link" href="providers/azure-repos.html">Azure Repos</a>
+              <a class="nav-dropdown-link" href="providers/gitea-forgejo.html">Gitea/Forgejo</a>
+            </div>
+          </details>
+        </nav>
+        <p class="eyebrow">Workshop Tooling</p>
+        <h1>Workflow Builder</h1>
+        <p class="hero-copy">
+          Use a guided builder to model a client-specific Git and DevOps flow, especially when the
+          real review happens in Oracle environments, approvals live outside Git, or FlexDeploy owns
+          governed promotion.
+        </p>
+        <div class="hero-guide">
+          <p>
+            <strong>How to use this page:</strong> load a starter template, add or remove lanes,
+            drag approved step types into sequence order, then edit each step so the preview reflects
+            the client's actual workflow. The builder auto-saves locally and can export JSON, SVG,
+            or PNG for follow-up sessions.
+          </p>
+        </div>
+        <div class="workflow-hero-actions">
+          <a class="provider-detail-link" href="index.html">Back To Branching Visualizer</a>
+          <a class="provider-detail-link" href="decision-guide.html">Back To Decision Guide</a>
+        </div>
+      </section>
+
+      <section class="panel workflow-builder-panel">
+        <div class="workflow-toolbar">
+          <div class="workflow-toolbar-group">
+            <label class="workflow-inline-field">
+              <span>Template</span>
+              <select id="workflowTemplateSelect"></select>
+            </label>
+            <button id="workflowLoadTemplateBtn" class="workflow-btn workflow-btn-primary" type="button">Load Template</button>
+            <button id="workflowResetBtn" class="workflow-btn" type="button">Reset Workspace</button>
+          </div>
+          <div class="workflow-toolbar-group">
+            <button id="workflowPresentBtn" class="workflow-btn" type="button">Presentation Mode</button>
+            <span id="workflowSaveStatus" class="workflow-save-status" aria-live="polite">Ready</span>
+          </div>
+        </div>
+
+        <div id="workflowBuilderGrid" class="workflow-builder-grid">
+          <aside class="workflow-sidebar">
+            <article class="workflow-builder-card">
+              <div class="card-head">
+                <h2>Workflow Setup</h2>
+                <p>Name the workflow and capture what the model is trying to prove.</p>
+              </div>
+              <div class="workflow-form-grid">
+                <label class="workflow-field">
+                  <span>Workflow Name</span>
+                  <input id="workflowNameInput" type="text" maxlength="90" />
+                </label>
+                <label class="workflow-field">
+                  <span>Workshop Notes</span>
+                  <textarea id="workflowDescriptionInput" rows="5" maxlength="700"></textarea>
+                </label>
+              </div>
+            </article>
+
+            <article class="workflow-builder-card">
+              <div class="card-head">
+                <h2>Lane Manager</h2>
+                <p>Use lanes for Git branches, FlexDeploy stages, Oracle environment review, or external approvals.</p>
+              </div>
+              <div id="workflowLaneList" class="workflow-lane-list"></div>
+              <button id="workflowAddLaneBtn" class="workflow-btn workflow-btn-secondary" type="button">Add Lane</button>
+            </article>
+
+            <article class="workflow-builder-card">
+              <div class="card-head">
+                <h2>Step Palette</h2>
+                <p>Drag approved step types into the sequence board.</p>
+              </div>
+              <div id="workflowPalette" class="workflow-palette" aria-label="Workflow step palette"></div>
+            </article>
+
+            <article class="workflow-builder-card">
+              <div class="card-head">
+                <h2>Import / Export</h2>
+                <p>Resume later with JSON or hand the visual to a client as SVG or PNG.</p>
+              </div>
+              <div class="workflow-export-grid">
+                <button id="workflowExportJsonBtn" class="workflow-btn" type="button">Export JSON</button>
+                <button id="workflowImportJsonBtn" class="workflow-btn" type="button">Import JSON</button>
+                <button id="workflowExportSvgBtn" class="workflow-btn" type="button">Export SVG</button>
+                <button id="workflowExportPngBtn" class="workflow-btn" type="button">Export PNG</button>
+              </div>
+              <input id="workflowImportInput" type="file" accept=".json,application/json" hidden />
+              <p class="workflow-helper-text">
+                JSON stores lanes, sequence order, titles, notes, and commands. The page also keeps an
+                auto-saved draft in your browser.
+              </p>
+            </article>
+          </aside>
+
+          <div class="workflow-main">
+            <article id="workflowSequenceCard" class="workflow-builder-card workflow-sequence-card">
+              <div class="card-head">
+                <h2>Step Sequence</h2>
+                <p>Sequence is global. Lane assignment determines where each step appears in the preview.</p>
+              </div>
+              <div id="workflowSequence" class="workflow-sequence-board" aria-label="Workflow sequence"></div>
+            </article>
+
+            <article class="workflow-builder-card workflow-preview-card">
+              <div class="card-head">
+                <h2>Visualization Preview</h2>
+                <p id="workflowPreviewCaption">The builder turns the ordered steps into a lane-based workshop visual.</p>
+              </div>
+              <div class="workflow-preview-wrap">
+                <svg id="workflowPreviewSvg" role="img" aria-label="Workflow builder preview"></svg>
+              </div>
+            </article>
+          </div>
+
+          <aside class="workflow-editor">
+            <article class="workflow-builder-card">
+              <div class="card-head">
+                <h2>Step Editor</h2>
+                <p>Edit the selected step to match the client's actual review, webhook, build, deploy, or rollback behavior.</p>
+              </div>
+              <div id="workflowStepEmpty" class="workflow-empty-state">
+                Select a step from the sequence board to edit it.
+              </div>
+              <form id="workflowStepForm" class="workflow-form-grid" hidden>
+                <label class="workflow-field">
+                  <span>Step Title</span>
+                  <input id="workflowStepTitleInput" type="text" maxlength="70" />
+                </label>
+                <div class="workflow-inline-grid">
+                  <label class="workflow-field">
+                    <span>Step Type</span>
+                    <select id="workflowStepTypeSelect"></select>
+                  </label>
+                  <label class="workflow-field">
+                    <span>Lane</span>
+                    <select id="workflowStepLaneSelect"></select>
+                  </label>
+                </div>
+                <label class="workflow-field">
+                  <span>Pill / Tag</span>
+                  <input id="workflowStepTagInput" type="text" maxlength="40" />
+                </label>
+                <label class="workflow-field">
+                  <span>Detail</span>
+                  <textarea id="workflowStepDetailInput" rows="4" maxlength="220"></textarea>
+                </label>
+                <label class="workflow-field">
+                  <span>Command / Action</span>
+                  <textarea id="workflowStepCommandInput" rows="3" maxlength="220"></textarea>
+                </label>
+                <div class="workflow-editor-actions">
+                  <button id="workflowDuplicateStepBtn" class="workflow-btn" type="button">Duplicate Step</button>
+                  <button id="workflowDeleteStepBtn" class="workflow-btn workflow-btn-danger" type="button">Delete Step</button>
+                </div>
+              </form>
+            </article>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <script src="workflow-builder.js"></script>
+  </body>
+</html>

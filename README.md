@@ -25,6 +25,7 @@ Interactive static site for teaching Git branching strategy decisions and DevOps
   - Git developer tool guides (SourceTree, TortoiseGit, GitHub Desktop, Tower, Visual Studio, VS Code, IntelliJ IDEA, SmartGit, Fork)
   - Decision guide matrix
   - Client workshop flow and consensus recorder
+  - Workflow builder for client-specific Git / DevOps flow modeling
 
 ## Tech Stack
 
@@ -57,6 +58,7 @@ npx serve -l 4173 .
 
 - `index.html` - Branching Visualizer homepage
 - `decision-guide.html` - Strategy comparison and selection guide
+- `workflow-builder.html` - Guided workflow modeling canvas for client workshops
 - `developer-tools.html` - Git developer tools overview
 - `concepts.html` - Git fundamentals
 - `advanced-concepts.html` - Advanced Git workflows
@@ -68,6 +70,7 @@ npx serve -l 4173 .
 
 - `app.js` - Core branching visualizer, scenario simulator, and FlexDeploy flowchart logic
 - `decision-guide.js` - Decision guide workshop consensus recorder logic
+- `workflow-builder.js` - Guided workflow modeling, save/load, and export logic
 - `styles.css` - Global styling and diagram styling
 - `concepts.js` - Git concepts page logic
 - `providers.js` - Provider explorer logic

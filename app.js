@@ -593,7 +593,7 @@ const STRATEGIES = {
     lanes: [
       { id: "trunk", label: "trunk (main)", color: "#1f4c77" },
       { id: "short", label: "short-lived feature/*", color: "#557eaa" },
-      { id: "flag", label: "optional release controls", color: "#2f8f83" }
+      { id: "flag", label: "optional release controls", color: "#2f8f83", kind: "control" }
     ],
     pros: [
       "Minimizes merge drift with fast integration.",
@@ -1614,18 +1614,19 @@ function renderBranchMap(strategy, scenario) {
   const svg = elements.branchMap;
   svg.textContent = "";
 
+  const visibleLanes = strategy.lanes.filter((lane) => lane.kind !== "control");
   const width = 980;
   const top = 50;
   const laneGap = 78;
   const left = 150;
   const right = 56;
   const bottomPadding = 56;
-  const height = top + laneGap * (strategy.lanes.length - 1) + bottomPadding;
+  const height = top + laneGap * (visibleLanes.length - 1) + bottomPadding;
 
   svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
 
   const laneIndex = new Map();
-  strategy.lanes.forEach((lane, index) => {
+  visibleLanes.forEach((lane, index) => {
     laneIndex.set(lane.id, {
       ...lane,
       y: top + index * laneGap
@@ -1634,7 +1635,7 @@ function renderBranchMap(strategy, scenario) {
 
   svg.appendChild(createArrowDefinition());
 
-  strategy.lanes.forEach((lane) => {
+  visibleLanes.forEach((lane) => {
     const laneData = laneIndex.get(lane.id);
 
     const line = createSvgElement("line", {
@@ -1657,12 +1658,12 @@ function renderBranchMap(strategy, scenario) {
     svg.appendChild(label);
   });
 
-  const steps = getGitFlowSteps(scenario.steps);
+  const steps = getGitFlowSteps(scenario.steps).filter((step) => laneIndex.has(step.lane));
   const interval = steps.length > 1 ? (width - left - right) / (steps.length - 1) : 0;
   const nodeRadius = 11;
   const edgePadding = nodeRadius + 4;
   const points = steps.map((step, index) => {
-    const lane = laneIndex.get(step.lane) || laneIndex.get(strategy.lanes[0].id);
+    const lane = laneIndex.get(step.lane) || laneIndex.get(visibleLanes[0].id);
     return {
       ...step,
       x: left + index * interval,
