@@ -61,40 +61,10 @@
             </form>
 
             <div class="sim-command-chips">
-              <button class="sim-chip" data-command='git checkout -b feature/search'>New Branch</button>
-              <button class="sim-chip" data-command='git commit -m "feat: add search filter"'>Commit</button>
               <button class="sim-chip" data-command='git checkout main'>Switch Main</button>
-              <button class="sim-chip" data-command='git merge feature/search'>Merge</button>
               <button class="sim-chip" data-command="git log">Log</button>
               <button class="sim-chip" data-command="git status">Status</button>
             </div>
-
-            <div class="sim-quick-actions">
-              <div class="sim-quick-item">
-                <label for="simBranchInput">Branch Name</label>
-                <input id="simBranchInput" type="text" placeholder="feature/login" autocomplete="off" />
-                <div class="sim-quick-buttons">
-                  <button id="simCreateBranchBtn" class="sim-mini-btn" type="button">Create</button>
-                  <button id="simCheckoutBranchBtn" class="sim-mini-btn" type="button">Switch</button>
-                </div>
-              </div>
-              <div class="sim-quick-item">
-                <label for="simCommitInput">Commit Message</label>
-                <input id="simCommitInput" type="text" placeholder="feat: update header" autocomplete="off" />
-                <button id="simCommitBtn" class="sim-mini-btn" type="button">Commit</button>
-              </div>
-              <div class="sim-quick-item">
-                <label for="simMergeInput">Merge From Branch</label>
-                <input id="simMergeInput" type="text" placeholder="feature/login" autocomplete="off" />
-                <button id="simMergeBtn" class="sim-mini-btn" type="button">Merge Into Current</button>
-              </div>
-              <div class="sim-quick-item">
-                <label for="simRevertInput">Revert Commit ID</label>
-                <input id="simRevertInput" type="text" placeholder="commit id" autocomplete="off" />
-                <button id="simRevertBtn" class="sim-mini-btn" type="button">Revert</button>
-              </div>
-            </div>
-
             <div id="gitOutput" class="git-output" aria-live="polite"></div>
           </article>
 

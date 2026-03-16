@@ -11,16 +11,7 @@
     zoomValue: document.getElementById("graphZoomValue"),
     branchStateList: document.getElementById("branchStateList"),
     headStateText: document.getElementById("headStateText"),
-    chips: Array.from(document.querySelectorAll(".sim-chip")),
-    branchInput: document.getElementById("simBranchInput"),
-    createBranchBtn: document.getElementById("simCreateBranchBtn"),
-    checkoutBranchBtn: document.getElementById("simCheckoutBranchBtn"),
-    commitInput: document.getElementById("simCommitInput"),
-    commitBtn: document.getElementById("simCommitBtn"),
-    mergeInput: document.getElementById("simMergeInput"),
-    mergeBtn: document.getElementById("simMergeBtn"),
-    revertInput: document.getElementById("simRevertInput"),
-    revertBtn: document.getElementById("simRevertBtn")
+    chips: Array.from(document.querySelectorAll(".sim-chip"))
   };
 
   if (!elements.form || !elements.graph) {
@@ -237,51 +228,6 @@
         const command = chip.dataset.command || "";
         executeCommand(command);
       });
-    });
-
-    elements.createBranchBtn.addEventListener("click", () => {
-      const branch = elements.branchInput.value.trim();
-      if (!branch) {
-        return;
-      }
-      executeCommand(`git branch ${branch}`);
-      elements.branchInput.value = "";
-    });
-
-    elements.checkoutBranchBtn.addEventListener("click", () => {
-      const branch = elements.branchInput.value.trim();
-      if (!branch) {
-        return;
-      }
-      executeCommand(`git checkout ${branch}`);
-    });
-
-    elements.commitBtn.addEventListener("click", () => {
-      const message = elements.commitInput.value.trim();
-      if (!message) {
-        return;
-      }
-      const safeMessage = message.replace(/"/g, "'");
-      executeCommand(`git commit -m "${safeMessage}"`);
-      elements.commitInput.value = "";
-    });
-
-    elements.mergeBtn.addEventListener("click", () => {
-      const source = elements.mergeInput.value.trim();
-      if (!source) {
-        return;
-      }
-      executeCommand(`git merge ${source}`);
-      elements.mergeInput.value = "";
-    });
-
-    elements.revertBtn.addEventListener("click", () => {
-      const commitId = elements.revertInput.value.trim();
-      if (!commitId) {
-        return;
-      }
-      executeCommand(`git revert ${commitId}`);
-      elements.revertInput.value = "";
     });
 
     if (elements.zoomRange) {
@@ -748,14 +694,14 @@
     const laneNames = getVisibleLanes();
     const laneGap = 74;
     const left = 150;
-    const top = 56;
+    const top = 34;
     const xGap = 96;
-    const rightPadding = 240;
-    const bottomPadding = 88;
+    const rightPadding = 188;
+    const bottomPadding = 58;
     const commitIds = state.commitOrder;
 
     const width = Math.max(920, left + Math.max(0, commitIds.length - 1) * xGap + rightPadding);
-    const height = Math.max(260, top + Math.max(0, laneNames.length - 1) * laneGap + bottomPadding);
+    const height = Math.max(210, top + Math.max(0, laneNames.length - 1) * laneGap + bottomPadding);
     svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
     svg.setAttribute("preserveAspectRatio", "xMinYMin meet");
     const zoom = clamp(state.graphZoom || 1, 0.6, 2.2);

@@ -2768,6 +2768,7 @@ tbody tr:nth-child(even) {
   display: grid;
   grid-template-columns: 1fr 1.45fr;
   gap: 0.75rem;
+  align-items: start;
 }
 
 .sim-console,
@@ -2914,9 +2915,12 @@ tbody tr:nth-child(even) {
   border-radius: 11px;
   border: 1px solid rgba(30, 73, 113, 0.16);
   background: linear-gradient(180deg, rgba(14, 31, 48, 0.96), rgba(20, 46, 72, 0.95));
-  padding: 0.55rem;
-  display: grid;
-  gap: 0.34rem;
+  padding: 0.5rem 0.6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0.12rem;
 }
 
 .git-output::-webkit-scrollbar {
@@ -2943,9 +2947,10 @@ tbody tr:nth-child(even) {
   font-family: "IBM Plex Mono", "Consolas", monospace;
   font-size: 0.79rem;
   color: #d6e8ff;
-  line-height: 1.45;
+  line-height: 1.18;
   white-space: pre-wrap;
   word-break: break-word;
+  margin: 0;
 }
 
 .log-line.command {
@@ -2963,6 +2968,8 @@ tbody tr:nth-child(even) {
 .sim-graph {
   display: grid;
   gap: 0.55rem;
+  align-content: start;
+  align-items: start;
 }
 
 .sim-graph-head {
@@ -3000,12 +3007,13 @@ tbody tr:nth-child(even) {
   border: 1px solid rgba(31, 68, 102, 0.16);
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(240, 246, 251, 0.78));
   overflow: auto;
-  min-height: 300px;
+  min-height: 220px;
+  align-self: start;
 }
 
 #gitSimGraph {
   display: block;
-  min-height: 320px;
+  min-height: 220px;
 }
 
 .sim-lane-label {
